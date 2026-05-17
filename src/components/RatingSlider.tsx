@@ -1,0 +1,236 @@
+"use client";
+
+import { useState, useTransition, useCallback, useEffect, useRef } from "react";
+import * as Slider from "@radix-ui/react-slider";
+import { submitRating } from "@/app/actions/ratings";
+import { getRatingLabel, getRatingColor } from "@/lib/utils";
+
+interface RatingSliderProps {
+  titleId: string;
+  initialScore: number | null;
+}
+
+export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
+  const [score, setScore] = useState(initialScore ?? 50);
+  const [isDragging, setIsDragging] = useState(false);
+  const [saved, setSaved] = useState(!!initialScore);
+  const [unlocked, setUnlocked] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  // Score reveal animation state
+  const [revealed, setRevealed] = useState(!!initialScore);
+  const [displayCount, setDisplayCount] = useState(initialScore ?? 0);
+  const [animating, setAnimating] = useState(false);
+  // Counter-based trigger avoids the stale-closure / cleanup cancellation bug
+  const [submissionCount, setSubmissionCount] = useState(0);
+  const submittedScoreRef = useRef(0);
+
+  const color = getRatingColor(score);
+  const label = getRatingLabel(score);
+  const isLocked = saved && !unlocked;
+
+  const handleCommit = useCallback(([v]: number[]) => {
+    setScore(v);
+    setIsDragging(false);
+  }, []);
+
+  const handleChange = useCallback(([v]: number[]) => {
+    setScore(v);
+    setIsDragging(true);
+  }, []);
+
+  function handleSubmit() {
+    startTransition(async () => {
+      await submitRating(titleId, score);
+      submittedScoreRef.current = score; // capture before any state changes
+      setSaved(true);
+      setUnlocked(false);
+      setRevealed(false);
+      setDisplayCount(0);
+      setSubmissionCount(c => c + 1); // increment to trigger effect
+    });
+  }
+
+  // Count-up animation — only re-runs when submissionCount changes, never cancels itself
+  useEffect(() => {
+    if (submissionCount === 0) return;
+
+    const target = submittedScoreRef.current;
+    setAnimating(true);
+    let step = 0;
+    const steps = 20;
+    const stepTime = 50; // 20 × 50ms = 1 second total
+
+    const timer = setInterval(() => {
+      step++;
+      const current = Math.round(target * Math.min(step / steps, 1));
+      setDisplayCount(current);
+      if (step >= steps) {
+        clearInterval(timer);
+        setDisplayCount(target);
+        setRevealed(true);
+        setAnimating(false);
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [submissionCount]);
+
+  // ── Locked (submitted) state ──────────────────────────────────────────────
+
+  if (isLocked) {
+    const revealColor = getRatingColor(score);
+    const revealLabel = getRatingLabel(score);
+
+    return (
+      <div className="space-y-4 rating-enter">
+        <p className="font-display text-4xl text-green-spooky text-center">
+          Is it Spooky or Dookie?
+        </p>
+
+        <div
+          className="relative rounded-2xl border-2 p-8 text-center overflow-hidden transition-all duration-300"
+          style={{ borderColor: revealColor, background: `${revealColor}12` }}
+        >
+          <div
+            className="absolute inset-0 opacity-10 pointer-events-none"
+            style={{ background: `radial-gradient(circle at 50% 100%, ${revealColor}, transparent 70%)` }}
+          />
+
+          <div className="relative z-10">
+            {/* Verdict label — always visible */}
+            <div
+              className="font-display text-5xl sm:text-6xl leading-tight"
+              style={{ color: revealColor }}
+            >
+              {revealLabel}
+            </div>
+
+            {/* Score — only shown after reveal animation */}
+            {(animating || revealed) && (
+              <div
+                className="text-3xl sm:text-4xl font-bold leading-none mt-3 tabular-nums"
+                style={{
+                  color: revealColor,
+                  opacity: animating ? 0.85 : 1,
+                  transition: "opacity 0.2s ease",
+                }}
+              >
+                {displayCount}
+                <span className="text-lg font-normal opacity-60">/100</span>
+              </div>
+            )}
+          </div>
+
+          {/* Ping ring on reveal */}
+          {animating && (
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+              <div
+                className="w-32 h-32 rounded-full animate-ping opacity-10"
+                style={{ backgroundColor: revealColor }}
+              />
+            </div>
+          )}
+        </div>
+
+        {!animating && (
+          <div className="flex justify-center mt-3">
+            <button
+              onClick={() => setUnlocked(true)}
+              className="text-sm text-muted hover:text-specter transition-colors underline underline-offset-2"
+            >
+              Changed your mind? Update your verdict
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ── Interactive (unlocked) state ──────────────────────────────────────────
+
+  return (
+    <div className="space-y-4 rating-enter">
+      <p className="font-display text-4xl text-green-spooky text-center">
+        Is it Spooky or Dookie?
+      </p>
+
+      {/* Verdict label only — no score number */}
+      <div
+        className="relative rounded-2xl border-2 p-6 text-center overflow-hidden transition-colors duration-200"
+        style={{ borderColor: color, background: `${color}10` }}
+      >
+        <div className="font-display text-4xl sm:text-5xl leading-tight" style={{ color }}>
+          {label}
+        </div>
+      </div>
+
+      {/* Slider with emoji ends */}
+      <div className="flex items-center gap-3 px-1">
+        <span className="text-4xl select-none" title="Dookie">💩</span>
+
+        <div className="flex-1">
+          <Slider.Root
+            min={1}
+            max={100}
+            step={1}
+            value={[score]}
+            onValueChange={handleChange}
+            onValueCommit={handleCommit}
+            className="relative flex items-center select-none touch-none w-full h-10"
+          >
+            <Slider.Track className="rating-track relative grow rounded-full h-4 cursor-pointer shadow-inner">
+              <Slider.Range className="absolute h-full rounded-full opacity-0" />
+            </Slider.Track>
+            <Slider.Thumb
+              className="flex items-center justify-center w-9 h-9 rounded-full shadow-xl border-2 border-void cursor-grab active:cursor-grabbing focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-void transition-transform duration-100 active:scale-125 select-none text-base leading-none"
+              style={{ backgroundColor: color, boxShadow: `0 0 20px ${color}80` }}
+              aria-label="Rating"
+              onFocus={(e) => {
+                if (!e.relatedTarget) e.currentTarget.blur();
+              }}
+            >
+              💀
+            </Slider.Thumb>
+          </Slider.Root>
+
+          {/* Tick marks */}
+          <div className="flex justify-between px-3 mt-1">
+            {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((n) => (
+              <div
+                key={n}
+                className="w-0.5 h-2 rounded-full transition-colors duration-200"
+                style={{ backgroundColor: n <= score ? color : "#2d1b69" }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <span className="text-4xl select-none" title="Spooky">💀</span>
+      </div>
+
+      {/* End labels */}
+      <div className="flex justify-between px-12 text-sm font-bold">
+        <span style={{ color: "#c87030" }}>Dookie</span>
+        <span style={{ color: "#7dff6b" }}>Spooky</span>
+      </div>
+
+      {/* Submit button */}
+      <div className="flex justify-center pt-2">
+        <button
+          onClick={handleSubmit}
+          disabled={isPending || isDragging}
+          className="px-10 py-3 rounded-xl font-bold text-sm transition-all duration-200 disabled:opacity-50 active:scale-95 shadow-lg"
+          style={{
+            backgroundColor: color,
+            color: "#0a0a0a",
+            boxShadow: `0 4px 20px ${color}40`,
+            minWidth: "160px",
+          }}
+        >
+          {isPending ? "Saving…" : unlocked ? "Update Verdict" : "Submit Verdict"}
+        </button>
+      </div>
+    </div>
+  );
+}

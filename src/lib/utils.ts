@@ -1,0 +1,34 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export function getRatingLabel(score: number): string {
+  if (score >= 90) return "Certified Spooky";
+  if (score >= 75) return "Full Spooks";
+  if (score >= 60) return "Slight Spook";
+  if (score >= 45) return "Meh-diocre";
+  if (score >= 30) return "Slight Dook";
+  if (score >= 15) return "Full Dookie";
+  return "Big Steaming Dookie";
+}
+
+export function getRatingColor(score: number): string {
+  if (score >= 90) return "#00e676";
+  if (score >= 75) return "#7dff6b";
+  if (score >= 60) return "#c8e060";
+  if (score >= 45) return "#f5c842";
+  if (score >= 30) return "#d97706";
+  if (score >= 15) return "#c87030";
+  return "#8b4513";
+}
+
+export function tmdbImageUrl(
+  path: string | null,
+  size: "w185" | "w342" | "w500" | "w780" | "original" = "w342"
+): string | null {
+  if (!path) return null;
+  return `https://image.tmdb.org/t/p/${size}${path}`;
+}
