@@ -16,9 +16,10 @@ interface SettingsFormProps {
   initialUsername: string;
   initialEmoji: string;
   initialBg: string;
+  isPrimeAdmin: boolean;
 }
 
-export function SettingsForm({ email, initialUsername, initialEmoji, initialBg }: SettingsFormProps) {
+export function SettingsForm({ email, initialUsername, initialEmoji, initialBg, isPrimeAdmin }: SettingsFormProps) {
   const router = useRouter();
 
   const [username, setUsername] = useState(initialUsername);
@@ -254,19 +255,26 @@ export function SettingsForm({ email, initialUsername, initialEmoji, initialBg }
       </div>
 
       {/* Danger Zone */}
-      <div className={`${cardCls} border-dookie`}>
-        <h2 className="text-lg font-medium text-dookie-light border-b border-dookie/40 pb-3">Danger Zone</h2>
-        <p className="text-sm text-muted">Once you delete your account, there is no going back.</p>
-        <button
-          onClick={() => setShowDeleteModal(true)}
-          className="px-4 py-2 border border-dookie text-dookie hover:bg-dookie/10 text-sm font-medium rounded-lg transition-colors"
-        >
-          Delete Account
-        </button>
-      </div>
+      {isPrimeAdmin ? (
+        <div className={`${cardCls} border-shadow`}>
+          <h2 className="text-lg font-medium text-muted border-b border-shadow pb-3">Danger Zone</h2>
+          <p className="text-sm text-muted">This account cannot be deleted.</p>
+        </div>
+      ) : (
+        <div className={`${cardCls} border-dookie`}>
+          <h2 className="text-lg font-medium text-dookie-light border-b border-dookie/40 pb-3">Danger Zone</h2>
+          <p className="text-sm text-muted">Once you delete your account, there is no going back.</p>
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            className="px-4 py-2 border border-dookie text-dookie hover:bg-dookie/10 text-sm font-medium rounded-lg transition-colors"
+          >
+            Delete Account
+          </button>
+        </div>
+      )}
 
       {/* Delete Modal */}
-      {showDeleteModal && (
+      {!isPrimeAdmin && showDeleteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-void/80 backdrop-blur-sm px-4">
           <div className="bg-tomb border border-shadow rounded-2xl p-6 w-full max-w-md space-y-4">
             <h3 className="font-display text-2xl text-dookie-light">Delete Account</h3>

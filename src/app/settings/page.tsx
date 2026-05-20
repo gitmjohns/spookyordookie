@@ -13,7 +13,7 @@ export default async function SettingsPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, username, avatar_emoji, avatar_bg")
+    .select("id, username, avatar_emoji, avatar_bg, is_prime_admin")
     .eq("id", user.id)
     .single();
 
@@ -23,6 +23,7 @@ export default async function SettingsPage() {
       initialUsername={profile?.username ?? ""}
       initialEmoji={(profile?.avatar_emoji as string) ?? "💀"}
       initialBg={(profile?.avatar_bg as string) ?? "#0a0a0f"}
+      isPrimeAdmin={profile?.is_prime_admin === true}
     />
   );
 }

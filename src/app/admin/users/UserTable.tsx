@@ -13,6 +13,7 @@ interface UserRow {
   role: string;
   banned: boolean;
   created_at: string;
+  is_prime_admin: boolean;
 }
 
 interface Props {
@@ -24,6 +25,8 @@ interface Props {
 }
 
 type Modal =
+  | { type: "block-prime-delete" }
+  | { type: "block-prime-revoke" }
   | { type: "block-self-delete" }
   | { type: "block-self-revoke" }
   | { type: "confirm-delete"; userId: string; username: string; isAdmin: boolean }
@@ -45,7 +48,9 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
   }
 
   function onDeleteClick(u: UserRow) {
-    if (u.id === currentUserId) {
+    if (u.is_prime_admin) {
+      setModal({ type: "block-prime-delete" });
+    } else if (u.id === currentUserId) {
       setModal({ type: "block-self-delete" });
     } else {
       setModal({ type: "confirm-delete", userId: u.id, username: u.username, isAdmin: u.role === "admin" });
@@ -53,7 +58,9 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
   }
 
   function onRevokeClick(u: UserRow) {
-    if (u.id === currentUserId) {
+    if (u.is_prime_admin) {
+      setModal({ type: "block-prime-revoke" });
+    } else if (u.id === currentUserId) {
       setModal({ type: "block-self-revoke" });
     } else {
       setModal({ type: "confirm-revoke", userId: u.id, username: u.username });
@@ -97,6 +104,9 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                   <div className="flex items-center gap-2">
                     <span className="text-lg">{u.avatar_emoji}</span>
                     <span className="text-ghost font-medium">{u.username}</span>
+                    {u.is_prime_admin && (
+                      <span className="px-1.5 py-0.5 rounded text-xs bg-yellow-400/15 text-yellow-400">Prime Admin</span>
+                    )}
                     {u.id === currentUserId && (
                       <span className="px-1.5 py-0.5 rounded text-xs bg-green-spooky/15 text-green-spooky">You</span>
                     )}
@@ -183,6 +193,24 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
       />
 
       {/* ── Modals ─────────────────────────────────────────────────────────── */}
+
+      {/* Blocking: prime admin delete */}
+      {modal?.type === "block-prime-delete" && (
+        <Dialog>
+          <h3 className="text-lg font-display text-ghost mb-3">Cannot Delete This Account</h3>
+          <p className="text-sm text-specter mb-6">This account cannot be deleted.</p>
+          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-medium rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
+        </Dialog>
+      )}
+
+      {/* Blocking: prime admin revoke */}
+      {modal?.type === "block-prime-revoke" && (
+        <Dialog>
+          <h3 className="text-lg font-display text-ghost mb-3">Cannot Revoke This Access</h3>
+          <p className="text-sm text-specter mb-6">The prime admin role cannot be changed.</p>
+          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-medium rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
+        </Dialog>
+      )}
 
       {/* Blocking: self-delete */}
       {modal?.type === "block-self-delete" && (

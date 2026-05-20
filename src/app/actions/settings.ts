@@ -78,6 +78,16 @@ export async function deleteAccount() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_prime_admin")
+    .eq("id", user.id)
+    .single();
+  if (profile?.is_prime_admin) {
+    return { error: "This account cannot be deleted" };
+  }
+
   const svc = serviceClient();
   await Promise.all([
     svc.from("watchlist").delete().eq("user_id", user.id),

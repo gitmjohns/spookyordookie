@@ -18,7 +18,7 @@ export default async function AdminUsersPage({
 
   let q = svc
     .from("profiles")
-    .select("id,username,avatar_emoji,role,banned,created_at", { count: "exact" });
+    .select("id,username,avatar_emoji,role,banned,created_at,is_prime_admin", { count: "exact" });
   if (search) q = q.ilike("username", `%${search}%`);
   q = q.order("created_at", { ascending: false }).range(offset, offset + PER_PAGE - 1);
 

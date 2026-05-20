@@ -82,6 +82,12 @@ export async function adminImportTitle(
 
 export async function adminDeleteUser(userId: string) {
   const svc = await requireAdmin();
+
+  const { data: target } = await svc.from("profiles").select("is_prime_admin").eq("id", userId).single();
+  if (target?.is_prime_admin) {
+    return { error: "This account cannot be deleted" };
+  }
+
   await Promise.all([
     svc.from("watchlist").delete().eq("user_id", userId),
     svc.from("ratings").delete().eq("user_id", userId),
@@ -100,6 +106,14 @@ export async function adminDeleteUser(userId: string) {
 
 export async function adminSetRole(userId: string, role: "admin" | "user") {
   const svc = await requireAdmin();
+
+  if (role !== "admin") {
+    const { data: target } = await svc.from("profiles").select("is_prime_admin").eq("id", userId).single();
+    if (target?.is_prime_admin) {
+      return { error: "The prime admin role cannot be changed" };
+    }
+  }
+
   const { error } = await svc.from("profiles").update({ role }).eq("id", userId);
   if (error) return { error: error.message };
   revalidatePath("/admin/users");
