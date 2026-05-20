@@ -4,36 +4,24 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   updateUsername,
-  updateEmail,
-  updatePassword,
   updateAvatarAppearance,
   deleteAccount,
 } from "@/app/actions/settings";
 import { HORROR_EMOJIS, DEFAULT_EMOJI, AVATAR_COLORS, DEFAULT_BG } from "@/lib/constants";
 
 interface SettingsFormProps {
-  email: string;
   initialUsername: string;
   initialEmoji: string;
   initialBg: string;
   isPrimeAdmin: boolean;
 }
 
-export function SettingsForm({ email, initialUsername, initialEmoji, initialBg, isPrimeAdmin }: SettingsFormProps) {
+export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrimeAdmin }: SettingsFormProps) {
   const router = useRouter();
 
   const [username, setUsername] = useState(initialUsername);
   const [usernamePending, setUsernamePending] = useState(false);
   const [usernameMsg, setUsernameMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
-
-  const [newEmail, setNewEmail] = useState("");
-  const [emailPending, setEmailPending] = useState(false);
-  const [emailMsg, setEmailMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
-
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordPending, setPasswordPending] = useState(false);
-  const [passwordMsg, setPasswordMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const [selectedEmoji, setSelectedEmoji] = useState(initialEmoji || DEFAULT_EMOJI);
   const [savedEmoji, setSavedEmoji] = useState(initialEmoji || DEFAULT_EMOJI);
@@ -58,28 +46,6 @@ export function SettingsForm({ email, initialUsername, initialEmoji, initialBg, 
       : { type: "success", text: "Username updated!" }
     );
     setUsernamePending(false);
-  }
-
-  async function handleEmailSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setEmailPending(true);
-    setEmailMsg(null);
-    const result = await updateEmail(newEmail);
-    if (result.error) setEmailMsg({ type: "error", text: result.error });
-    else { setEmailMsg({ type: "success", text: result.message ?? "Email update initiated." }); setNewEmail(""); }
-    setEmailPending(false);
-  }
-
-  async function handlePasswordSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (newPassword !== confirmPassword) { setPasswordMsg({ type: "error", text: "Passwords do not match" }); return; }
-    if (newPassword.length < 8) { setPasswordMsg({ type: "error", text: "Password must be at least 8 characters" }); return; }
-    setPasswordPending(true);
-    setPasswordMsg(null);
-    const result = await updatePassword(newPassword);
-    if (result.error) setPasswordMsg({ type: "error", text: result.error });
-    else { setPasswordMsg({ type: "success", text: "Password updated!" }); setNewPassword(""); setConfirmPassword(""); }
-    setPasswordPending(false);
   }
 
   async function handleEmojiSave() {
@@ -208,48 +174,6 @@ export function SettingsForm({ email, initialUsername, initialEmoji, initialBg, 
           )}
           <button type="submit" disabled={usernamePending} className={saveBtnCls}>
             {usernamePending ? "Saving…" : "Save Username"}
-          </button>
-        </form>
-      </div>
-
-      {/* Account Card */}
-      <div className={cardCls}>
-        <h2 className="text-lg font-medium text-ghost border-b border-shadow pb-3">Account</h2>
-
-        <div>
-          <label className={labelCls}>Current Email</label>
-          <input type="email" value={email} readOnly className={`${inputCls} opacity-60 cursor-not-allowed`} />
-        </div>
-
-        <form onSubmit={handleEmailSubmit} className="space-y-3">
-          <div>
-            <label className={labelCls}>New Email</label>
-            <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} className={inputCls} placeholder="new@example.com" required />
-          </div>
-          {emailMsg && (
-            <p className={`text-xs ${emailMsg.type === "success" ? "text-green-spooky" : "text-dookie-light"}`}>{emailMsg.text}</p>
-          )}
-          <button type="submit" disabled={emailPending} className={saveBtnCls}>
-            {emailPending ? "Sending…" : "Send Update"}
-          </button>
-        </form>
-
-        <hr className="border-shadow" />
-
-        <form onSubmit={handlePasswordSubmit} className="space-y-3">
-          <div>
-            <label className={labelCls}>New Password</label>
-            <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className={inputCls} placeholder="Min. 8 characters" minLength={8} required />
-          </div>
-          <div>
-            <label className={labelCls}>Confirm New Password</label>
-            <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={inputCls} placeholder="••••••••" required />
-          </div>
-          {passwordMsg && (
-            <p className={`text-xs ${passwordMsg.type === "success" ? "text-green-spooky" : "text-dookie-light"}`}>{passwordMsg.text}</p>
-          )}
-          <button type="submit" disabled={passwordPending} className={saveBtnCls}>
-            {passwordPending ? "Updating…" : "Change Password"}
           </button>
         </form>
       </div>

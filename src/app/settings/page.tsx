@@ -19,7 +19,6 @@ export default async function SettingsPage() {
 
   return (
     <SettingsForm
-      email={user.email ?? ""}
       initialUsername={profile?.username ?? ""}
       initialEmoji={(profile?.avatar_emoji as string) ?? "💀"}
       initialBg={(profile?.avatar_bg as string) ?? "#0a0a0f"}
