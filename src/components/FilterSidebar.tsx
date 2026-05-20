@@ -103,7 +103,7 @@ export function FilterSidebar({ mediaType }: FilterSidebarProps) {
   );
 
   return (
-    <aside className="w-48 shrink-0 space-y-6">
+    <aside className="hidden md:block w-48 shrink-0 space-y-6">
       <Section title="Sort By">
         {sortOptions.map((s) => (
           <Btn key={s.key} active={current.sort === s.key} onClick={() => update({ sort: s.key })}>

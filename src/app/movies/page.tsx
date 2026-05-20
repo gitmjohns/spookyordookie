@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { TitleCard } from "@/components/TitleCard";
 import { FilterSidebar } from "@/components/FilterSidebar";
+import { FilterPills } from "@/components/FilterPills";
 import { Pagination } from "@/components/Pagination";
 import { getMovies, getWatchlistIds, getCurrentUser } from "@/lib/data";
 
@@ -35,6 +36,11 @@ export default async function MoviesPage({ searchParams }: PageProps) {
       <div className="mb-8">
         <h1 className="font-display text-4xl text-ghost">Horror Movies</h1>
         <p className="text-muted text-sm mt-1">{count} titles &middot; sorted by {sortLabel}</p>
+      </div>
+
+      {/* Mobile filter pills — hidden on desktop */}
+      <div className="md:hidden">
+        <FilterPills mediaType="movie" />
       </div>
 
       <div className="flex gap-8">
