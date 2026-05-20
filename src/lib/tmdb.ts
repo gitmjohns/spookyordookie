@@ -2,19 +2,20 @@ import type { TMDBMovie, TMDBTVShow, TMDBGenre } from "./types";
 
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const HORROR_GENRE_ID = 27; // movies only
+const ANIMATION_GENRE_ID = 16; // excluded per content policy — no animation of any kind
 const HORROR_TV_KEYWORD_ID = 315058; // TMDB has no horror TV genre; use keyword instead
 const MIN_YEAR = 1970;
 
-// Movies: primary English + major European + notable Asian horror languages
-// Note: TMDB with_original_language supports a single value OR pipe-separated list
-const MOVIE_LANGUAGES = "en|fr|de|es|it|ja|ko|sv|no|da|nl|pt|fi";
+// Movies: English + approved European and Asian horror languages only
+const MOVIE_LANGUAGES = "en|fr|es|it|de|ja";
 // TV: English-only (most horror TV is English; pipe list was silently ignored by TMDB)
 const TV_LANGUAGE = "en";
 // Secondary TV keyword to supplement the horror keyword
 const SUPERNATURAL_TV_KEYWORD_ID = 10219;
 
-// Minimum vote count — keeps hidden gems and cult classics but removes truly invisible titles
+// Nightly import quality floor — keeps hidden gems but removes truly invisible titles
 const MIN_VOTE_COUNT = "10";
+const MIN_POPULARITY = "5";
 
 function tmdbFetch(path: string, params: Record<string, string> = {}) {
   const apiKey = process.env.TMDB_API_KEY;
@@ -94,16 +95,22 @@ export async function fetchNewHorrorReleases(date: string): Promise<{
   const [moviesRes, tvRes] = await Promise.all([
     tmdbFetch("/discover/movie", {
       with_genres: String(HORROR_GENRE_ID),
+      without_genres: String(ANIMATION_GENRE_ID),
       with_original_language: MOVIE_LANGUAGES,
       "primary_release_date.gte": date,
       "primary_release_date.lte": date,
+      "popularity.gte": MIN_POPULARITY,
+      "vote_count.gte": MIN_VOTE_COUNT,
       sort_by: "popularity.desc",
     }),
     tmdbFetch("/discover/tv", {
       with_keywords: String(HORROR_TV_KEYWORD_ID),
-      with_original_language: MOVIE_LANGUAGES,
+      without_genres: String(ANIMATION_GENRE_ID),
+      with_original_language: TV_LANGUAGE,
       "first_air_date.gte": date,
       "first_air_date.lte": date,
+      "popularity.gte": MIN_POPULARITY,
+      "vote_count.gte": MIN_VOTE_COUNT,
       sort_by: "popularity.desc",
     }),
   ]);
