@@ -30,15 +30,29 @@ export async function GET(request: NextRequest) {
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      // Create profile on first OAuth login
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const svc = adminDb();
-        const { data: existing } = await svc
-          .from("profiles").select("id").eq("id", user.id).maybeSingle();
-        if (!existing) {
+        const { data: profile } = await svc
+          .from("profiles")
+          .select("id, username_confirmed")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (!profile) {
+          // Trigger didn't fire — create profile manually as fallback
           const username = await makeUniqueUsername(svc, user);
-          await svc.from("profiles").insert({ id: user.id, username });
+          await svc.from("profiles").insert({
+            id: user.id,
+            username,
+            username_confirmed: false,
+          });
+          return NextResponse.redirect(`${origin}/auth/username`);
+        }
+
+        // New user who hasn't confirmed their username yet
+        if (!profile.username_confirmed) {
+          return NextResponse.redirect(`${origin}/auth/username`);
         }
       }
       return NextResponse.redirect(`${origin}${next}`);

@@ -1,8 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { createServerClient } from "@supabase/ssr";
+import { usernameHasBannedWord } from "@/lib/wordFilter";
 
 function serviceClient() {
   return createServerClient(
@@ -10,6 +12,46 @@ function serviceClient() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     { cookies: { getAll: () => [], setAll: () => {} } }
   );
+}
+
+export async function confirmUsername(username: string) {
+  const trimmed = username.trim().toLowerCase();
+  if (!/^[a-zA-Z0-9_]{3,20}$/.test(trimmed)) {
+    return { error: "Username must be 3–20 chars, letters/numbers/underscores only" };
+  }
+  if (usernameHasBannedWord(trimmed)) {
+    return { error: "Username not allowed" };
+  }
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  const { data: conflict } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("username", trimmed)
+    .neq("id", user.id)
+    .maybeSingle();
+  if (conflict) return { error: "Username already taken" };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ username: trimmed, username_confirmed: true })
+    .eq("id", user.id);
+  if (error) return { error: error.message };
+
+  // Set cookie so middleware skips the DB query on future requests
+  const cookieStore = await cookies();
+  cookieStore.set("username_confirmed", "1", {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365,
+  });
+
+  revalidatePath("/settings");
+  return { success: true };
 }
 
 export async function updateUsername(username: string) {
