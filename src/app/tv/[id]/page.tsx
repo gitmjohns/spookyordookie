@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { RatingSlider } from "@/components/RatingSlider";
 import { CommentSection } from "@/components/CommentSection";
@@ -60,7 +59,7 @@ export default async function TVDetailPage({ params }: PageProps) {
       <ScrollReset />
       {backdropUrl && (
         <div className="relative h-52 sm:h-64 overflow-hidden">
-          <Image src={backdropUrl} alt={title.title} fill className="object-cover" priority />
+          <img src={backdropUrl} alt={title.title} className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-transparent" />
         </div>
       )}
@@ -70,7 +69,7 @@ export default async function TVDetailPage({ params }: PageProps) {
           {posterUrl && (
             <div className="shrink-0 pt-16 sm:pt-16">
               <div className="w-28 sm:w-40 rounded-xl overflow-hidden border-2 border-shadow shadow-2xl shadow-void">
-                <Image src={posterUrl} alt={title.title} width={160} height={240} className="w-full" />
+                <img src={posterUrl} alt={title.title} width={160} height={240} className="w-full" />
               </div>
             </div>
           )}

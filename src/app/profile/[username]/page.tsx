@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
@@ -323,12 +322,10 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
                   >
                     <div className="relative aspect-[2/3] bg-shadow rounded-lg overflow-hidden">
                       {posterUrl ? (
-                        <Image
+                        <img
                           src={posterUrl}
                           alt={r.titles.title}
-                          fill
-                          sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 12vw"
-                          className="object-cover"
+                          className="absolute inset-0 w-full h-full object-cover"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-2xl">💀</div>
@@ -410,7 +407,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
                     <Link href={titleHref} className="shrink-0">
                       <div className="relative w-10 h-[60px] rounded overflow-hidden bg-shadow">
                         {posterUrl ? (
-                          <Image src={posterUrl} alt={w.title.title} fill sizes="40px" className="object-cover" />
+                          <img src={posterUrl} alt={w.title.title} className="absolute inset-0 w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-xl">💀</div>
                         )}

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { tmdbImageUrl, getRatingColor } from "@/lib/utils";
 import { WatchlistButton } from "@/components/WatchlistButton";
 import type { Title } from "@/lib/types";
@@ -24,12 +23,10 @@ export function TitleCard({ title, inWatchlist, isLoggedIn }: TitleCardProps) {
       <div className="h-full flex flex-col overflow-hidden rounded-lg bg-tomb border border-shadow hover:border-purple-mid transition-all duration-300 hover:shadow-lg hover:shadow-purple-deep/30 hover:-translate-y-1">
         <div className="aspect-[2/3] relative bg-shadow flex-shrink-0">
           {posterUrl ? (
-            <Image
+            <img
               src={posterUrl}
               alt={title.title}
-              fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-muted">

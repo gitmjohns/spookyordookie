@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { tmdbImageUrl } from "@/lib/utils";
 
 interface SearchResult {
@@ -130,13 +129,10 @@ export function SearchBar({ placeholder = "Search titles...", className = "" }: 
               >
                 <div className="w-8 h-12 flex-shrink-0 bg-shadow/80 rounded overflow-hidden relative">
                   {posterUrl ? (
-                    <Image
+                    <img
                       src={posterUrl}
                       alt={r.title}
-                      fill
-                      sizes="32px"
-                      className="object-cover"
-                      unoptimized
+                      className="absolute inset-0 w-full h-full object-cover"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted text-xs font-display">?</div>

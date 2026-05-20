@@ -1,6 +1,5 @@
 export const dynamic = "force-dynamic";
 
-import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Pagination } from "@/components/Pagination";
@@ -219,12 +218,10 @@ export default async function FeedPage({ searchParams }: PageProps) {
                 {titlePath && posterUrl && (
                   <Link href={titlePath} className="shrink-0">
                     <div className="relative w-10 h-14 rounded overflow-hidden">
-                      <Image
+                      <img
                         src={posterUrl}
                         alt={a.title?.title ?? ""}
-                        fill
-                        sizes="40px"
-                        className="object-cover"
+                        className="absolute inset-0 w-full h-full object-cover"
                       />
                     </div>
                   </Link>

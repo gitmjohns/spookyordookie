@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { markWatched, toggleWatchlist } from "@/app/actions/watchlist";
@@ -61,12 +60,10 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
       <Link href={titleHref} className="shrink-0">
         <div className="relative w-12 h-[68px] rounded overflow-hidden bg-shadow">
           {posterUrl ? (
-            <Image
+            <img
               src={posterUrl}
               alt={title.title}
-              fill
-              sizes="48px"
-              className="object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-2xl">
