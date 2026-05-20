@@ -13,9 +13,25 @@ const TV_LANGUAGE = "en";
 // Secondary TV keyword to supplement the horror keyword
 const SUPERNATURAL_TV_KEYWORD_ID = 10219;
 
-// Nightly import quality floor — keeps hidden gems but removes truly invisible titles
+// General browse quality floor (used by fetchHorrorMovies / fetchHorrorTV)
 const MIN_VOTE_COUNT = "10";
-const MIN_POPULARITY = "5";
+
+// ── Nightly import floors — significantly stricter than browse ────────────────
+const IMPORT_MIN_POPULARITY    = "20";  // filters obscure/short/no-audience titles
+const IMPORT_MIN_VOTE_COUNT    = "50";  // requires meaningful audience engagement
+const IMPORT_MIN_VOTE_AVERAGE  = "4";   // filters truly irredeemable releases
+const IMPORT_MIN_MOVIE_RUNTIME = "70";  // excludes short films (minutes)
+const IMPORT_MIN_TV_RUNTIME    = "20";  // excludes shorts / interstitials (minutes per episode)
+
+// Release types 2 (theatrical limited) and 3 (theatrical wide) — excludes VOD,
+// direct-to-video, and TV movie releases
+const IMPORT_MOVIE_RELEASE_TYPES = "2|3";
+
+// Genres excluded from nightly import:
+// 16 = Animation, 99 = Documentary
+const IMPORT_MOVIE_EXCLUDED_GENRES = `${ANIMATION_GENRE_ID},99`;
+// 16 = Animation, 99 = Documentary, 10764 = Reality
+const IMPORT_TV_EXCLUDED_GENRES = `${ANIMATION_GENRE_ID},99,10764`;
 
 function tmdbFetch(path: string, params: Record<string, string> = {}) {
   const apiKey = process.env.TMDB_API_KEY;
@@ -95,22 +111,27 @@ export async function fetchNewHorrorReleases(date: string): Promise<{
   const [moviesRes, tvRes] = await Promise.all([
     tmdbFetch("/discover/movie", {
       with_genres: String(HORROR_GENRE_ID),
-      without_genres: String(ANIMATION_GENRE_ID),
+      without_genres: IMPORT_MOVIE_EXCLUDED_GENRES,
       with_original_language: MOVIE_LANGUAGES,
+      with_release_type: IMPORT_MOVIE_RELEASE_TYPES,
       "primary_release_date.gte": date,
       "primary_release_date.lte": date,
-      "popularity.gte": MIN_POPULARITY,
-      "vote_count.gte": MIN_VOTE_COUNT,
+      "with_runtime.gte": IMPORT_MIN_MOVIE_RUNTIME,
+      "popularity.gte": IMPORT_MIN_POPULARITY,
+      "vote_count.gte": IMPORT_MIN_VOTE_COUNT,
+      "vote_average.gte": IMPORT_MIN_VOTE_AVERAGE,
       sort_by: "popularity.desc",
     }),
     tmdbFetch("/discover/tv", {
       with_keywords: String(HORROR_TV_KEYWORD_ID),
-      without_genres: String(ANIMATION_GENRE_ID),
+      without_genres: IMPORT_TV_EXCLUDED_GENRES,
       with_original_language: TV_LANGUAGE,
       "first_air_date.gte": date,
       "first_air_date.lte": date,
-      "popularity.gte": MIN_POPULARITY,
-      "vote_count.gte": MIN_VOTE_COUNT,
+      "with_runtime.gte": IMPORT_MIN_TV_RUNTIME,
+      "popularity.gte": IMPORT_MIN_POPULARITY,
+      "vote_count.gte": IMPORT_MIN_VOTE_COUNT,
+      "vote_average.gte": IMPORT_MIN_VOTE_AVERAGE,
       sort_by: "popularity.desc",
     }),
   ]);
