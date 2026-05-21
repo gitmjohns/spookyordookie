@@ -1,16 +1,9 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { createServerClient } from "@supabase/ssr";
 import { usernameHasBannedWord } from "@/lib/wordFilter";
-
-export async function setAuthNextCookie(next: string) {
-  if (!next || !next.startsWith("/") || next.startsWith("//") || next.includes("://")) return;
-  const cookieStore = await cookies();
-  cookieStore.set("auth_next", next, { httpOnly: true, sameSite: "lax", path: "/", maxAge: 300 });
-}
 
 export async function signUp(formData: FormData) {
   const email = formData.get("email") as string;
