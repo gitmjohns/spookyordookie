@@ -58,9 +58,22 @@ export default async function TVDetailPage({ params }: PageProps) {
     <div>
       <ScrollReset />
       {backdropUrl && (
-        <div className="relative h-52 sm:h-64 overflow-hidden">
-          <img src={backdropUrl} alt={title.title} className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-transparent" />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative h-48 sm:h-64 lg:h-[350px] overflow-hidden rounded-2xl">
+            <img
+              src={backdropUrl}
+              alt={title.title}
+              className="w-full h-full object-cover object-center"
+            />
+            {/* bottom vignette — strongest, dissolves into page background */}
+            <div className="absolute inset-x-0 bottom-0 h-4/5 bg-gradient-to-t from-[#080810] via-[#080810]/60 to-transparent" />
+            {/* top vignette */}
+            <div className="absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-[#080810]/60 to-transparent" />
+            {/* left vignette */}
+            <div className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-[#080810]/70 to-transparent" />
+            {/* right vignette */}
+            <div className="absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-[#080810]/70 to-transparent" />
+          </div>
         </div>
       )}
 
