@@ -77,7 +77,7 @@ async function SpookyGoat({ isLoggedIn, watchlistIds }: RowProps) {
   const titles = await getGoats(12);
   if (!titles.length) return null;
   return (
-    <section className="py-10 border-t border-shadow">
+    <section className="pt-6 pb-10">
       <SectionHeader
         title="Spooky G.O.A.T."
         sub="The greatest horror films ever made — Critic Score 85+"
