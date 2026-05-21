@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { setAuthNextCookie } from "@/app/actions/auth";
 
 function sanitizeNext(raw: string | null): string {
   if (!raw) return "/";
-  // Reject protocol-relative (//) and absolute URLs — relative paths only
   if (!raw.startsWith("/") || raw.startsWith("//") || raw.includes("://")) return "/";
   return raw;
 }
@@ -52,11 +52,12 @@ export default function LoginPage() {
     setLoading(provider);
     setError(null);
 
-    // Store the post-login destination in a short-lived cookie before starting
-    // OAuth. Encoding it in the redirectTo URL doesn't work because Supabase
-    // validates redirectTo against an exact-match whitelist and strips params.
+    // Store the post-login destination via a server action so it's set as an
+    // httpOnly cookie before OAuth starts. document.cookie is unreliable here
+    // because the login page is statically prerendered and useSearchParams()
+    // may not be available at the time the cookie would be written.
     if (next !== "/") {
-      document.cookie = `auth_next=${encodeURIComponent(next)}; path=/; max-age=300; samesite=lax`;
+      await setAuthNextCookie(next);
     }
 
     const supabase = createClient();
