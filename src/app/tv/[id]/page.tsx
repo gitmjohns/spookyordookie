@@ -128,11 +128,11 @@ export default async function TVDetailPage({ params }: PageProps) {
         </div>
 
         <div className="rounded-2xl border border-purple-deep bg-shadow p-6 sm:p-8 mb-8">
+          <h2 className="font-display text-2xl text-ghost mb-4">Is it Spooky or Dookie?</h2>
           {user ? (
             <RatingSlider titleId={id} initialScore={userRating} />
           ) : (
             <div className="text-center py-4">
-              <p className="font-display text-3xl text-green-spooky mb-2">💀 Drag the skull to cast your verdict</p>
               <p className="text-sm text-muted mb-4">Sign in to add your rating</p>
               <a href="/auth/login" className="inline-block px-8 py-2.5 bg-purple-mid hover:bg-purple-light text-ghost font-medium rounded-xl transition-colors">Sign in to rate</a>
             </div>
