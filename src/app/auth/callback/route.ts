@@ -16,7 +16,20 @@ function sanitizeNext(raw: string | null): string {
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = sanitizeNext(searchParams.get("next"));
+
+  // Read destination from the cookie set by the login page before OAuth.
+  // Falls back to the URL ?next= param, then /.
+  const cookieRaw = request.cookies.get("auth_next")?.value;
+  const next = sanitizeNext(
+    cookieRaw ? decodeURIComponent(cookieRaw) : searchParams.get("next")
+  );
+
+  // Always clear the auth_next cookie on every exit path
+  function redirect(url: string) {
+    const res = NextResponse.redirect(url);
+    res.cookies.set("auth_next", "", { path: "/", maxAge: 0 });
+    return res;
+  }
 
   if (code) {
     const cookieStore = await cookies();
@@ -47,26 +60,24 @@ export async function GET(request: NextRequest) {
           .maybeSingle();
 
         if (!profile) {
-          // Trigger didn't fire — create profile manually as fallback
           const username = await makeUniqueUsername(svc, user);
           await svc.from("profiles").insert({
             id: user.id,
             username,
             username_confirmed: false,
           });
-          return NextResponse.redirect(`${origin}/auth/username`);
+          return redirect(`${origin}/auth/username`);
         }
 
-        // New user who hasn't confirmed their username yet
         if (!profile.username_confirmed) {
-          return NextResponse.redirect(`${origin}/auth/username`);
+          return redirect(`${origin}/auth/username`);
         }
       }
-      return NextResponse.redirect(`${origin}${next}`);
+      return redirect(`${origin}${next}`);
     }
   }
 
-  return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
+  return redirect(`${origin}/auth/login?error=auth_failed`);
 }
 
 async function makeUniqueUsername(

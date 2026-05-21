@@ -51,13 +51,18 @@ export default function LoginPage() {
   async function signInWith(provider: Provider) {
     setLoading(provider);
     setError(null);
+
+    // Store the post-login destination in a short-lived cookie before starting
+    // OAuth. Encoding it in the redirectTo URL doesn't work because Supabase
+    // validates redirectTo against an exact-match whitelist and strips params.
+    if (next !== "/") {
+      document.cookie = `auth_next=${encodeURIComponent(next)}; path=/; max-age=300; samesite=lax`;
+    }
+
     const supabase = createClient();
-    const callbackUrl = next === "/"
-      ? `${window.location.origin}/auth/callback`
-      : `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: callbackUrl },
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
     if (error) {
       setError(error.message);
