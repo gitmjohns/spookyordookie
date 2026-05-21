@@ -8,9 +8,10 @@ import { getRatingLabel, getRatingColor } from "@/lib/utils";
 interface RatingSliderProps {
   titleId: string;
   initialScore: number | null;
+  disabled?: boolean;
 }
 
-export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
+export function RatingSlider({ titleId, initialScore, disabled = false }: RatingSliderProps) {
   const [score, setScore] = useState(initialScore ?? 50);
   const [isDragging, setIsDragging] = useState(false);
   const [saved, setSaved] = useState(!!initialScore);
@@ -21,7 +22,6 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
   const [revealed, setRevealed] = useState(!!initialScore);
   const [displayCount, setDisplayCount] = useState(initialScore ?? 0);
   const [animating, setAnimating] = useState(false);
-  // Counter-based trigger avoids the stale-closure / cleanup cancellation bug
   const [submissionCount, setSubmissionCount] = useState(0);
   const submittedScoreRef = useRef(0);
 
@@ -42,16 +42,15 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
   function handleSubmit() {
     startTransition(async () => {
       await submitRating(titleId, score);
-      submittedScoreRef.current = score; // capture before any state changes
+      submittedScoreRef.current = score;
       setSaved(true);
       setUnlocked(false);
       setRevealed(false);
       setDisplayCount(0);
-      setSubmissionCount(c => c + 1); // increment to trigger effect
+      setSubmissionCount(c => c + 1);
     });
   }
 
-  // Count-up animation — only re-runs when submissionCount changes, never cancels itself
   useEffect(() => {
     if (submissionCount === 0) return;
 
@@ -59,7 +58,7 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
     setAnimating(true);
     let step = 0;
     const steps = 20;
-    const stepTime = 50; // 20 × 50ms = 1 second total
+    const stepTime = 50;
 
     const timer = setInterval(() => {
       step++;
@@ -76,6 +75,67 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
     return () => clearInterval(timer);
   }, [submissionCount]);
 
+  // ── Disabled / preview state (logged-out teaser) ──────────────────────────
+
+  if (disabled) {
+    const previewScore = 50;
+    const previewColor = getRatingColor(previewScore);
+    const previewLabel = getRatingLabel(previewScore);
+
+    return (
+      <div className="space-y-4 pointer-events-none select-none">
+        <div
+          className="relative rounded-2xl border-2 p-6 text-center overflow-hidden"
+          style={{ borderColor: previewColor, background: `${previewColor}10` }}
+        >
+          <div className="font-display text-4xl sm:text-5xl leading-tight" style={{ color: previewColor }}>
+            {previewLabel}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 px-1">
+          <span className="text-4xl">💩</span>
+          <div className="flex-1">
+            <Slider.Root
+              min={1}
+              max={100}
+              step={1}
+              value={[previewScore]}
+              disabled
+              className="relative flex items-center select-none touch-none w-full h-10"
+            >
+              <Slider.Track className="rating-track relative grow rounded-full h-4 shadow-inner">
+                <Slider.Range className="absolute h-full rounded-full opacity-0" />
+              </Slider.Track>
+              <Slider.Thumb
+                className="flex items-center justify-center w-9 h-9 rounded-full shadow-xl border-2 border-void text-base leading-none"
+                style={{ backgroundColor: previewColor }}
+                aria-label="Rating"
+              >
+                💀
+              </Slider.Thumb>
+            </Slider.Root>
+            <div className="flex justify-between px-3 mt-1">
+              {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((n) => (
+                <div
+                  key={n}
+                  className="w-0.5 h-2 rounded-full"
+                  style={{ backgroundColor: n <= previewScore ? previewColor : "#2d1b69" }}
+                />
+              ))}
+            </div>
+          </div>
+          <span className="text-4xl">💀</span>
+        </div>
+
+        <div className="flex justify-between px-12 text-sm font-bold">
+          <span style={{ color: "#c87030" }}>Dookie</span>
+          <span style={{ color: "#7dff6b" }}>Spooky</span>
+        </div>
+      </div>
+    );
+  }
+
   // ── Locked (submitted) state ──────────────────────────────────────────────
 
   if (isLocked) {
@@ -84,10 +144,6 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
 
     return (
       <div className="space-y-4 rating-enter">
-        <p className="font-display text-4xl text-green-spooky text-center">
-          Is it Spooky or Dookie?
-        </p>
-
         <div
           className="relative rounded-2xl border-2 p-8 text-center overflow-hidden transition-all duration-300"
           style={{ borderColor: revealColor, background: `${revealColor}12` }}
@@ -98,7 +154,6 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
           />
 
           <div className="relative z-10">
-            {/* Verdict label — always visible */}
             <div
               className="font-display text-5xl sm:text-6xl leading-tight"
               style={{ color: revealColor }}
@@ -106,7 +161,6 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
               {revealLabel}
             </div>
 
-            {/* Score — only shown after reveal animation */}
             {(animating || revealed) && (
               <div
                 className="text-3xl sm:text-4xl font-bold leading-none mt-3 tabular-nums"
@@ -122,7 +176,6 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
             )}
           </div>
 
-          {/* Ping ring on reveal */}
           {animating && (
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
               <div
@@ -151,11 +204,6 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
 
   return (
     <div className="space-y-4 rating-enter">
-      <p className="font-display text-4xl text-green-spooky text-center">
-        Is it Spooky or Dookie?
-      </p>
-
-      {/* Verdict label only — no score number */}
       <div
         className="relative rounded-2xl border-2 p-6 text-center overflow-hidden transition-colors duration-200"
         style={{ borderColor: color, background: `${color}10` }}
@@ -165,7 +213,6 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
         </div>
       </div>
 
-      {/* Slider with emoji ends */}
       <div className="flex items-center gap-3 px-1">
         <span className="text-4xl select-none" title="Dookie">💩</span>
 
@@ -194,7 +241,6 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
             </Slider.Thumb>
           </Slider.Root>
 
-          {/* Tick marks */}
           <div className="flex justify-between px-3 mt-1">
             {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((n) => (
               <div
@@ -209,13 +255,11 @@ export function RatingSlider({ titleId, initialScore }: RatingSliderProps) {
         <span className="text-4xl select-none" title="Spooky">💀</span>
       </div>
 
-      {/* End labels */}
       <div className="flex justify-between px-12 text-sm font-bold">
         <span style={{ color: "#c87030" }}>Dookie</span>
         <span style={{ color: "#7dff6b" }}>Spooky</span>
       </div>
 
-      {/* Submit button */}
       <div className="flex justify-center pt-2">
         <button
           onClick={handleSubmit}
