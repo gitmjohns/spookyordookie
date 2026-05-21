@@ -139,7 +139,7 @@ export default async function TVDetailPage({ params }: PageProps) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
                 <p className="text-ghost text-base font-medium">Sign in to cast your verdict</p>
-                <a href="/auth/login" className="px-6 py-2 bg-purple-mid hover:bg-purple-light text-ghost text-sm font-medium rounded-xl transition-colors">
+                <a href={`/auth/login?next=${encodeURIComponent(`/tv/${id}`)}`} className="px-6 py-2 bg-purple-mid hover:bg-purple-light text-ghost text-sm font-medium rounded-xl transition-colors">
                   Sign In
                 </a>
               </div>

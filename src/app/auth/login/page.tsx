@@ -1,7 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+
+function sanitizeNext(raw: string | null): string {
+  if (!raw) return "/";
+  // Reject protocol-relative (//) and absolute URLs — relative paths only
+  if (!raw.startsWith("/") || raw.startsWith("//") || raw.includes("://")) return "/";
+  return raw;
+}
 
 type Provider = "google" | "facebook" | "discord";
 
@@ -34,6 +42,9 @@ const PROVIDERS: { id: Provider; label: string; bg: string; hover: string; icon:
 ];
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const next = sanitizeNext(searchParams.get("next"));
+
   const [loading, setLoading] = useState<Provider | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,9 +52,12 @@ export default function LoginPage() {
     setLoading(provider);
     setError(null);
     const supabase = createClient();
+    const callbackUrl = next === "/"
+      ? `${window.location.origin}/auth/callback`
+      : `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: callbackUrl },
     });
     if (error) {
       setError(error.message);

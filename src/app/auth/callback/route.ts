@@ -6,10 +6,17 @@ import { usernameHasBannedWord } from "@/lib/wordFilter";
 
 export const dynamic = "force-dynamic";
 
+function sanitizeNext(raw: string | null): string {
+  if (!raw) return "/";
+  // Reject protocol-relative (//) and absolute URLs — relative paths only
+  if (!raw.startsWith("/") || raw.startsWith("//") || raw.includes("://")) return "/";
+  return raw;
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
+  const next = sanitizeNext(searchParams.get("next"));
 
   if (code) {
     const cookieStore = await cookies();

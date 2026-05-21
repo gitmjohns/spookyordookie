@@ -195,7 +195,14 @@ export function Navigation() {
                 )}
               </div>
             ) : (
-              <Link href="/auth/login" className="text-sm text-specter hover:text-ghost transition-colors px-2">
+              <Link
+                href={
+                  pathname.startsWith("/movies/") || pathname.startsWith("/tv/")
+                    ? `/auth/login?next=${encodeURIComponent(pathname)}`
+                    : "/auth/login"
+                }
+                className="text-sm text-specter hover:text-ghost transition-colors px-2"
+              >
                 Sign in
               </Link>
             )}
