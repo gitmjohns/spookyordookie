@@ -91,9 +91,9 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
           <thead>
             <tr className="border-b border-shadow text-left">
               <th className="px-4 py-3 text-xs uppercase tracking-wider text-muted font-semibold">User</th>
-              <th className="px-4 py-3 text-xs uppercase tracking-wider text-muted font-semibold">Joined</th>
-              <th className="px-4 py-3 text-xs uppercase tracking-wider text-muted font-semibold">Role</th>
-              <th className="px-4 py-3 text-xs uppercase tracking-wider text-muted font-semibold">Status</th>
+              <th className="hidden md:table-cell px-4 py-3 text-xs uppercase tracking-wider text-muted font-semibold">Joined</th>
+              <th className="hidden md:table-cell px-4 py-3 text-xs uppercase tracking-wider text-muted font-semibold">Role</th>
+              <th className="hidden md:table-cell px-4 py-3 text-xs uppercase tracking-wider text-muted font-semibold">Status</th>
               <th className="px-4 py-3 text-xs uppercase tracking-wider text-muted font-semibold">Actions</th>
             </tr>
           </thead>
@@ -112,15 +112,15 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                     )}
                   </div>
                 </td>
-                <td className="px-4 py-3 text-specter text-xs">
+                <td className="hidden md:table-cell px-4 py-3 text-specter text-xs">
                   {new Date(u.created_at).toLocaleDateString()}
                 </td>
-                <td className="px-4 py-3">
+                <td className="hidden md:table-cell px-4 py-3">
                   <span className={`px-2 py-0.5 rounded text-xs font-medium ${u.role === "admin" ? "bg-green-spooky/20 text-green-spooky" : "bg-shadow text-specter"}`}>
                     {u.role}
                   </span>
                 </td>
-                <td className="px-4 py-3">
+                <td className="hidden md:table-cell px-4 py-3">
                   {u.banned && (
                     <span className="px-2 py-0.5 rounded text-xs font-medium bg-red-900/40 text-red-400">Banned</span>
                   )}

@@ -19,16 +19,6 @@ const SORT_OPTIONS_TV = [
   { key: "alpha-desc", label: "Z → A" },
 ];
 
-const DECADES = [
-  { key: "", label: "All" },
-  { key: "1970", label: "70s" },
-  { key: "1980", label: "80s" },
-  { key: "1990", label: "90s" },
-  { key: "2000", label: "00s" },
-  { key: "2010", label: "10s" },
-  { key: "2020", label: "20s" },
-];
-
 const HORROR_GENRES = [
   "Slasher",
   "Supernatural",
@@ -56,7 +46,6 @@ export function FilterPills({ mediaType }: FilterPillsProps) {
   const activeGenre = searchParams.get("genre") ?? searchParams.get("subgenre") ?? "";
   const current = {
     sort: searchParams.get("sort") ?? "critic",
-    decade: searchParams.get("decade") ?? "",
     genre: activeGenre,
   };
 
@@ -79,7 +68,23 @@ export function FilterPills({ mediaType }: FilterPillsProps) {
 
   return (
     <div className="space-y-2 mb-5">
-      {/* Genre pills + sort dropdown */}
+      {/* Sort By — dedicated row, always fully visible without scrolling */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="flex-shrink-0 text-xs text-muted uppercase tracking-wider">Sort:</span>
+        {sortOptions.map((s) => (
+          <button
+            key={s.key}
+            onClick={() => update({ sort: s.key })}
+            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              current.sort === s.key ? pillActive : pillInactive
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Genre pills row */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1">
         <button
           onClick={() => update({ genre: "" })}
@@ -87,7 +92,6 @@ export function FilterPills({ mediaType }: FilterPillsProps) {
         >
           All
         </button>
-
         {HORROR_GENRES.map((g) => (
           <button
             key={g}
@@ -95,35 +99,6 @@ export function FilterPills({ mediaType }: FilterPillsProps) {
             className={`${pillBase} ${current.genre === g ? pillActive : pillInactive}`}
           >
             {g}
-          </button>
-        ))}
-
-        {/* Sort — pinned at the end of the scroll row */}
-        <div className="flex-shrink-0 ml-1">
-          <select
-            value={current.sort}
-            onChange={(e) => update({ sort: e.target.value })}
-            className="px-3 py-2 rounded-full text-sm font-medium bg-shadow text-specter border border-shadow/60 hover:border-purple-mid focus:outline-none focus:border-green-spooky cursor-pointer"
-          >
-            {sortOptions.map((s) => (
-              <option key={s.key} value={s.key}>{s.label}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Decade pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
-        <span className="flex-shrink-0 text-xs text-muted uppercase tracking-wider">Decade:</span>
-        {DECADES.map((d) => (
-          <button
-            key={d.key}
-            onClick={() => update({ decade: d.key })}
-            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-              current.decade === d.key ? pillActive : pillInactive
-            }`}
-          >
-            {d.label}
           </button>
         ))}
       </div>

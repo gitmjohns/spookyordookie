@@ -59,26 +59,28 @@ export function CommentModeration({ comments, search, page, totalPages }: Props)
                   {c.profiles?.banned && (
                     <span className="px-1.5 py-0.5 rounded text-xs bg-red-900/40 text-red-400">Banned</span>
                   )}
-                  <span className="text-muted text-xs">on</span>
-                  <span className="text-specter text-xs font-medium">{c.titles?.title ?? "Unknown"}</span>
-                  <span className="text-muted text-xs ml-auto">{new Date(c.created_at).toLocaleDateString()}</span>
+                  {/* Title and date — desktop only */}
+                  <span className="hidden md:inline text-muted text-xs">on</span>
+                  <span className="hidden md:inline text-specter text-xs font-medium">{c.titles?.title ?? "Unknown"}</span>
+                  <span className="hidden md:inline text-muted text-xs ml-auto">{new Date(c.created_at).toLocaleDateString()}</span>
                   {c.upvote_count > 0 && (
-                    <span className="text-xs text-specter">↑ {c.upvote_count}</span>
+                    <span className="hidden md:inline text-xs text-specter">↑ {c.upvote_count}</span>
                   )}
                 </div>
                 <p className="text-specter text-sm line-clamp-3">{c.content}</p>
               </div>
-              <div className="flex flex-col gap-1.5 flex-shrink-0">
+              <div className="flex flex-col gap-2 flex-shrink-0">
                 <button
                   onClick={() => setConfirmDelete(c.id)}
-                  className="px-2.5 py-1 text-xs bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors"
+                  className="px-3 py-2 text-xs bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors"
                 >
                   Delete
                 </button>
+                {/* Ban — desktop only */}
                 {!c.profiles?.banned && c.user_id && (
                   <button
                     onClick={() => setConfirmBan({ id: c.user_id, username: c.profiles?.username ?? "User" })}
-                    className="px-2.5 py-1 text-xs bg-shadow text-orange-400 rounded hover:bg-orange-900/20 transition-colors"
+                    className="hidden md:block px-3 py-2 text-xs bg-shadow text-orange-400 rounded hover:bg-orange-900/20 transition-colors"
                   >
                     Ban User
                   </button>
@@ -92,9 +94,9 @@ export function CommentModeration({ comments, search, page, totalPages }: Props)
 
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 mt-5">
-          <button disabled={page <= 1} onClick={() => updateParams({ page: String(page - 1) })} className="px-3 py-1.5 text-sm bg-tomb border border-shadow rounded text-specter hover:text-ghost disabled:opacity-40">←</button>
+          <button disabled={page <= 1} onClick={() => updateParams({ page: String(page - 1) })} className="px-4 py-2.5 text-sm bg-tomb border border-shadow rounded text-specter hover:text-ghost disabled:opacity-40">←</button>
           <span className="text-sm text-specter px-2">Page {page} of {totalPages}</span>
-          <button disabled={page >= totalPages} onClick={() => updateParams({ page: String(page + 1) })} className="px-3 py-1.5 text-sm bg-tomb border border-shadow rounded text-specter hover:text-ghost disabled:opacity-40">→</button>
+          <button disabled={page >= totalPages} onClick={() => updateParams({ page: String(page + 1) })} className="px-4 py-2.5 text-sm bg-tomb border border-shadow rounded text-specter hover:text-ghost disabled:opacity-40">→</button>
         </div>
       )}
 

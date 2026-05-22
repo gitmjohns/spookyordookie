@@ -7,9 +7,9 @@ const PER_PAGE = 40;
 export default async function AdminTitlesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ search?: string; page?: string; type?: string }>;
+  searchParams: Promise<{ search?: string; page?: string; type?: string; letter?: string }>;
 }) {
-  const { search = "", page: pageStr = "1", type = "" } = await searchParams;
+  const { search = "", page: pageStr = "1", type = "", letter = "" } = await searchParams;
   const page = Math.max(1, parseInt(pageStr, 10) || 1);
   const offset = (page - 1) * PER_PAGE;
 
@@ -17,6 +17,17 @@ export default async function AdminTitlesPage({
   let q = svc.from("titles").select("id,title,release_year,media_type,critic_score,subgenres,poster_path", { count: "exact" });
   if (search) q = q.ilike("title", `%${search}%`);
   if (type === "movie" || type === "tv") q = q.eq("media_type", type);
+
+  // Letter jump filter
+  if (letter && letter !== "#") {
+    q = q.ilike("title", `${letter}%`);
+  } else if (letter === "#") {
+    // Titles starting with a non-alphabetic character
+    for (const l of "abcdefghijklmnopqrstuvwxyz") {
+      q = (q as any).not("title", "ilike", `${l}%`);
+    }
+  }
+
   q = q.order("title", { ascending: true }).range(offset, offset + PER_PAGE - 1);
 
   const { data: titles, count } = await q;
@@ -41,6 +52,7 @@ export default async function AdminTitlesPage({
         titles={(titles ?? []) as any[]}
         search={search}
         type={type}
+        letter={letter}
         page={page}
         totalPages={totalPages}
       />
