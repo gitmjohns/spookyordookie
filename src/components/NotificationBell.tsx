@@ -7,7 +7,7 @@ import { markOneRead } from "@/app/actions/notifications";
 
 interface NotifData {
   id: string;
-  type: "comment_upvote" | "comment_reply" | "debate_reply";
+  type: "comment_upvote" | "comment_reply" | "debate_reply" | "debate_follow_reply";
   read: boolean;
   created_at: string;
   actor_profile: { username: string; avatar_emoji: string } | null;
@@ -28,6 +28,7 @@ function notifText(n: NotifData): string {
   if (n.type === "comment_upvote") return `${actor} upvoted your comment on ${titleName}`;
   if (n.type === "comment_reply") return `${actor} replied to your comment on ${titleName}`;
   if (n.type === "debate_reply") return `${actor} replied to a debate on ${titleName}`;
+  if (n.type === "debate_follow_reply") return `${actor} replied to a debate you're following on ${titleName}`;
   return `New notification from ${actor}`;
 }
 
