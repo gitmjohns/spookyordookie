@@ -11,18 +11,19 @@ export default async function SettingsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth/login");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("id, username, avatar_emoji, avatar_bg, is_prime_admin")
-    .eq("id", user.id)
-    .single();
+  // Split into two queries so an issue with is_prime_admin never
+  // prevents the essential form data (username, emoji, bg) from loading.
+  const [{ data: profile }, { data: adminRow }] = await Promise.all([
+    supabase.from("profiles").select("username, avatar_emoji, avatar_bg").eq("id", user.id).maybeSingle(),
+    supabase.from("profiles").select("is_prime_admin").eq("id", user.id).maybeSingle(),
+  ]);
 
   return (
     <SettingsForm
       initialUsername={profile?.username ?? ""}
       initialEmoji={(profile?.avatar_emoji as string) ?? "💀"}
       initialBg={(profile?.avatar_bg as string) ?? "#0a0a0f"}
-      isPrimeAdmin={profile?.is_prime_admin === true}
+      isPrimeAdmin={adminRow?.is_prime_admin === true}
     />
   );
 }
