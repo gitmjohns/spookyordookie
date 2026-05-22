@@ -55,6 +55,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
     if (submissionCount === 0) return;
 
     const target = submittedScoreRef.current;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAnimating(true);
     let step = 0;
     const steps = 20;
@@ -93,8 +94,8 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
           </div>
         </div>
 
-        <div className="flex items-center gap-3 px-1">
-          <span className="text-4xl">💩</span>
+        <div className="flex items-center gap-1 sm:gap-3 sm:px-1">
+          <span className="text-2xl sm:text-4xl">💩</span>
           <div className="flex-1">
             <Slider.Root
               min={1}
@@ -125,10 +126,10 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
               ))}
             </div>
           </div>
-          <span className="text-4xl">💀</span>
+          <span className="text-2xl sm:text-4xl">💀</span>
         </div>
 
-        <div className="flex justify-between px-12 text-sm font-bold">
+        <div className="flex justify-between px-7 sm:px-12 text-sm font-bold">
           <span style={{ color: "#c87030" }}>Dookie</span>
           <span style={{ color: "#7dff6b" }}>Spooky</span>
         </div>
@@ -213,8 +214,8 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
         </div>
       </div>
 
-      <div className="flex items-center gap-3 px-1">
-        <span className="text-4xl select-none" title="Dookie">💩</span>
+      <div className="flex items-center gap-1 sm:gap-3 sm:px-1">
+        <span className="text-2xl sm:text-4xl select-none" title="Dookie">💩</span>
 
         <div className="flex-1">
           <Slider.Root
@@ -252,10 +253,10 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
           </div>
         </div>
 
-        <span className="text-4xl select-none" title="Spooky">💀</span>
+        <span className="text-2xl sm:text-4xl select-none" title="Spooky">💀</span>
       </div>
 
-      <div className="flex justify-between px-12 text-sm font-bold">
+      <div className="flex justify-between px-7 sm:px-12 text-sm font-bold">
         <span style={{ color: "#c87030" }}>Dookie</span>
         <span style={{ color: "#7dff6b" }}>Spooky</span>
       </div>
