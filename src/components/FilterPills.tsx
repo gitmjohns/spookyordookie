@@ -7,6 +7,7 @@ const SORT_OPTIONS_MOVIE = [
   { key: "critic", label: "Critic Score" },
   { key: "rating", label: "Fan Rating" },
   { key: "newest", label: "Newest" },
+  { key: "oldest", label: "Oldest" },
   { key: "alpha-asc", label: "A → Z" },
   { key: "alpha-desc", label: "Z → A" },
 ];
@@ -15,6 +16,7 @@ const SORT_OPTIONS_TV = [
   { key: "critic", label: "Critic Score" },
   { key: "rating", label: "Fan Rating" },
   { key: "newest", label: "Newest" },
+  { key: "oldest", label: "Oldest" },
   { key: "alpha-asc", label: "A → Z" },
   { key: "alpha-desc", label: "Z → A" },
 ];

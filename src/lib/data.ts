@@ -147,6 +147,7 @@ function applyFilters(q: any, filters: TitleFilters) {
   if (decade) { const d = parseInt(decade, 10); q = q.gte("release_year", d).lte("release_year", d + 9); }
   if (sort === "rating") q = q.order("rating_avg", { ascending: false }).order("rating_count", { ascending: false });
   else if (sort === "newest") q = q.order("release_year", { ascending: false });
+  else if (sort === "oldest") q = q.order("release_year", { ascending: true });
   else if (sort === "alpha-asc") q = q.order("title", { ascending: true });
   else if (sort === "alpha-desc") q = q.order("title", { ascending: false });
   else q = q.order("critic_score", { ascending: false });
