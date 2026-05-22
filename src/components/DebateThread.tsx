@@ -2,7 +2,7 @@
 
 import { useState, useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { addDebateReply, editDebateReply } from "@/app/actions/watchlist";
+import { addDebateReply, editDebateReply, toggleDebateFollow } from "@/app/actions/watchlist";
 import { AvatarCircle } from "@/components/AvatarCircle";
 import type { DebateReply } from "@/lib/types";
 
@@ -11,28 +11,43 @@ interface DebateThreadProps {
   prompt: string;
   initialReplies: DebateReply[];
   isLoggedIn: boolean;
+  initialIsFollowing: boolean;
   currentUsername?: string;
   currentEmoji?: string;
   currentAvatarBg?: string;
   currentUserId?: string;
 }
 
-export function DebateThread({ threadId, prompt, initialReplies, isLoggedIn, currentUsername, currentEmoji, currentAvatarBg, currentUserId }: DebateThreadProps) {
+export function DebateThread({
+  threadId, prompt, initialReplies, isLoggedIn, initialIsFollowing,
+  currentUsername, currentEmoji, currentAvatarBg, currentUserId,
+}: DebateThreadProps) {
   const router = useRouter();
   const [replies, setReplies] = useState(initialReplies);
   const [text, setText] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  // Sync with server data after router.refresh() completes
-  useEffect(() => {
-    setReplies(initialReplies);
-  }, [initialReplies]);
+  const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
+  const [followPending, setFollowPending] = useState(false);
 
-  // Per-reply edit state
+  useEffect(() => { setReplies(initialReplies); }, [initialReplies]);
+
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
-  // Track edited content so it displays immediately without a page refresh
   const [editedContents, setEditedContents] = useState<Record<string, string>>({});
+
+  async function handleFollowToggle() {
+    if (!isLoggedIn) {
+      window.location.href = "/auth/login";
+      return;
+    }
+    setFollowPending(true);
+    const result = await toggleDebateFollow(threadId);
+    if (!("error" in result)) {
+      setIsFollowing(result.following);
+    }
+    setFollowPending(false);
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -49,6 +64,8 @@ export function DebateThread({ threadId, prompt, initialReplies, isLoggedIn, cur
       profiles: { username: currentUsername ?? "You", avatar_emoji: currentEmoji ?? "💀", avatar_bg: currentAvatarBg ?? "#0a0a0f" },
     };
     setReplies((r) => [...r, optimistic]);
+    // Auto-follow optimistically when posting
+    setIsFollowing(true);
     startTransition(async () => {
       await addDebateReply(threadId, content);
       router.refresh();
@@ -90,10 +107,37 @@ export function DebateThread({ threadId, prompt, initialReplies, isLoggedIn, cur
     <div className="rounded-2xl border border-purple-mid bg-shadow/50 overflow-hidden mb-8">
       {/* Header */}
       <div className="bg-purple-deep/40 px-5 py-4 border-b border-purple-mid/50">
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center justify-between gap-2 mb-2">
           <span className="text-xs font-bold uppercase tracking-widest text-green-spooky">
             🔥 Debate Thread
           </span>
+
+          {/* Follow button */}
+          <button
+            onClick={handleFollowToggle}
+            disabled={followPending}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-colors disabled:opacity-50 ${
+              isFollowing
+                ? "bg-green-spooky/15 text-green-spooky hover:bg-red-900/20 hover:text-dookie-light"
+                : "bg-shadow/80 text-specter hover:bg-purple-mid hover:text-ghost"
+            }`}
+          >
+            {isFollowing ? (
+              <>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Following
+              </>
+            ) : (
+              <>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                Follow This Debate
+              </>
+            )}
+          </button>
         </div>
         <p className="font-sans text-base text-ghost leading-relaxed">{prompt}</p>
       </div>

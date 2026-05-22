@@ -12,6 +12,7 @@ import { tmdbImageUrl, getRatingColor, getRatingLabel } from "@/lib/utils";
 import {
   getTitleById, getComments, getUserRating, getCurrentUser,
   getSimilarTitles, getWatchlistIds, getDebateThread, getDebateReplies,
+  getDebateFollowStatus,
 } from "@/lib/data";
 
 interface PageProps { params: Promise<{ id: string }> }
@@ -43,6 +44,7 @@ export default async function TVDetailPage({ params }: PageProps) {
   ]);
 
   const debateReplies = debateThread ? await getDebateReplies(debateThread.id) : [];
+  const debateFollowing = user && debateThread ? await getDebateFollowStatus(debateThread.id) : false;
 
   const backdropUrl = tmdbImageUrl(title.backdrop_path, "w780");
   const posterUrl = tmdbImageUrl(title.poster_path, "w342");
@@ -166,6 +168,7 @@ export default async function TVDetailPage({ params }: PageProps) {
             prompt={debateThread.prompt}
             initialReplies={debateReplies as never[]}
             isLoggedIn={!!user}
+            initialIsFollowing={debateFollowing}
             currentUsername={profile?.username}
             currentEmoji={profile?.avatar_emoji}
             currentAvatarBg={(profile as any)?.avatar_bg}

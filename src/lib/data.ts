@@ -369,6 +369,19 @@ export async function getDebateReplies(threadId: string) {
   }));
 }
 
+export async function getDebateFollowStatus(threadId: string): Promise<boolean> {
+  if (isMockMode()) return false;
+  const s = await db();
+  const { data: { user } } = await s.auth.getUser();
+  if (!user) return false;
+  const { data } = await s.from("debate_follows")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("thread_id", threadId)
+    .maybeSingle();
+  return !!data;
+}
+
 export async function getCurrentUser() {
   if (isMockMode()) return null;
   const s = await db();

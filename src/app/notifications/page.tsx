@@ -76,6 +76,7 @@ export default async function NotificationsPage({ searchParams }: PageProps) {
     if (n.type === "comment_upvote") return `${actor} upvoted your comment on ${titleName}`;
     if (n.type === "comment_reply") return `${actor} replied to your comment on ${titleName}`;
     if (n.type === "debate_reply") return `${actor} replied to a debate on ${titleName}`;
+    if (n.type === "debate_follow_reply") return `${actor} replied to a debate you're following on ${titleName}`;
     return `New notification`;
   }
 

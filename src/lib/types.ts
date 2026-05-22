@@ -114,7 +114,7 @@ export interface WatchlistEntry {
   title?: Title;
 }
 
-export type NotificationType = "comment_upvote" | "comment_reply" | "debate_reply";
+export type NotificationType = "comment_upvote" | "comment_reply" | "debate_reply" | "debate_follow_reply";
 
 export interface Notification {
   id: string;
