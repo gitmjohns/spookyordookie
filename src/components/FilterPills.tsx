@@ -33,6 +33,9 @@ const HORROR_GENRES = [
   "Zombie",
   "Vampire",
   "Werewolf",
+  "Ghost",
+  "Action-Horror",
+  "Occult",
 ];
 
 interface FilterPillsProps {

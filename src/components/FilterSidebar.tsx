@@ -42,7 +42,34 @@ const HORROR_GENRES = [
   "Zombie",
   "Vampire",
   "Werewolf",
+  "Ghost",
+  "Action-Horror",
+  "Occult",
 ];
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h3 className="text-xs font-bold uppercase tracking-widest text-muted mb-2 px-1 border-b border-shadow pb-2">
+        {title}
+      </h3>
+      <div className="space-y-0.5 mt-2">{children}</div>
+    </div>
+  );
+}
+
+function Btn({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors ${
+        active ? "bg-purple-mid text-ghost font-medium" : "text-specter hover:bg-shadow hover:text-ghost"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
 
 interface FilterSidebarProps {
   mediaType: "movie" | "tv";
@@ -81,26 +108,6 @@ export function FilterSidebar({ mediaType }: FilterSidebarProps) {
   const activeGenreIdx = HORROR_GENRES.indexOf(activeGenre);
   const showAllGenres = userExpanded || activeGenreIdx >= 6;
   const visibleGenres = showAllGenres ? HORROR_GENRES : HORROR_GENRES.slice(0, 6);
-
-  const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div>
-      <h3 className="text-xs font-bold uppercase tracking-widest text-muted mb-2 px-1 border-b border-shadow pb-2">
-        {title}
-      </h3>
-      <div className="space-y-0.5 mt-2">{children}</div>
-    </div>
-  );
-
-  const Btn = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
-    <button
-      onClick={onClick}
-      className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors ${
-        active ? "bg-purple-mid text-ghost font-medium" : "text-specter hover:bg-shadow hover:text-ghost"
-      }`}
-    >
-      {children}
-    </button>
-  );
 
   return (
     <aside className="hidden md:block w-48 shrink-0 space-y-6">

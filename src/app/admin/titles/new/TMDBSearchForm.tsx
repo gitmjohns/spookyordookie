@@ -7,7 +7,8 @@ import { adminImportTitle } from "@/app/actions/admin";
 const ALL_SUBGENRES = [
   "Slasher", "Supernatural", "Found Footage", "Body Horror",
   "Comedy Horror", "Sci-Fi Horror", "Creature Feature", "Folk Horror",
-  "Zombie", "Vampire", "Werewolf", "Cult Classic",
+  "Zombie", "Vampire", "Werewolf", "Ghost", "Action-Horror", "Occult",
+  "Cult Classic",
 ];
 
 interface TMDBResult {
