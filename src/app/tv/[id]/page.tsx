@@ -111,7 +111,8 @@ export default async function TVDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              <div className="md:w-52 shrink-0">
+              {/* Score box — desktop only (mobile version is full-width below) */}
+              <div className="hidden md:block md:w-52 shrink-0">
                 <div className="bg-tomb border border-shadow rounded-2xl p-4 space-y-3">
                   <div className="text-center pb-3 border-b border-shadow">
                     <div className="text-xs text-muted uppercase tracking-wider mb-1">Overall Score</div>
@@ -136,6 +137,35 @@ export default async function TVDetailPage({ params }: PageProps) {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Score box — mobile only, full width outside poster constraint */}
+        <div className="md:hidden mb-8">
+          <div className="bg-tomb border border-shadow rounded-2xl p-4 space-y-3">
+            <div className="text-center pb-3 border-b border-shadow">
+              <div className="text-xs text-muted uppercase tracking-wider mb-1">Overall Score</div>
+              <div className="font-display text-2xl leading-tight" style={{ color: overallColor }}>{overallLabel}</div>
+              <div className="text-5xl font-black leading-none mt-1" style={{ color: overallColor }}>
+                {overallScore}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="text-center">
+                <div className="text-xs text-muted uppercase tracking-wider mb-0.5">Critic</div>
+                <div className="text-xl font-bold" style={{ color: criticColor }}>
+                  {title.critic_score}<span className="text-xs text-muted font-normal">/100</span>
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs text-muted uppercase tracking-wider mb-0.5">
+                  Fan{hasRatings ? ` (${title.rating_count})` : ""}
+                </div>
+                <div className="text-xl font-bold" style={{ color: fanColor }}>
+                  {hasRatings ? Math.round(title.rating_avg) : "—"}<span className="text-xs text-muted font-normal">/100</span>
                 </div>
               </div>
             </div>
