@@ -134,48 +134,54 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                       View
                     </Link>
 
-                    {u.role !== "admin" ? (
-                      <button
-                        onClick={() => startTransition(async () => { await adminSetRole(u.id, "admin"); })}
-                        disabled={pending}
-                        className="px-2 py-1 text-xs bg-shadow text-green-spooky rounded hover:bg-green-spooky/10 transition-colors"
-                      >
-                        Make Admin
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => onRevokeClick(u)}
-                        disabled={pending}
-                        className="px-2 py-1 text-xs bg-shadow text-yellow-400 rounded hover:bg-yellow-900/20 transition-colors"
-                      >
-                        Revoke Admin
-                      </button>
+                    {!u.is_prime_admin && (
+                      <>
+                        {u.role !== "admin" ? (
+                          <button
+                            onClick={() => startTransition(async () => { await adminSetRole(u.id, "admin"); })}
+                            disabled={pending}
+                            className="px-2 py-1 text-xs bg-shadow text-green-spooky rounded hover:bg-green-spooky/10 transition-colors"
+                          >
+                            Make Admin
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => onRevokeClick(u)}
+                            disabled={pending}
+                            className="px-2 py-1 text-xs bg-shadow text-yellow-400 rounded hover:bg-yellow-900/20 transition-colors"
+                          >
+                            Revoke Admin
+                          </button>
+                        )}
+
+                        {!u.banned ? (
+                          <button
+                            onClick={() => onBanClick(u)}
+                            disabled={pending}
+                            className="px-2 py-1 text-xs bg-shadow text-orange-400 rounded hover:bg-orange-900/20 transition-colors"
+                          >
+                            Ban
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => startTransition(async () => { await adminBanUser(u.id, false); })}
+                            disabled={pending}
+                            className="px-2 py-1 text-xs bg-shadow text-green-spooky rounded hover:bg-green-spooky/10 transition-colors"
+                          >
+                            Unban
+                          </button>
+                        )}
+                      </>
                     )}
 
-                    {!u.banned ? (
+                    {!u.is_prime_admin && (
                       <button
-                        onClick={() => onBanClick(u)}
-                        disabled={pending}
-                        className="px-2 py-1 text-xs bg-shadow text-orange-400 rounded hover:bg-orange-900/20 transition-colors"
+                        onClick={() => onDeleteClick(u)}
+                        className="px-2 py-1 text-xs bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors"
                       >
-                        Ban
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => startTransition(async () => { await adminBanUser(u.id, false); })}
-                        disabled={pending}
-                        className="px-2 py-1 text-xs bg-shadow text-green-spooky rounded hover:bg-green-spooky/10 transition-colors"
-                      >
-                        Unban
+                        Delete
                       </button>
                     )}
-
-                    <button
-                      onClick={() => onDeleteClick(u)}
-                      className="px-2 py-1 text-xs bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors"
-                    >
-                      Delete
-                    </button>
                   </div>
                 </td>
               </tr>
