@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { upvoteComment, downvoteComment, addComment, deleteComment, editComment } from "@/app/actions/comments";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,13 @@ interface CommentItemProps {
   isLoggedIn: boolean;
   currentUserId?: string;
   depth?: number;
+}
+
+function formatTimeAgo(dateStr: string) {
+  return new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(
+    Math.round((new Date(dateStr).getTime() - Date.now()) / 1000 / 60),
+    "minutes"
+  );
 }
 
 export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth = 0 }: CommentItemProps) {
@@ -35,11 +43,6 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
   const [deleted, setDeleted] = useState(false);
 
   const isOwner = !!currentUserId && currentUserId === comment.user_id && !comment.id.startsWith("optimistic-");
-
-  const timeAgo = new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(
-    Math.round((new Date(comment.created_at).getTime() - Date.now()) / 1000 / 60),
-    "minutes"
-  );
 
   function handleUpvote() {
     if (!isLoggedIn) return;
@@ -107,10 +110,14 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
               size="sm"
             />
             <div>
-              <span className="text-sm font-medium text-specter">
-                {comment.profiles?.username ?? "Anonymous"}
-              </span>
-              <span className="text-xs text-muted ml-2">{timeAgo}</span>
+              {comment.profiles?.username ? (
+                <Link href={`/profile/${comment.profiles.username}`} className="text-sm font-medium text-specter hover:text-green-spooky transition-colors">
+                  {comment.profiles.username}
+                </Link>
+              ) : (
+                <span className="text-sm font-medium text-specter">Anonymous</span>
+              )}
+              <span className="text-xs text-muted ml-2">{formatTimeAgo(comment.created_at)}</span>
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 
+import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
@@ -70,14 +71,21 @@ export default async function NotificationsPage({ searchParams }: PageProps) {
     title: n.title_id ? (titleMap[n.title_id] as { id: string; title: string; media_type: string } | undefined) : undefined,
   }));
 
-  function notifText(n: typeof enriched[number]): string {
-    const actor = n.actor_profile?.username ?? "Someone";
+  function notifText(n: typeof enriched[number]): ReactNode {
+    const actorUsername = n.actor_profile?.username;
+    const actorNode = actorUsername ? (
+      <Link href={`/profile/${actorUsername}`} className="font-medium text-ghost hover:text-green-spooky transition-colors">
+        {actorUsername}
+      </Link>
+    ) : (
+      <span className="font-medium text-ghost">Someone</span>
+    );
     const titleName = n.title?.title ?? "a title";
-    if (n.type === "comment_upvote") return `${actor} upvoted your comment on ${titleName}`;
-    if (n.type === "comment_reply") return `${actor} replied to your comment on ${titleName}`;
-    if (n.type === "debate_reply") return `${actor} replied to a debate on ${titleName}`;
-    if (n.type === "debate_follow_reply") return `${actor} replied to a debate you're following on ${titleName}`;
-    return `New notification`;
+    if (n.type === "comment_upvote") return <>{actorNode}{" upvoted your comment on "}{titleName}</>;
+    if (n.type === "comment_reply") return <>{actorNode}{" replied to your comment on "}{titleName}</>;
+    if (n.type === "debate_reply") return <>{actorNode}{" replied to a debate on "}{titleName}</>;
+    if (n.type === "debate_follow_reply") return <>{actorNode}{" replied to a debate you're following on "}{titleName}</>;
+    return <>{"New notification"}</>;
   }
 
   function titleHref(n: typeof enriched[number]): string {
@@ -109,6 +117,7 @@ export default async function NotificationsPage({ searchParams }: PageProps) {
               time={timeAgo(n.created_at)}
               actorEmoji={n.actor_profile?.avatar_emoji ?? "💀"}
               actorBg={n.actor_profile?.avatar_bg}
+              actorUsername={n.actor_profile?.username}
             />
           ))}
         </div>

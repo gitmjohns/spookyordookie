@@ -88,7 +88,14 @@ export default async function FeedPage({ searchParams }: PageProps) {
   }));
 
   function activityText(a: EnrichedActivity): React.ReactNode {
-    const username = a.profile?.username ?? a.metadata?.username ?? "Someone";
+    const rawUsername = a.profile?.username ?? a.metadata?.username ?? "Someone";
+    const usernameNode = a.profile?.username ? (
+      <Link href={`/profile/${a.profile.username}`} className="font-medium text-ghost hover:text-green-spooky transition-colors">
+        {a.profile.username}
+      </Link>
+    ) : (
+      <span className="font-medium text-ghost">{rawUsername}</span>
+    );
     const titleName = a.title?.title ?? "a title";
     const titlePath = a.title
       ? `/${a.title.media_type === "movie" ? "movies" : "tv"}/${a.title.id}`
@@ -99,7 +106,7 @@ export default async function FeedPage({ searchParams }: PageProps) {
       const scoreColor = score != null ? getRatingColor(score / 10) : undefined;
       return (
         <>
-          <span className="font-medium text-ghost">{username}</span>
+          {usernameNode}
           {" rated "}
           {titlePath ? (
             <Link href={titlePath} className="text-green-spooky hover:underline">
@@ -129,7 +136,7 @@ export default async function FeedPage({ searchParams }: PageProps) {
         : "";
       return (
         <>
-          <span className="font-medium text-ghost">{username}</span>
+          {usernameNode}
           {" commented on "}
           {titlePath ? (
             <Link href={titlePath} className="text-green-spooky hover:underline">
@@ -148,7 +155,7 @@ export default async function FeedPage({ searchParams }: PageProps) {
     if (a.type === "debate_reply") {
       return (
         <>
-          <span className="font-medium text-ghost">{username}</span>
+          {usernameNode}
           {" joined the debate on "}
           {titlePath ? (
             <Link href={titlePath} className="text-green-spooky hover:underline">
@@ -164,7 +171,7 @@ export default async function FeedPage({ searchParams }: PageProps) {
     // joined
     return (
       <>
-        <span className="font-medium text-ghost">{username}</span>
+        {usernameNode}
         {" joined SpookyorDookie"}
       </>
     );

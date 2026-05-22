@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { addDebateReply, editDebateReply, toggleDebateFollow } from "@/app/actions/watchlist";
 import { AvatarCircle } from "@/components/AvatarCircle";
 import type { DebateReply } from "@/lib/types";
@@ -166,7 +167,13 @@ export function DebateThread({
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-sm font-medium text-specter">{r.profiles?.username ?? "Anonymous"}</span>
+                    {r.profiles?.username ? (
+                      <Link href={`/profile/${r.profiles.username}`} className="text-sm font-medium text-specter hover:text-green-spooky transition-colors">
+                        {r.profiles.username}
+                      </Link>
+                    ) : (
+                      <span className="text-sm font-medium text-specter">Anonymous</span>
+                    )}
                     <span className="text-xs text-muted">{timeAgo(r.created_at)}</span>
                     {isOwn && !isEditingThis && (
                       <button
