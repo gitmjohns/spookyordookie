@@ -142,11 +142,55 @@ export async function adminDeleteComment(commentId: string) {
 
 // ── Debates ───────────────────────────────────────────────────────────────────
 
-export async function adminUpdateDebatePrompt(threadId: string, prompt: string) {
+export async function adminUpdateDebatePrompt(
+  threadId: string,
+  prompt: string,
+  titleId?: string,
+  mediaType?: string,
+) {
   const svc = await requireAdmin();
   const { error } = await svc.from("debate_threads").update({ prompt: prompt.trim() }).eq("id", threadId);
   if (error) return { error: error.message };
   revalidatePath("/admin/debates");
+  if (titleId && mediaType) {
+    revalidatePath(`/${mediaType === "movie" ? "movies" : "tv"}/${titleId}`);
+  }
+  return { success: true };
+}
+
+export async function adminSearchTitles(query: string) {
+  const svc = await requireAdmin();
+  if (!query.trim()) return [];
+  const { data } = await svc
+    .from("titles")
+    .select("id,title,media_type,release_year")
+    .ilike("title", `%${query.trim()}%`)
+    .order("title")
+    .limit(10);
+  return (data ?? []) as { id: string; title: string; media_type: string; release_year: number | null }[];
+}
+
+export async function adminCreateDebateThread(titleId: string, prompt: string, mediaType: string) {
+  const svc = await requireAdmin();
+
+  const { data: existing } = await svc
+    .from("debate_threads")
+    .select("id")
+    .eq("title_id", titleId)
+    .maybeSingle();
+
+  if (existing) {
+    return { error: "This title already has a debate thread. You can edit the existing one instead." };
+  }
+
+  const { error } = await svc
+    .from("debate_threads")
+    .insert({ title_id: titleId, prompt: prompt.trim() });
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/admin/debates");
+  revalidatePath(`/${mediaType === "movie" ? "movies" : "tv"}/${titleId}`);
   return { success: true };
 }
 
