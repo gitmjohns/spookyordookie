@@ -246,7 +246,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
             </p>
           )}
           <p className="text-sm text-specter mb-6">
-            Are you sure you want to delete <strong className="text-ghost">{modal.username}</strong>'s account? This will permanently remove all their ratings, comments, and activity. This cannot be undone.
+            Are you sure you want to delete <strong className="text-ghost">{modal.username}</strong>&apos;s account? This will permanently remove all their ratings, comments, and activity. This cannot be undone.
           </p>
           <div className="flex gap-3">
             <button

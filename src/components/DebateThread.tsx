@@ -18,6 +18,13 @@ interface DebateThreadProps {
   currentUserId?: string;
 }
 
+function timeAgo(date: string) {
+  const mins = Math.round((Date.now() - new Date(date).getTime()) / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  if (mins < 1440) return `${Math.floor(mins / 60)}h ago`;
+  return `${Math.floor(mins / 1440)}d ago`;
+}
+
 export function DebateThread({
   threadId, prompt, initialReplies, isLoggedIn, initialIsFollowing,
   currentUsername, currentEmoji, currentAvatarBg, currentUserId,
@@ -30,6 +37,7 @@ export function DebateThread({
   const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
   const [followPending, setFollowPending] = useState(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setReplies(initialReplies); }, [initialReplies]);
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -96,12 +104,6 @@ export function DebateThread({
     });
   }
 
-  const timeAgo = (date: string) => {
-    const mins = Math.round((Date.now() - new Date(date).getTime()) / 60000);
-    if (mins < 60) return `${mins}m ago`;
-    if (mins < 1440) return `${Math.floor(mins / 60)}h ago`;
-    return `${Math.floor(mins / 1440)}d ago`;
-  };
 
   return (
     <div className="rounded-2xl border border-purple-mid bg-shadow/50 overflow-hidden mb-8">
