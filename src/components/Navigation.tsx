@@ -97,7 +97,7 @@ export function Navigation() {
           <Link
             href="/"
             className="font-display text-2xl text-green-spooky hover:text-green-dark transition-colors flex-shrink-0"
-            style={{ letterSpacing: "0.02em" }}
+            style={{ letterSpacing: "-0.01em" }}
           >
             Spooky or Dookie
           </Link>
