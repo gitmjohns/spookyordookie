@@ -142,15 +142,15 @@ export interface TitleFilters {
 }
 
 function applyFilters(q: any, filters: TitleFilters) {
-  const { sort = "critic", genre, decade } = filters;
+  const { sort = "top-rated", genre, decade } = filters;
   if (genre) q = q.contains("subgenres", [genre]);
   if (decade) { const d = parseInt(decade, 10); q = q.gte("release_year", d).lte("release_year", d + 9); }
-  if (sort === "rating") q = q.order("rating_avg", { ascending: false }).order("rating_count", { ascending: false });
+  if (sort === "low-rated") q = q.order("critic_score", { ascending: true });
   else if (sort === "newest") q = q.order("release_year", { ascending: false });
   else if (sort === "oldest") q = q.order("release_year", { ascending: true });
   else if (sort === "alpha-asc") q = q.order("title", { ascending: true });
   else if (sort === "alpha-desc") q = q.order("title", { ascending: false });
-  else q = q.order("critic_score", { ascending: false });
+  else q = q.order("critic_score", { ascending: false }); // top-rated (default)
   // Stable tiebreaker — prevents the same title appearing on two pages when scores/values tie
   q = q.order("id", { ascending: true });
   return q;

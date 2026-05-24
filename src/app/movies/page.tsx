@@ -18,18 +18,18 @@ export default async function MoviesPage({ searchParams }: PageProps) {
   const limit = 42;
 
   const [{ titles, count }, user, watchlistIds] = await Promise.all([
-    getMovies({ page, limit, sort: params.sort ?? "critic", genre: params.genre ?? params.subgenre, decade: params.decade }),
+    getMovies({ page, limit, sort: params.sort ?? "top-rated", genre: params.genre ?? params.subgenre, decade: params.decade }),
     getCurrentUser(),
     getWatchlistIds(),
   ]);
   const totalPages = Math.ceil(count / limit);
   const sortLabel =
-    params.sort === "cult-classics" ? "Cult Classics"
-    : params.sort === "rating" ? "Fan Rating"
+    params.sort === "low-rated" ? "Low Rated"
     : params.sort === "newest" ? "Newest"
-    : params.sort === "alpha-asc" ? "A → Z"
-    : params.sort === "alpha-desc" ? "Z → A"
-    : "Critic Score";
+    : params.sort === "oldest" ? "Oldest"
+    : params.sort === "alpha-asc" ? "A - Z"
+    : params.sort === "alpha-desc" ? "Z - A"
+    : "Top Rated";
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">

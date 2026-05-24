@@ -3,20 +3,13 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 
-const SORT_OPTIONS_MOVIE = [
-  { key: "critic", label: "Critic Score" },
-  { key: "rating", label: "Fan Rating" },
-  { key: "newest", label: "Newest First" },
-  { key: "alpha-asc", label: "A → Z" },
-  { key: "alpha-desc", label: "Z → A" },
-];
-
-const SORT_OPTIONS_TV = [
-  { key: "critic", label: "Critic Score" },
-  { key: "rating", label: "Fan Rating" },
-  { key: "newest", label: "Newest First" },
-  { key: "alpha-asc", label: "A → Z" },
-  { key: "alpha-desc", label: "Z → A" },
+const SORT_OPTIONS = [
+  { key: "top-rated", label: "Top Rated" },
+  { key: "low-rated", label: "Low Rated" },
+  { key: "newest", label: "Newest" },
+  { key: "oldest", label: "Oldest" },
+  { key: "alpha-asc", label: "A - Z" },
+  { key: "alpha-desc", label: "Z - A" },
 ];
 
 const DECADES = [
@@ -86,7 +79,7 @@ export function FilterSidebar({ mediaType }: FilterSidebarProps) {
   const activeGenre = searchParams.get("genre") ?? searchParams.get("subgenre") ?? "";
 
   const current = {
-    sort: searchParams.get("sort") ?? "critic",
+    sort: searchParams.get("sort") ?? "top-rated",
     decade: searchParams.get("decade") ?? "",
     genre: activeGenre,
   };
@@ -103,7 +96,7 @@ export function FilterSidebar({ mediaType }: FilterSidebarProps) {
     startTransition(() => router.push(`${pathname}?${params.toString()}`));
   }
 
-  const sortOptions = mediaType === "movie" ? SORT_OPTIONS_MOVIE : SORT_OPTIONS_TV;
+  const sortOptions = SORT_OPTIONS;
   // Auto-expand the list when the active genre lives beyond the first 6 rows
   const activeGenreIdx = HORROR_GENRES.indexOf(activeGenre);
   const showAllGenres = userExpanded || activeGenreIdx >= 6;

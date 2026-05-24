@@ -3,22 +3,13 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 
-const SORT_OPTIONS_MOVIE = [
-  { key: "critic", label: "Critic Score" },
-  { key: "rating", label: "Fan Rating" },
+const SORT_OPTIONS = [
+  { key: "top-rated", label: "Top Rated" },
+  { key: "low-rated", label: "Low Rated" },
   { key: "newest", label: "Newest" },
   { key: "oldest", label: "Oldest" },
-  { key: "alpha-asc", label: "A → Z" },
-  { key: "alpha-desc", label: "Z → A" },
-];
-
-const SORT_OPTIONS_TV = [
-  { key: "critic", label: "Critic Score" },
-  { key: "rating", label: "Fan Rating" },
-  { key: "newest", label: "Newest" },
-  { key: "oldest", label: "Oldest" },
-  { key: "alpha-asc", label: "A → Z" },
-  { key: "alpha-desc", label: "Z → A" },
+  { key: "alpha-asc", label: "A - Z" },
+  { key: "alpha-desc", label: "Z - A" },
 ];
 
 const HORROR_GENRES = [
@@ -50,7 +41,7 @@ export function FilterPills({ mediaType }: FilterPillsProps) {
 
   const activeGenre = searchParams.get("genre") ?? searchParams.get("subgenre") ?? "";
   const current = {
-    sort: searchParams.get("sort") ?? "critic",
+    sort: searchParams.get("sort") ?? "top-rated",
     genre: activeGenre,
   };
 
@@ -65,7 +56,7 @@ export function FilterPills({ mediaType }: FilterPillsProps) {
     startTransition(() => router.push(`${pathname}?${params.toString()}`));
   }
 
-  const sortOptions = mediaType === "movie" ? SORT_OPTIONS_MOVIE : SORT_OPTIONS_TV;
+  const sortOptions = SORT_OPTIONS;
 
   const pillBase = "flex-shrink-0 px-3 py-2 rounded-full text-sm font-medium transition-colors";
   const pillActive = "bg-purple-mid text-ghost";

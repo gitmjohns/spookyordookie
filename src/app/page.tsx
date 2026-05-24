@@ -81,7 +81,7 @@ async function SpookyGoat({ isLoggedIn, watchlistIds }: RowProps) {
       <SectionHeader
         title="Spooky G.O.A.T."
         sub="The greatest horror films ever made — Critic Score 85+"
-        href="/movies?sort=critic"
+        href="/movies?sort=top-rated"
       />
       <TitleGrid titles={titles} isLoggedIn={isLoggedIn} watchlistIds={watchlistIds} />
     </section>
