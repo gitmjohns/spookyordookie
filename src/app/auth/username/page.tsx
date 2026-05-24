@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { UsernameForm } from "./UsernameForm";
 
-export const metadata = { title: "Choose Your Username — SpookyorDookie" };
+export const metadata = { title: "Choose Your Username — Spooky or Dookie" };
 
 export default async function UsernamePage() {
   const supabase = await createClient();

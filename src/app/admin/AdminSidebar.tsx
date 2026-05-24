@@ -61,7 +61,7 @@ export function AdminSidebar({ open = false, onClose }: Props) {
       {/* Desktop: always-visible sidebar */}
       <aside className="hidden md:flex w-56 flex-shrink-0 bg-crypt border-r border-shadow flex-col min-h-screen">
         <div className="px-5 py-5 border-b border-shadow">
-          <p className="font-display text-green-spooky text-lg leading-tight">SpookyorDookie</p>
+          <p className="font-display text-green-spooky text-lg leading-tight">Spooky or Dookie</p>
           <p className="text-xs text-muted uppercase tracking-widest mt-0.5">Admin Crypt</p>
         </div>
         {navContent}
@@ -75,7 +75,7 @@ export function AdminSidebar({ open = false, onClose }: Props) {
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-shadow">
           <div>
-            <p className="font-display text-green-spooky text-lg leading-tight">SpookyorDookie</p>
+            <p className="font-display text-green-spooky text-lg leading-tight">Spooky or Dookie</p>
             <p className="text-xs text-muted uppercase tracking-widest mt-0.5">Admin Crypt</p>
           </div>
           <button

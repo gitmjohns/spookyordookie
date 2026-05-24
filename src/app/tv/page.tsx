@@ -6,7 +6,7 @@ import { FilterPills } from "@/components/FilterPills";
 import { Pagination } from "@/components/Pagination";
 import { getTV, getWatchlistIds, getCurrentUser } from "@/lib/data";
 
-export const metadata = { title: "Serial Spooks: TV — SpookyorDookie" };
+export const metadata = { title: "Serial Spooks: TV — Spooky or Dookie" };
 
 interface PageProps {
   searchParams: Promise<Record<string, string>>;

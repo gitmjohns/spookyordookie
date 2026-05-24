@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "About — SpookyorDookie" };
+export const metadata: Metadata = { title: "About — Spooky or Dookie" };
 
 export default function AboutPage() {
   return (
@@ -9,7 +9,7 @@ export default function AboutPage() {
 
       <div className="space-y-6 text-specter leading-relaxed">
         <p>
-          SpookyorDookie is a horror film and TV rating site built for people who take their scares seriously.
+          Spooky or Dookie is a horror film and TV rating site built for people who take their scares seriously.
           Rate everything from certified classics to straight-to-VOD nonsense, and find out what the community thinks is Spooky — and what&apos;s just Dookie.
         </p>
         <p>

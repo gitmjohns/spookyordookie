@@ -185,7 +185,7 @@ export default async function HomePage() {
       <div className="relative w-full h-[22vw] min-h-[140px] max-h-[360px] overflow-hidden">
         <Image
           src="/newbannerimageskeleton.PNG"
-          alt="SpookyorDookie"
+          alt="Spooky or Dookie"
           fill
           priority
           className="object-cover object-center"
@@ -197,11 +197,9 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/55 to-void/30 flex flex-col items-center justify-center px-4">
           <h1
             className="font-display text-center whitespace-nowrap select-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
-            style={{ textShadow: "0 2px 20px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1)" }}
+            style={{ color: "#7dff6b", WebkitTextStroke: "2px #0f8000", textShadow: "0 2px 20px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1)" }}
           >
-            <span style={{ color: "#7dff6b" }}>Spooky</span>
-            <span className="text-white mx-2 sm:mx-4">or</span>
-            <span style={{ color: "#c87030" }}>Dookie?</span>
+            Spooky or Dookie
           </h1>
           <p
             className="mt-2 sm:mt-3 text-base sm:text-lg md:text-xl font-semibold tracking-wide text-center select-none"

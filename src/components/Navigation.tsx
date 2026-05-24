@@ -97,8 +97,9 @@ export function Navigation() {
           <Link
             href="/"
             className="font-display text-2xl text-green-spooky hover:text-green-dark transition-colors flex-shrink-0"
+            style={{ letterSpacing: "0.04em", WebkitTextStroke: "1px #0f8000" }}
           >
-            SpookyorDookie
+            Spooky or Dookie
           </Link>
 
           {/* Desktop nav links */}

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { WatchlistCard } from "@/components/WatchlistCard";
 
-export const metadata = { title: "My Watchlist — SpookyorDookie" };
+export const metadata = { title: "My Watchlist — Spooky or Dookie" };
 
 interface PageProps {
   searchParams: Promise<Record<string, string>>;

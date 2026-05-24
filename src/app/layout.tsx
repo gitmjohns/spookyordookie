@@ -15,11 +15,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SpookyorDookie — Horror Reviews",
+  title: "Spooky or Dookie — Horror Reviews",
   description:
     "Rate horror movies and TV shows. Is it Spooky or Dookie?",
   openGraph: {
-    title: "SpookyorDookie",
+    title: "Spooky or Dookie",
     description: "Rate horror films and TV shows from Spooky to Dookie.",
     type: "website",
   },
@@ -38,7 +38,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <footer className="border-t border-shadow py-8 text-center text-muted text-sm">
           <p>
-            &copy; {new Date().getFullYear()} SpookyorDookie &mdash; The best slasher, supernatural, and creature horror from 1968 to present.
+            &copy; {new Date().getFullYear()} Spooky or Dookie &mdash; The best slasher, supernatural, and creature horror from 1968 to present.
           </p>
           <div className="mt-4 flex flex-col items-center gap-2">
             <a

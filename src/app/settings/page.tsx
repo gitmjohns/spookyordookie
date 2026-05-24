@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SettingsForm } from "./SettingsForm";
 
-export const metadata = { title: "Settings — SpookyorDookie" };
+export const metadata = { title: "Settings — Spooky or Dookie" };
 
 export default async function SettingsPage() {
   const supabase = await createClient();

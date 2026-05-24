@@ -13,7 +13,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { username } = await params;
-  return { title: `${username} — SpookyorDookie` };
+  return { title: `${username} — Spooky or Dookie` };
 }
 
 function timeAgo(date: string) {

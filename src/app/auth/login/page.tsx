@@ -59,7 +59,7 @@ export default function LoginPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">💀</div>
           <h1 className="font-display text-4xl text-green-spooky leading-tight">
-            SpookyorDookie
+            Spooky or Dookie
           </h1>
           <p className="text-specter mt-3 text-sm leading-relaxed">
             Rate every horror title from Spooky to Dookie

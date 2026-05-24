@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { id } = await params;
   const title = await getTitleById(id, "tv");
   if (!title) return { title: "Not Found" };
-  return { title: `${title.title} — SpookyorDookie`, description: title.overview ?? undefined };
+  return { title: `${title.title} — Spooky or Dookie`, description: title.overview ?? undefined };
 }
 
 export default async function TVDetailPage({ params }: PageProps) {
