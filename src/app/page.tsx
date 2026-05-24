@@ -188,7 +188,8 @@ export default async function HomePage() {
           alt="Spooky or Dookie"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover"
+          style={{ objectPosition: "center 65%" }}
         />
         <div
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
@@ -196,8 +197,8 @@ export default async function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/55 to-void/30 flex flex-col items-center justify-center px-4">
           <h1
-            className="font-display text-center whitespace-nowrap select-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
-            style={{ color: "#7dff6b", WebkitTextStroke: "1px #0f8000", textShadow: "0 2px 20px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1)" }}
+            className="font-display text-center whitespace-nowrap select-none text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl"
+            style={{ color: "#7dff6b", WebkitTextStroke: "1.5px #0f8000", textShadow: "0 2px 20px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1)" }}
           >
             Spooky or Dookie
           </h1>
