@@ -127,7 +127,7 @@ export function FilterSidebar({ mediaType }: FilterSidebarProps) {
         ))}
         <button
           onClick={() => setUserExpanded((v) => !v)}
-          className="w-full text-left px-3 py-1.5 text-xs text-muted hover:text-green-spooky transition-colors mt-0.5"
+          className="w-full text-left px-3 py-1.5 text-xs font-bold text-muted hover:text-green-spooky transition-colors mt-0.5"
         >
           {showAllGenres ? "↑ Show Less" : `+ ${HORROR_GENRES.length - 6} More`}
         </button>

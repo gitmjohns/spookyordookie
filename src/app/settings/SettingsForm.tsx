@@ -74,7 +74,7 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
   const inputCls = "w-full bg-shadow border border-purple-deep rounded-lg px-4 py-2.5 text-ghost placeholder-muted text-sm focus:outline-none focus:border-purple-mid";
   const cardCls  = "bg-tomb border border-shadow rounded-2xl p-6 space-y-4 mb-6";
   const labelCls = "block text-sm text-specter mb-1.5";
-  const saveBtnCls = "px-4 py-2 bg-purple-mid hover:bg-purple-light text-ghost text-sm font-medium rounded-lg transition-colors disabled:opacity-60";
+  const saveBtnCls = "px-4 py-2 bg-purple-mid hover:bg-purple-light text-ghost text-sm font-bold rounded-lg transition-colors disabled:opacity-60";
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -190,7 +190,7 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
           <p className="text-sm text-muted">Once you delete your account, there is no going back.</p>
           <button
             onClick={() => setShowDeleteModal(true)}
-            className="px-4 py-2 border border-dookie text-dookie hover:bg-dookie/10 text-sm font-medium rounded-lg transition-colors"
+            className="px-4 py-2 border border-dookie text-dookie hover:bg-dookie/10 text-sm font-bold rounded-lg transition-colors"
           >
             Delete Account
           </button>
@@ -217,13 +217,13 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
               <button
                 onClick={handleDeleteAccount}
                 disabled={deletePending || deleteConfirm !== "DELETE"}
-                className="flex-1 py-2 bg-dookie hover:bg-dookie-light text-ghost text-sm font-medium rounded-lg transition-colors disabled:opacity-40"
+                className="flex-1 py-2 bg-dookie hover:bg-dookie-light text-ghost text-sm font-bold rounded-lg transition-colors disabled:opacity-40"
               >
                 {deletePending ? "Deleting…" : "Confirm Delete"}
               </button>
               <button
                 onClick={() => { setShowDeleteModal(false); setDeleteConfirm(""); setDeleteMsg(null); }}
-                className="flex-1 py-2 bg-tomb border border-shadow text-specter hover:text-ghost text-sm rounded-lg transition-colors"
+                className="flex-1 py-2 bg-tomb border border-shadow text-specter hover:text-ghost text-sm font-bold rounded-lg transition-colors"
               >
                 Cancel
               </button>

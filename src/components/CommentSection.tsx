@@ -85,15 +85,15 @@ export function CommentSection({
           <button
             type="submit"
             disabled={isPending || !text.trim()}
-            className="self-end px-5 py-2.5 bg-purple-mid hover:bg-purple-light text-ghost text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
+            className="self-end px-5 py-2.5 bg-purple-mid hover:bg-purple-light text-ghost text-sm font-bold rounded-lg transition-colors disabled:opacity-50"
           >
             {isPending ? "Posting…" : "Post"}
           </button>
         </form>
       ) : (
         <div className="bg-tomb border border-shadow rounded-xl p-4 text-center text-sm text-muted">
-          <a href="/auth/login" className="text-green-spooky hover:underline">
-            Sign in
+          <a href="/auth/login" className="font-bold text-green-spooky hover:underline">
+            Sign In
           </a>{" "}
           to leave a comment.
         </div>

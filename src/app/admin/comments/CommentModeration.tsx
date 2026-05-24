@@ -72,7 +72,7 @@ export function CommentModeration({ comments, search, page, totalPages }: Props)
               <div className="flex flex-col gap-2 flex-shrink-0">
                 <button
                   onClick={() => setConfirmDelete(c.id)}
-                  className="px-3 py-2 text-xs bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors"
+                  className="px-3 py-2 text-xs font-bold bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors"
                 >
                   Delete
                 </button>
@@ -80,7 +80,7 @@ export function CommentModeration({ comments, search, page, totalPages }: Props)
                 {!c.profiles?.banned && c.user_id && (
                   <button
                     onClick={() => setConfirmBan({ id: c.user_id, username: c.profiles?.username ?? "User" })}
-                    className="hidden md:block px-3 py-2 text-xs bg-shadow text-orange-400 rounded hover:bg-orange-900/20 transition-colors"
+                    className="hidden md:block px-3 py-2 text-xs font-bold bg-shadow text-orange-400 rounded hover:bg-orange-900/20 transition-colors"
                   >
                     Ban User
                   </button>
@@ -109,11 +109,11 @@ export function CommentModeration({ comments, search, page, totalPages }: Props)
               <button
                 onClick={() => { startTransition(async () => { await adminDeleteComment(confirmDelete); setConfirmDelete(null); }); }}
                 disabled={pending}
-                className="flex-1 py-2 bg-red-900 text-red-100 font-medium rounded-lg hover:bg-red-800 text-sm"
+                className="flex-1 py-2 bg-red-900 text-red-100 font-bold rounded-lg hover:bg-red-800 text-sm"
               >
                 {pending ? "Deleting..." : "Delete"}
               </button>
-              <button onClick={() => setConfirmDelete(null)} className="flex-1 py-2 bg-shadow text-specter font-medium rounded-lg text-sm">Cancel</button>
+              <button onClick={() => setConfirmDelete(null)} className="flex-1 py-2 bg-shadow text-specter font-bold rounded-lg text-sm">Cancel</button>
             </div>
           </div>
         </div>
@@ -128,11 +128,11 @@ export function CommentModeration({ comments, search, page, totalPages }: Props)
               <button
                 onClick={() => { startTransition(async () => { await adminBanUser(confirmBan.id, true); setConfirmBan(null); }); }}
                 disabled={pending}
-                className="flex-1 py-2 bg-orange-900 text-orange-100 font-medium rounded-lg hover:bg-orange-800 text-sm"
+                className="flex-1 py-2 bg-orange-900 text-orange-100 font-bold rounded-lg hover:bg-orange-800 text-sm"
               >
                 {pending ? "Banning..." : "Ban User"}
               </button>
-              <button onClick={() => setConfirmBan(null)} className="flex-1 py-2 bg-shadow text-specter font-medium rounded-lg text-sm">Cancel</button>
+              <button onClick={() => setConfirmBan(null)} className="flex-1 py-2 bg-shadow text-specter font-bold rounded-lg text-sm">Cancel</button>
             </div>
           </div>
         </div>

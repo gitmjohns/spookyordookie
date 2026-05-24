@@ -70,7 +70,7 @@ export function WatchlistButton({
       onClick={handleClick}
       disabled={isPending}
       className={cn(
-        "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+        "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200",
         inList
           ? "bg-green-spooky text-void"
           : "bg-tomb border border-shadow text-specter hover:border-purple-mid hover:text-ghost",

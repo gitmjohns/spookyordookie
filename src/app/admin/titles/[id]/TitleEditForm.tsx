@@ -166,7 +166,7 @@ export function TitleEditForm({ title }: { title: Title }) {
         </button>
         <button
           onClick={() => setShowDelete(true)}
-          className="px-4 py-2 bg-shadow text-red-400 text-sm rounded-lg hover:bg-red-900/30 transition-colors"
+          className="px-4 py-2 bg-shadow text-red-400 text-sm font-bold rounded-lg hover:bg-red-900/30 transition-colors"
         >
           Delete Title
         </button>
@@ -181,13 +181,13 @@ export function TitleEditForm({ title }: { title: Title }) {
               <button
                 onClick={handleDelete}
                 disabled={pending}
-                className="flex-1 py-2 bg-red-900 text-red-100 font-medium rounded-lg hover:bg-red-800 transition-colors text-sm"
+                className="flex-1 py-2 bg-red-900 text-red-100 font-bold rounded-lg hover:bg-red-800 transition-colors text-sm"
               >
                 {pending ? "Removing..." : "Yes, Remove"}
               </button>
               <button
                 onClick={() => setShowDelete(false)}
-                className="flex-1 py-2 bg-shadow text-specter font-medium rounded-lg hover:bg-purple-deep transition-colors text-sm"
+                className="flex-1 py-2 bg-shadow text-specter font-bold rounded-lg hover:bg-purple-deep transition-colors text-sm"
               >
                 Cancel
               </button>

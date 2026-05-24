@@ -149,9 +149,9 @@ export function NotificationBell() {
             <Link
               href="/notifications"
               onClick={() => setIsOpen(false)}
-              className="text-xs text-green-spooky hover:underline"
+              className="text-xs font-bold text-green-spooky hover:underline"
             >
-              View all →
+              View All →
             </Link>
           </div>
         </div>

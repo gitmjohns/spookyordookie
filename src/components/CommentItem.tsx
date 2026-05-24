@@ -125,22 +125,22 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={() => { setIsEditing(true); setEditText(displayContent); setShowDeleteConfirm(false); }}
-                className="text-xs text-muted hover:text-specter transition-colors"
+                className="text-xs font-bold text-muted hover:text-specter transition-colors"
               >
                 Edit
               </button>
               {!showDeleteConfirm ? (
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
-                  className="text-xs text-muted hover:text-dookie-light transition-colors"
+                  className="text-xs font-bold text-muted hover:text-dookie-light transition-colors"
                 >
                   Delete
                 </button>
               ) : (
                 <span className="flex items-center gap-1.5">
                   <span className="text-xs text-muted">Delete?</span>
-                  <button onClick={handleDelete} disabled={isPending} className="text-xs text-dookie-light hover:text-dookie font-medium transition-colors">Yes</button>
-                  <button onClick={() => setShowDeleteConfirm(false)} className="text-xs text-muted hover:text-specter transition-colors">No</button>
+                  <button onClick={handleDelete} disabled={isPending} className="text-xs text-dookie-light hover:text-dookie font-bold transition-colors">Yes</button>
+                  <button onClick={() => setShowDeleteConfirm(false)} className="text-xs font-bold text-muted hover:text-specter transition-colors">No</button>
                 </span>
               )}
             </div>
@@ -160,13 +160,13 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
               <button
                 onClick={handleEditSave}
                 disabled={isPending || !editText.trim()}
-                className="px-3 py-1.5 bg-purple-mid hover:bg-purple-light text-ghost text-xs rounded-lg transition-colors disabled:opacity-50"
+                className="px-3 py-1.5 bg-purple-mid hover:bg-purple-light text-ghost text-xs font-bold rounded-lg transition-colors disabled:opacity-50"
               >
                 {isPending ? "Saving…" : "Save"}
               </button>
               <button
                 onClick={() => { setIsEditing(false); setEditText(displayContent); }}
-                className="px-3 py-1.5 bg-shadow text-muted hover:text-ghost text-xs rounded-lg transition-colors"
+                className="px-3 py-1.5 bg-shadow text-muted hover:text-ghost text-xs font-bold rounded-lg transition-colors"
               >
                 Cancel
               </button>
@@ -202,7 +202,7 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
           </button>
 
           {isLoggedIn && depth < 3 && !isEditing && (
-            <button onClick={() => setShowReply((v) => !v)} className="text-xs text-muted hover:text-specter transition-colors">
+            <button onClick={() => setShowReply((v) => !v)} className="text-xs font-bold text-muted hover:text-specter transition-colors">
               {showReply ? "Cancel" : "Reply"}
             </button>
           )}
@@ -218,7 +218,7 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
             maxLength={1000}
             className="flex-1 bg-shadow border border-purple-deep rounded-lg px-3 py-2 text-sm text-ghost placeholder-muted focus:outline-none focus:border-purple-mid"
           />
-          <button type="submit" disabled={isPending || !replyText.trim()} className="px-4 py-2 bg-purple-mid hover:bg-purple-light text-ghost text-sm rounded-lg transition-colors disabled:opacity-50">
+          <button type="submit" disabled={isPending || !replyText.trim()} className="px-4 py-2 bg-purple-mid hover:bg-purple-light text-ghost text-sm font-bold rounded-lg transition-colors disabled:opacity-50">
             Reply
           </button>
         </form>

@@ -129,7 +129,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <Link
                       href={`/admin/users/${u.id}`}
-                      className="px-2 py-1 text-xs bg-purple-deep text-purple-light rounded hover:bg-purple-mid transition-colors"
+                      className="px-2 py-1 text-xs font-bold bg-purple-deep text-purple-light rounded hover:bg-purple-mid transition-colors"
                     >
                       View
                     </Link>
@@ -140,7 +140,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                           <button
                             onClick={() => startTransition(async () => { await adminSetRole(u.id, "admin"); })}
                             disabled={pending}
-                            className="px-2 py-1 text-xs bg-shadow text-green-spooky rounded hover:bg-green-spooky/10 transition-colors"
+                            className="px-2 py-1 text-xs font-bold bg-shadow text-green-spooky rounded hover:bg-green-spooky/10 transition-colors"
                           >
                             Make Admin
                           </button>
@@ -148,7 +148,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                           <button
                             onClick={() => onRevokeClick(u)}
                             disabled={pending}
-                            className="px-2 py-1 text-xs bg-shadow text-yellow-400 rounded hover:bg-yellow-900/20 transition-colors"
+                            className="px-2 py-1 text-xs font-bold bg-shadow text-yellow-400 rounded hover:bg-yellow-900/20 transition-colors"
                           >
                             Revoke Admin
                           </button>
@@ -158,7 +158,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                           <button
                             onClick={() => onBanClick(u)}
                             disabled={pending}
-                            className="px-2 py-1 text-xs bg-shadow text-orange-400 rounded hover:bg-orange-900/20 transition-colors"
+                            className="px-2 py-1 text-xs font-bold bg-shadow text-orange-400 rounded hover:bg-orange-900/20 transition-colors"
                           >
                             Ban
                           </button>
@@ -166,7 +166,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                           <button
                             onClick={() => startTransition(async () => { await adminBanUser(u.id, false); })}
                             disabled={pending}
-                            className="px-2 py-1 text-xs bg-shadow text-green-spooky rounded hover:bg-green-spooky/10 transition-colors"
+                            className="px-2 py-1 text-xs font-bold bg-shadow text-green-spooky rounded hover:bg-green-spooky/10 transition-colors"
                           >
                             Unban
                           </button>
@@ -177,7 +177,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
                     {!u.is_prime_admin && (
                       <button
                         onClick={() => onDeleteClick(u)}
-                        className="px-2 py-1 text-xs bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors"
+                        className="px-2 py-1 text-xs font-bold bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors"
                       >
                         Delete
                       </button>
@@ -205,7 +205,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
         <Dialog>
           <h3 className="text-lg font-display text-ghost mb-3">Cannot Delete This Account</h3>
           <p className="text-sm text-specter mb-6">This account cannot be deleted.</p>
-          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-medium rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
+          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-bold rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
         </Dialog>
       )}
 
@@ -214,7 +214,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
         <Dialog>
           <h3 className="text-lg font-display text-ghost mb-3">Cannot Revoke This Access</h3>
           <p className="text-sm text-specter mb-6">The prime admin role cannot be changed.</p>
-          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-medium rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
+          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-bold rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
         </Dialog>
       )}
 
@@ -223,7 +223,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
         <Dialog>
           <h3 className="text-lg font-display text-ghost mb-3">Cannot Delete Your Own Account</h3>
           <p className="text-sm text-specter mb-6">You cannot delete your own admin account. Please ask another admin to do this.</p>
-          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-medium rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
+          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-bold rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
         </Dialog>
       )}
 
@@ -232,7 +232,7 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
         <Dialog>
           <h3 className="text-lg font-display text-ghost mb-3">Cannot Revoke Your Own Access</h3>
           <p className="text-sm text-specter mb-6">You cannot revoke your own admin access. Please ask another admin to do this.</p>
-          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-medium rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
+          <button onClick={() => setModal(null)} className="w-full py-2 bg-shadow text-ghost font-bold rounded-lg hover:bg-purple-deep transition-colors text-sm">OK</button>
         </Dialog>
       )}
 
@@ -252,11 +252,11 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
             <button
               onClick={() => { startTransition(async () => { await adminDeleteUser(modal.userId); setModal(null); }); }}
               disabled={pending}
-              className="flex-1 py-2 bg-red-900 text-red-100 font-medium rounded-lg hover:bg-red-800 transition-colors text-sm"
+              className="flex-1 py-2 bg-red-900 text-red-100 font-bold rounded-lg hover:bg-red-800 transition-colors text-sm"
             >
               {pending ? "Deleting..." : "Delete"}
             </button>
-            <button onClick={() => setModal(null)} className="flex-1 py-2 bg-shadow text-specter font-medium rounded-lg text-sm">Cancel</button>
+            <button onClick={() => setModal(null)} className="flex-1 py-2 bg-shadow text-specter font-bold rounded-lg text-sm">Cancel</button>
           </div>
         </Dialog>
       )}
@@ -272,11 +272,11 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
             <button
               onClick={() => { startTransition(async () => { await adminSetRole(modal.userId, "user"); setModal(null); }); }}
               disabled={pending}
-              className="flex-1 py-2 bg-yellow-900 text-yellow-100 font-medium rounded-lg hover:bg-yellow-800 transition-colors text-sm"
+              className="flex-1 py-2 bg-yellow-900 text-yellow-100 font-bold rounded-lg hover:bg-yellow-800 transition-colors text-sm"
             >
               {pending ? "Revoking..." : "Revoke Admin"}
             </button>
-            <button onClick={() => setModal(null)} className="flex-1 py-2 bg-shadow text-specter font-medium rounded-lg text-sm">Cancel</button>
+            <button onClick={() => setModal(null)} className="flex-1 py-2 bg-shadow text-specter font-bold rounded-lg text-sm">Cancel</button>
           </div>
         </Dialog>
       )}
@@ -292,11 +292,11 @@ export function UserTable({ users, search, page, totalPages, currentUserId }: Pr
             <button
               onClick={() => { startTransition(async () => { await adminBanUser(modal.userId, true); setModal(null); }); }}
               disabled={pending}
-              className="flex-1 py-2 bg-orange-900 text-orange-100 font-medium rounded-lg hover:bg-orange-800 transition-colors text-sm"
+              className="flex-1 py-2 bg-orange-900 text-orange-100 font-bold rounded-lg hover:bg-orange-800 transition-colors text-sm"
             >
               {pending ? "Banning..." : "Ban User"}
             </button>
-            <button onClick={() => setModal(null)} className="flex-1 py-2 bg-shadow text-specter font-medium rounded-lg text-sm">Cancel</button>
+            <button onClick={() => setModal(null)} className="flex-1 py-2 bg-shadow text-specter font-bold rounded-lg text-sm">Cancel</button>
           </div>
         </Dialog>
       )}

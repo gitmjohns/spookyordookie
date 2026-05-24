@@ -119,7 +119,7 @@ export function DebateThread({
           <button
             onClick={handleFollowToggle}
             disabled={followPending}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-colors disabled:opacity-50 ${
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-colors disabled:opacity-50 ${
               isFollowing
                 ? "bg-green-spooky/15 text-green-spooky hover:bg-red-900/20 hover:text-dookie-light"
                 : "bg-shadow/80 text-specter hover:bg-purple-mid hover:text-ghost"
@@ -178,7 +178,7 @@ export function DebateThread({
                     {isOwn && !isEditingThis && (
                       <button
                         onClick={() => startEdit(r.id, r.content)}
-                        className="text-xs text-muted hover:text-specter transition-colors opacity-0 group-hover:opacity-100"
+                        className="text-xs font-bold text-muted hover:text-specter transition-colors opacity-0 group-hover:opacity-100"
                       >
                         Edit
                       </button>
@@ -198,13 +198,13 @@ export function DebateThread({
                         <button
                           onClick={() => saveEdit(r.id)}
                           disabled={isPending || !editText.trim()}
-                          className="px-3 py-1 bg-purple-mid hover:bg-purple-light text-ghost text-xs rounded-lg transition-colors disabled:opacity-50"
+                          className="px-3 py-1 bg-purple-mid hover:bg-purple-light text-ghost text-xs font-bold rounded-lg transition-colors disabled:opacity-50"
                         >
                           {isPending ? "Saving…" : "Save"}
                         </button>
                         <button
                           onClick={cancelEdit}
-                          className="px-3 py-1 bg-shadow text-muted hover:text-ghost text-xs rounded-lg transition-colors"
+                          className="px-3 py-1 bg-shadow text-muted hover:text-ghost text-xs font-bold rounded-lg transition-colors"
                         >
                           Cancel
                         </button>
@@ -234,14 +234,14 @@ export function DebateThread({
             <button
               type="submit"
               disabled={isPending || !text.trim()}
-              className="px-4 py-2 bg-purple-mid hover:bg-purple-light text-ghost text-sm rounded-lg transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-purple-mid hover:bg-purple-light text-ghost text-sm font-bold rounded-lg transition-colors disabled:opacity-50"
             >
               Post
             </button>
           </form>
         ) : (
           <p className="text-center text-sm text-muted">
-            <a href="/auth/login" className="text-green-spooky hover:underline">Sign in</a> to join the debate.
+            <a href="/auth/login" className="font-bold text-green-spooky hover:underline">Sign In</a> to join the debate.
           </p>
         )}
       </div>

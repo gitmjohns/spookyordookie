@@ -190,7 +190,7 @@ export function DebateManagement({ threads, selectedThreadId, replies }: Props) 
             </button>
             <button
               onClick={cancelCreate}
-              className="px-4 py-1.5 bg-shadow text-specter text-sm rounded-lg hover:bg-tomb transition-colors"
+              className="px-4 py-1.5 bg-shadow text-specter text-sm font-bold rounded-lg hover:bg-tomb transition-colors"
             >
               Cancel
             </button>
@@ -240,7 +240,7 @@ export function DebateManagement({ threads, selectedThreadId, replies }: Props) 
                   {editingThread !== selectedThread.id && (
                     <button
                       onClick={() => startEdit(selectedThread)}
-                      className="px-3 py-1.5 text-xs bg-purple-deep text-purple-light rounded hover:bg-purple-mid transition-colors flex-shrink-0"
+                      className="px-3 py-1.5 text-xs font-bold bg-purple-deep text-purple-light rounded hover:bg-purple-mid transition-colors flex-shrink-0"
                     >
                       Edit Prompt
                     </button>
@@ -265,7 +265,7 @@ export function DebateManagement({ threads, selectedThreadId, replies }: Props) 
                       </button>
                       <button
                         onClick={() => setEditingThread(null)}
-                        className="px-4 py-1.5 bg-shadow text-specter text-sm rounded-lg hover:bg-tomb transition-colors"
+                        className="px-4 py-1.5 bg-shadow text-specter text-sm font-bold rounded-lg hover:bg-tomb transition-colors"
                       >
                         Cancel
                       </button>
@@ -300,7 +300,7 @@ export function DebateManagement({ threads, selectedThreadId, replies }: Props) 
                       </div>
                       <button
                         onClick={() => setConfirmReply(r.id)}
-                        className="px-2.5 py-1 text-xs bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors flex-shrink-0"
+                        className="px-2.5 py-1 text-xs font-bold bg-shadow text-red-400 rounded hover:bg-red-900/30 transition-colors flex-shrink-0"
                       >
                         Delete
                       </button>
@@ -337,13 +337,13 @@ export function DebateManagement({ threads, selectedThreadId, replies }: Props) 
                   });
                 }}
                 disabled={pending}
-                className="flex-1 py-2 bg-red-900 text-red-100 font-medium rounded-lg hover:bg-red-800 text-sm"
+                className="flex-1 py-2 bg-red-900 text-red-100 font-bold rounded-lg hover:bg-red-800 text-sm"
               >
                 {pending ? "Deleting…" : "Delete"}
               </button>
               <button
                 onClick={() => setConfirmReply(null)}
-                className="flex-1 py-2 bg-shadow text-specter font-medium rounded-lg text-sm"
+                className="flex-1 py-2 bg-shadow text-specter font-bold rounded-lg text-sm"
               >
                 Cancel
               </button>

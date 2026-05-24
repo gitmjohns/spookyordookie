@@ -22,8 +22,8 @@ function SectionHeader({ title, sub, href }: { title: string; sub: string; href?
         <p className="text-muted text-sm mt-0.5">{sub}</p>
       </div>
       {href && (
-        <Link href={href} className="text-sm text-green-spooky hover:underline shrink-0">
-          View all →
+        <Link href={href} className="text-sm font-bold text-green-spooky hover:underline shrink-0">
+          View All →
         </Link>
       )}
     </div>

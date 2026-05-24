@@ -191,9 +191,9 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
           <div className="flex justify-center mt-3">
             <button
               onClick={() => setUnlocked(true)}
-              className="text-sm text-muted hover:text-specter transition-colors underline underline-offset-2"
+              className="text-sm font-bold text-muted hover:text-specter transition-colors underline underline-offset-2"
             >
-              Changed your mind? Update your verdict
+              Changed Your Mind? Update Your Verdict
             </button>
           </div>
         )}
