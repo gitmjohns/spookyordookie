@@ -200,7 +200,7 @@ export default async function HomePage() {
             className="font-display text-center whitespace-nowrap select-none text-[2.7rem] sm:text-[3.375rem] md:text-[4.05rem] lg:text-[5.4rem] xl:text-[7.2rem]"
             style={{ color: "#7dff6b", WebkitTextStroke: "2.5px #0f8000", textShadow: "0 2px 20px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1)", letterSpacing: "0.07em" }}
           >
-            Spooky or Dookie
+            Spoo<span style={{ letterSpacing: "0.13em" }}>k</span>y or Doo<span style={{ letterSpacing: "0.13em" }}>k</span>ie
           </h1>
           <p
             className="mt-2 sm:mt-3 text-base sm:text-lg md:text-xl font-semibold tracking-wide text-center select-none"
