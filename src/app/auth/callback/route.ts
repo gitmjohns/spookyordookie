@@ -55,7 +55,9 @@ export async function GET(request: NextRequest) {
           return NextResponse.redirect(`${origin}/auth/username`);
         }
       }
-      return NextResponse.redirect(`${origin}${next}`);
+      const html = `<!DOCTYPE html><html><head></head><body><script>
+(function(){var r=localStorage.getItem('returnTo');localStorage.removeItem('returnTo');window.location.replace(r&&r.startsWith('/')&&!r.startsWith('//')?r:'/');})()</script></body></html>`;
+      return new NextResponse(html, { status: 200, headers: { "Content-Type": "text/html" } });
     }
   }
 
