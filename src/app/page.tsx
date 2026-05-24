@@ -197,7 +197,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/55 to-void/30 flex flex-col items-center justify-center px-4">
           <h1
             className="font-display text-center whitespace-nowrap select-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
-            style={{ color: "#7dff6b", WebkitTextStroke: "2px #0f8000", textShadow: "0 2px 20px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1)" }}
+            style={{ color: "#7dff6b", WebkitTextStroke: "1px #0f8000", textShadow: "0 2px 20px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1)" }}
           >
             Spooky or Dookie
           </h1>
