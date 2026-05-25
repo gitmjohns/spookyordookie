@@ -195,16 +195,19 @@ export default async function HomePage() {
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
           style={{ background: "radial-gradient(ellipse at 100% 100%, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 35%, rgba(10,10,10,0.3) 60%, transparent 80%)" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/55 to-void/30 flex flex-col items-center justify-center px-4">
-          {/* Scrim behind title text only */}
+        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/55 to-void/30 pointer-events-none" />
+        {/* Scrim layer — sits above gradient, below text content */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div
-            className="absolute pointer-events-none"
             style={{
               width: "70%",
-              height: "60%",
-              background: "radial-gradient(ellipse at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 40%, transparent 75%)",
+              height: "65%",
+              background: "radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 45%, transparent 72%)",
             }}
           />
+        </div>
+        {/* Text content — topmost layer */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
           <h1
             className="font-display text-center whitespace-nowrap select-none text-[2.4rem] sm:text-[3.1rem] md:text-[3.7rem] lg:text-[4.9rem] xl:text-[6.5rem]"
             style={{ color: "#7dff6b", letterSpacing: "-0.03em" }}
