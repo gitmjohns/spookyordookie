@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { tmdbImageUrl, getRatingColor } from "@/lib/utils";
+import { tmdbImageUrl, getRatingColor, tieredCombinedScore } from "@/lib/utils";
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -399,10 +399,8 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
               {watchlistRows.map((w) => {
                 if (!w.title) return null;
                 const posterUrl = tmdbImageUrl(w.title.poster_path, "w185");
-                const combinedScore = w.title.rating_count > 0
-                  ? w.title.critic_score * 0.4 + w.title.rating_avg * 0.6
-                  : w.title.critic_score;
-                const scoreColor = getRatingColor(combinedScore / 10);
+                const combinedScore = Math.round(tieredCombinedScore(w.title.critic_score, w.title.rating_avg, w.title.rating_count));
+                const scoreColor = getRatingColor(combinedScore);
                 const titleHref = `/${w.title.media_type === "movie" ? "movies" : "tv"}/${w.title.id}`;
                 return (
                   <div

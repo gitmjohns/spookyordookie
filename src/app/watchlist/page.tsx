@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { WatchlistCard } from "@/components/WatchlistCard";
+import { tieredCombinedScore } from "@/lib/utils";
 
 export const metadata = { title: "My Watchlist — Spooky or Dookie" };
 
@@ -70,7 +71,7 @@ export default async function WatchlistPage({ searchParams }: PageProps) {
     }
     if (sort === "score") {
       const combined = (t: typeof enriched[number]["title"]) =>
-        t.rating_count > 0 ? t.critic_score * 0.4 + t.rating_avg * 0.6 : t.critic_score;
+        tieredCombinedScore(t.critic_score, t.rating_avg, t.rating_count);
       return combined(b.title) - combined(a.title);
     }
     // date (default): newest first

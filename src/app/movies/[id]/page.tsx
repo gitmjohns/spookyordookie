@@ -9,7 +9,7 @@ import { WatchlistButton } from "@/components/WatchlistButton";
 import { TitleCard } from "@/components/TitleCard";
 import { DebateThread } from "@/components/DebateThread";
 import { SignInButton } from "@/components/SignInButton";
-import { tmdbImageUrl, getRatingColor, getRatingLabel } from "@/lib/utils";
+import { tmdbImageUrl, getRatingColor, getRatingLabel, tieredCombinedScore } from "@/lib/utils";
 import {
   getTitleById, getComments, getUserRating, getCurrentUser,
   getSimilarTitles, getWatchlistIds, getDebateThread, getDebateReplies,
@@ -50,8 +50,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
   const backdropUrl = tmdbImageUrl(title.backdrop_path, "w780");
   const posterUrl = tmdbImageUrl(title.poster_path, "w342");
 
-  const hasRatings = title.rating_count > 0;
-  const overallScore = Math.round(hasRatings ? title.critic_score * 0.4 + title.rating_avg * 0.6 : title.critic_score);
+  const overallScore = Math.round(tieredCombinedScore(title.critic_score, title.rating_avg, title.rating_count));
   const overallColor = getRatingColor(overallScore);
   const overallLabel = getRatingLabel(overallScore);
   const criticColor = getRatingColor(title.critic_score);

@@ -25,6 +25,17 @@ export function getRatingColor(score: number): string {
   return "#8b4513";
 }
 
+// Tiered weighting: fan ratings gain influence as community engagement grows.
+// ratingAvg is on 0-10 scale; criticScore and return value are on 0-100 scale.
+export function tieredCombinedScore(criticScore: number, ratingAvg: number, ratingCount: number): number {
+  const fanScore = ratingAvg * 10;
+  if (ratingCount < 10)  return criticScore;
+  if (ratingCount < 50)  return criticScore * 0.8 + fanScore * 0.2;
+  if (ratingCount < 100) return criticScore * 0.6 + fanScore * 0.4;
+  if (ratingCount < 500) return criticScore * 0.4 + fanScore * 0.6;
+  return criticScore * 0.2 + fanScore * 0.8;
+}
+
 export function tmdbImageUrl(
   path: string | null,
   size: "w185" | "w342" | "w500" | "w780" | "original" = "w342"

@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { markWatched, toggleWatchlist } from "@/app/actions/watchlist";
-import { tmdbImageUrl, getRatingColor } from "@/lib/utils";
+import { tmdbImageUrl, getRatingColor, tieredCombinedScore } from "@/lib/utils";
 
 interface WatchlistCardProps {
   entry: {
@@ -35,10 +35,8 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
 
   const posterUrl = tmdbImageUrl(title.poster_path, "w185");
   const titleHref = `/${title.media_type === "movie" ? "movies" : "tv"}/${title.id}`;
-  const combinedScore = (title.rating_count ?? 0) > 0
-    ? title.critic_score * 0.4 + (title.rating_avg ?? 0) * 0.6
-    : title.critic_score;
-  const scoreColor = getRatingColor(combinedScore / 10);
+  const combinedScore = Math.round(tieredCombinedScore(title.critic_score, title.rating_avg ?? 0, title.rating_count ?? 0));
+  const scoreColor = getRatingColor(combinedScore);
 
   function handleWatchToggle() {
     const newWatched = !watched;

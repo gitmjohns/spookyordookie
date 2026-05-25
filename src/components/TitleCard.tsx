@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { tmdbImageUrl, getRatingColor } from "@/lib/utils";
+import { tmdbImageUrl, getRatingColor, tieredCombinedScore } from "@/lib/utils";
 import { WatchlistButton } from "@/components/WatchlistButton";
 import type { Title } from "@/lib/types";
 
@@ -12,10 +12,7 @@ interface TitleCardProps {
 export function TitleCard({ title, inWatchlist, isLoggedIn }: TitleCardProps) {
   const href = title.media_type === "movie" ? `/movies/${title.id}` : `/tv/${title.id}`;
   const posterUrl = tmdbImageUrl(title.poster_path, "w342");
-  const hasUserRatings = title.rating_count > 0;
-  const displayScore = hasUserRatings
-    ? Math.round(title.critic_score * 0.4 + title.rating_avg * 0.6)
-    : title.critic_score;
+  const displayScore = Math.round(tieredCombinedScore(title.critic_score, title.rating_avg, title.rating_count));
   const scoreColor = getRatingColor(displayScore);
 
   return (

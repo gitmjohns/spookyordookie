@@ -1,4 +1,4 @@
-import { getRatingLabel, getRatingColor } from "@/lib/utils";
+import { getRatingLabel, getRatingColor, tieredCombinedScore } from "@/lib/utils";
 
 interface SpookyMeterProps {
   criticScore: number;
@@ -7,12 +7,10 @@ interface SpookyMeterProps {
 }
 
 export function SpookyMeter({ criticScore, avg, count }: SpookyMeterProps) {
-  const hasUserRatings = count > 0;
-  const fanScore = avg * 10;
-  const overallScore = hasUserRatings ? criticScore * 0.4 + fanScore * 0.6 : criticScore;
+  const overallScore = tieredCombinedScore(criticScore, avg, count);
   const displayScore = overallScore / 10;
-  const color = getRatingColor(displayScore);
-  const label = getRatingLabel(displayScore);
+  const color = getRatingColor(overallScore);
+  const label = getRatingLabel(overallScore);
 
   return (
     <div className="space-y-4">

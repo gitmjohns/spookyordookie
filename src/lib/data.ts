@@ -1,5 +1,6 @@
 import type { Title, Comment } from "./types";
 import { MOCK_TITLES, MOCK_COMMENTS, isMockMode } from "./mock-data";
+import { tieredCombinedScore } from "./utils";
 
 async function db() {
   const { createClient } = await import("./supabase/server");
@@ -141,9 +142,8 @@ export interface TitleFilters {
   limit?: number;
 }
 
-// Combined score: critic_score (0-100) weighted 40%, rating_avg (0-10) converted to 0-100 weighted 60%
 function combinedScore(t: Title): number {
-  return t.rating_count > 0 ? t.critic_score * 0.4 + t.rating_avg * 6 : t.critic_score;
+  return tieredCombinedScore(t.critic_score, t.rating_avg, t.rating_count);
 }
 
 function applyFilters(q: any, filters: TitleFilters) {
