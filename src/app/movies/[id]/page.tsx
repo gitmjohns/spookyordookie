@@ -50,6 +50,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
   const backdropUrl = tmdbImageUrl(title.backdrop_path, "w780");
   const posterUrl = tmdbImageUrl(title.poster_path, "w342");
 
+  const hasRatings = title.rating_count > 0;
   const overallScore = Math.round(tieredCombinedScore(title.critic_score, title.rating_avg, title.rating_count));
   const overallColor = getRatingColor(overallScore);
   const overallLabel = getRatingLabel(overallScore);
