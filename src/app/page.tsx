@@ -198,9 +198,9 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/55 to-void/30 flex flex-col items-center justify-center px-4">
           <h1
             className="font-display text-center whitespace-nowrap select-none text-[2.4rem] sm:text-[3.1rem] md:text-[3.7rem] lg:text-[4.9rem] xl:text-[6.5rem]"
-            style={{ color: "#7dff6b", WebkitTextStroke: "2.5px #0f8000", textShadow: "0 2px 20px rgba(0,0,0,1), 0 1px 6px rgba(0,0,0,1)", letterSpacing: "0.03em" }}
+            style={{ color: "#7dff6b", letterSpacing: "-0.03em" }}
           >
-            Spoo<span style={{ letterSpacing: "0.1em" }}>k</span>y or Doo<span style={{ letterSpacing: "0.1em" }}>k</span>ie
+            Spooky or Dookie
           </h1>
           <p
             className="mt-2 sm:mt-3 text-base sm:text-lg md:text-xl font-semibold tracking-wide text-center select-none"
