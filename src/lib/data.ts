@@ -141,27 +141,50 @@ export interface TitleFilters {
   limit?: number;
 }
 
+// Combined score: critic_score (0-100) weighted 40%, rating_avg (0-10) converted to 0-100 weighted 60%
+function combinedScore(t: Title): number {
+  return t.rating_count > 0 ? t.critic_score * 0.4 + t.rating_avg * 6 : t.critic_score;
+}
+
 function applyFilters(q: any, filters: TitleFilters) {
   const { sort = "top-rated", genre, decade } = filters;
   if (genre) q = q.contains("subgenres", [genre]);
   if (decade) { const d = parseInt(decade, 10); q = q.gte("release_year", d).lte("release_year", d + 9); }
-  if (sort === "low-rated") q = q.order("critic_score", { ascending: true });
-  else if (sort === "newest") q = q.order("release_year", { ascending: false });
+  if (sort === "newest") q = q.order("release_year", { ascending: false });
   else if (sort === "oldest") q = q.order("release_year", { ascending: true });
   else if (sort === "alpha-asc") q = q.order("title", { ascending: true });
   else if (sort === "alpha-desc") q = q.order("title", { ascending: false });
-  else q = q.order("critic_score", { ascending: false }); // top-rated (default)
   // Stable tiebreaker — prevents the same title appearing on two pages when scores/values tie
   q = q.order("id", { ascending: true });
   return q;
 }
 
-export async function getMovies(filters: TitleFilters): Promise<{ titles: Title[]; count: number }> {
+// Fetch all matching titles and sort by combined score in JS (PostgREST can't sort by computed expressions)
+async function getByScore(
+  mediaType: "movie" | "tv",
+  filters: TitleFilters,
+  ascending: boolean
+): Promise<{ titles: Title[]; count: number }> {
   const { page = 1, limit = 42 } = filters;
+  const s = await db();
+  let q = s.from("titles").select("*").eq("media_type", mediaType);
+  if (filters.genre) q = q.contains("subgenres", [filters.genre]);
+  if (filters.decade) { const d = parseInt(filters.decade, 10); q = q.gte("release_year", d).lte("release_year", d + 9); }
+  const { data } = await q.limit(5000);
+  const all = (data ?? []) as Title[];
+  all.sort((a, b) => ascending ? combinedScore(a) - combinedScore(b) : combinedScore(b) - combinedScore(a));
+  const start = (page - 1) * limit;
+  return { titles: all.slice(start, start + limit), count: all.length };
+}
+
+export async function getMovies(filters: TitleFilters): Promise<{ titles: Title[]; count: number }> {
+  const { page = 1, limit = 42, sort = "top-rated" } = filters;
   if (isMockMode()) {
     const results = MOCK_TITLES.filter((t) => t.media_type === "movie");
     return { titles: results.slice((page - 1) * limit, page * limit), count: results.length };
   }
+  if (sort === "top-rated") return getByScore("movie", filters, false);
+  if (sort === "low-rated") return getByScore("movie", filters, true);
   const s = await db();
   const offset = (page - 1) * limit;
   const base = s.from("titles").select("*", { count: "exact" }).eq("media_type", "movie").range(offset, offset + limit - 1);
@@ -170,11 +193,13 @@ export async function getMovies(filters: TitleFilters): Promise<{ titles: Title[
 }
 
 export async function getTV(filters: TitleFilters): Promise<{ titles: Title[]; count: number }> {
-  const { page = 1, limit = 42 } = filters;
+  const { page = 1, limit = 42, sort = "top-rated" } = filters;
   if (isMockMode()) {
     const results = MOCK_TITLES.filter((t) => t.media_type === "tv");
     return { titles: results.slice((page - 1) * limit, page * limit), count: results.length };
   }
+  if (sort === "top-rated") return getByScore("tv", filters, false);
+  if (sort === "low-rated") return getByScore("tv", filters, true);
   const s = await db();
   const offset = (page - 1) * limit;
   const base = s.from("titles").select("*", { count: "exact" }).eq("media_type", "tv").range(offset, offset + limit - 1);
