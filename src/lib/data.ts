@@ -56,6 +56,9 @@ export const SUBGENRE_ROTATION = [
   { display: "Vampire",           db: "Vampire" },
   { display: "Werewolf",          db: "Werewolf" },
   { display: "Body Horror",       db: "Body Horror" },
+  { display: "Occult",            db: "Occult" },
+  { display: "Action-Horror",     db: "Action-Horror" },
+  { display: "Ghost",             db: "Ghost" },
 ] as const;
 
 export function getCurrentSubgenreSpotlight() {
