@@ -78,6 +78,8 @@ type WatchlistRow = {
     poster_path: string | null;
     release_year: number | null;
     critic_score: number;
+    rating_avg: number;
+    rating_count: number;
     media_type: string;
   };
 };
@@ -137,7 +139,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
     if (wTitleIds.length > 0) {
       const { data: wTitles } = await supabase
         .from("titles")
-        .select("id,title,poster_path,release_year,critic_score,media_type")
+        .select("id,title,poster_path,release_year,critic_score,rating_avg,rating_count,media_type")
         .in("id", wTitleIds);
       const wTitleMap = Object.fromEntries((wTitles ?? []).map((t) => [t.id, t]));
       watchlistRows = (wRows ?? []).map((w: WatchlistRow) => ({
@@ -397,7 +399,10 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
               {watchlistRows.map((w) => {
                 if (!w.title) return null;
                 const posterUrl = tmdbImageUrl(w.title.poster_path, "w185");
-                const scoreColor = getRatingColor(w.title.critic_score / 10);
+                const combinedScore = w.title.rating_count > 0
+                  ? w.title.critic_score * 0.4 + w.title.rating_avg * 0.6
+                  : w.title.critic_score;
+                const scoreColor = getRatingColor(combinedScore / 10);
                 const titleHref = `/${w.title.media_type === "movie" ? "movies" : "tv"}/${w.title.id}`;
                 return (
                   <div
@@ -420,7 +425,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
                       <div className="flex items-center gap-2 mt-0.5">
                         {w.title.release_year && <span className="text-xs text-muted">{w.title.release_year}</span>}
                         <span className="text-xs font-bold px-1.5 py-0.5 rounded text-void" style={{ backgroundColor: scoreColor }}>
-                          {w.title.critic_score}
+                          {Math.round(combinedScore)}
                         </span>
                         {w.watched && (
                           <span className="text-xs text-green-spooky">✓ Watched</span>

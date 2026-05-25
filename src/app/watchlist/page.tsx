@@ -32,13 +32,15 @@ export default async function WatchlistPage({ searchParams }: PageProps) {
     poster_path: string | null;
     release_year: number | null;
     critic_score: number;
+    rating_avg: number;
+    rating_count: number;
     media_type: string;
   }[] = [];
 
   if (titleIds.length > 0) {
     const { data } = await supabase
       .from("titles")
-      .select("id,title,poster_path,release_year,critic_score,media_type")
+      .select("id,title,poster_path,release_year,critic_score,rating_avg,rating_count,media_type")
       .in("id", titleIds);
     titlesData = (data ?? []) as typeof titlesData;
   }
@@ -67,7 +69,9 @@ export default async function WatchlistPage({ searchParams }: PageProps) {
       return a.title.title.localeCompare(b.title.title);
     }
     if (sort === "score") {
-      return b.title.critic_score - a.title.critic_score;
+      const combined = (t: typeof enriched[number]["title"]) =>
+        t.rating_count > 0 ? t.critic_score * 0.4 + t.rating_avg * 0.6 : t.critic_score;
+      return combined(b.title) - combined(a.title);
     }
     // date (default): newest first
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
@@ -79,7 +83,7 @@ export default async function WatchlistPage({ searchParams }: PageProps) {
   const sortLinks = [
     { label: "Date Added", value: "date" },
     { label: "Title A-Z", value: "title" },
-    { label: "Critic Score", value: "score" },
+    { label: "Score", value: "score" },
   ];
 
   return (

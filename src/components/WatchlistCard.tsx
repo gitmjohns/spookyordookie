@@ -20,6 +20,8 @@ interface WatchlistCardProps {
     poster_path: string | null;
     release_year: number | null;
     critic_score: number;
+    rating_avg?: number;
+    rating_count?: number;
     media_type: string;
   };
 }
@@ -33,7 +35,10 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
 
   const posterUrl = tmdbImageUrl(title.poster_path, "w185");
   const titleHref = `/${title.media_type === "movie" ? "movies" : "tv"}/${title.id}`;
-  const scoreColor = getRatingColor(title.critic_score / 10);
+  const combinedScore = (title.rating_count ?? 0) > 0
+    ? title.critic_score * 0.4 + (title.rating_avg ?? 0) * 0.6
+    : title.critic_score;
+  const scoreColor = getRatingColor(combinedScore / 10);
 
   function handleWatchToggle() {
     const newWatched = !watched;
@@ -89,7 +94,7 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
             className="text-xs font-bold px-1.5 py-0.5 rounded text-void"
             style={{ backgroundColor: scoreColor }}
           >
-            {title.critic_score}
+            {Math.round(combinedScore)}
           </span>
         </div>
       </div>
