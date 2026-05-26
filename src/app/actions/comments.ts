@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { applyWordFilter } from "@/lib/wordFilter";
+import { sanitizeText } from "@/lib/sanitize";
 
 export async function downvoteComment(commentId: string) {
   const supabase = await createClient();
@@ -44,7 +45,7 @@ export async function addComment(
   const { error } = await supabase.from("comments").insert({
     user_id: user.id,
     title_id: titleId,
-    content: applyWordFilter(content),
+    content: applyWordFilter(sanitizeText(content)),
     parent_id: parentId,
   });
 
@@ -70,7 +71,7 @@ export async function editComment(commentId: string, content: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
-  const trimmed = applyWordFilter(content.trim());
+  const trimmed = applyWordFilter(sanitizeText(content.trim()));
   if (!trimmed) return { error: "Comment cannot be empty" };
   const { error } = await supabase.from("comments")
     .update({ content: trimmed })
