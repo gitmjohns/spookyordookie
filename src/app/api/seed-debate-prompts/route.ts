@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -196,7 +196,11 @@ const DEBATE_PROMPTS: Record<string, string> = {
   "the outsider": "Does The Outsider succeed as a Stephen King adaptation, or does the supernatural element feel grafted on?",
 };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (request.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   // Fetch all titles to match against
   const { data: titles, error } = await supabase
     .from("titles")
