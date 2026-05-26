@@ -1,25 +1,16 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms of Service — Spooky or Dookie",
 };
 
-function Section({ n, heading, children }: { n: number; heading: string; children: React.ReactNode }) {
+function Section({ heading, children }: { heading: string; children: React.ReactNode }) {
   return (
     <section className="space-y-3">
-      <h2 className="text-lg font-bold text-green-spooky">
-        {n}. {heading}
-      </h2>
+      <h2 className="text-lg font-bold text-green-spooky">{heading}</h2>
       <div className="text-ghost/90 leading-relaxed space-y-2">{children}</div>
     </section>
-  );
-}
-
-function Bullets({ items }: { items: string[] }) {
-  return (
-    <ul className="list-disc list-inside space-y-1 text-ghost/80 pl-1">
-      {items.map((item) => <li key={item}>{item}</li>)}
-    </ul>
   );
 }
 
@@ -32,102 +23,61 @@ export default function TermsPage() {
       </div>
 
       <div className="space-y-10">
-        <Section n={1} heading="Acceptance of Terms">
+        <Section heading="Using the Site">
           <p>
-            By accessing or using SpookyorDookie.com you agree to be bound by these Terms of Service.
-            If you do not agree to these terms do not use the site.
+            By using SpookyorDookie you agree to these terms. You must be at least 13 years old to
+            use the site.
           </p>
         </Section>
 
-        <Section n={2} heading="Who Can Use the Site">
+        <Section heading="Your Account">
           <p>
-            You must be at least 13 years old to use SpookyorDookie. By using the site you confirm
-            you meet this requirement.
+            You are responsible for your account and all activity under it. Contact us immediately
+            if you believe your account has been compromised.
           </p>
         </Section>
 
-        <Section n={3} heading="Your Account">
+        <Section heading="Your Content">
           <p>
-            You are responsible for maintaining the security of your account. You are responsible for
-            all activity that occurs under your account. You must notify us immediately of any
-            unauthorized use of your account at{" "}
-            <a href="mailto:admin@spookyordookie.com" className="text-green-spooky hover:underline">
-              admin@spookyordookie.com
-            </a>
+            You own the content you post. By posting you give us permission to display it on the
+            site. You agree not to post content that is abusive, harassing, or illegal.
           </p>
         </Section>
 
-        <Section n={4} heading="Content You Post">
+        <Section heading="Rating Integrity">
           <p>
-            You retain ownership of content you post on SpookyorDookie including ratings, reviews,
-            and comments. By posting content you grant SpookyorDookie a non-exclusive license to
-            display and distribute that content on the site.
-          </p>
-          <p>You agree not to post content that:</p>
-          <Bullets items={[
-            "Is abusive, harassing, threatening, or hateful toward other users",
-            "Infringes on anyone's intellectual property rights",
-            "Contains spam or commercial solicitation",
-            "Violates any applicable law",
-          ]} />
-        </Section>
-
-        <Section n={5} heading="Our Content">
-          <p>
-            The SpookyorDookie name, logo, and site design are our intellectual property. Movie and
-            TV show data and images are provided by TMDB under their terms of use.
+            Rate titles based on your genuine opinion. Creating multiple accounts to manipulate
+            scores is prohibited and may result in account termination.
           </p>
         </Section>
 
-        <Section n={6} heading="Moderation">
+        <Section heading="Moderation">
           <p>
-            We reserve the right to remove any content that violates these terms and to suspend or
-            terminate accounts that repeatedly violate these terms. We are not obligated to moderate
-            all content but reserve the right to do so.
+            We reserve the right to remove content or suspend accounts that violate these terms.
           </p>
         </Section>
 
-        <Section n={7} heading="Rating Integrity">
+        <Section heading="Disclaimer">
           <p>
-            Users agree to rate titles honestly based on their genuine opinion. Coordinated attempts
-            to manipulate ratings including creating multiple accounts to inflate or deflate scores
-            are prohibited and may result in account termination.
+            SpookyorDookie is provided as is. We do not guarantee the accuracy of movie or TV
+            information on the site and are not liable for damages arising from use of the site.
           </p>
         </Section>
 
-        <Section n={8} heading="Disclaimer">
+        <Section heading="Changes">
           <p>
-            SpookyorDookie is provided as is without warranty of any kind. We do not guarantee the
-            accuracy of movie or TV show information on the site.
+            We may update these terms at any time. Continued use of the site means you accept any
+            changes.
           </p>
         </Section>
 
-        <Section n={9} heading="Limitation of Liability">
+        <Section heading="Contact">
           <p>
-            SpookyorDookie is not liable for any damages arising from your use of the site including
-            loss of data or service interruptions.
-          </p>
-        </Section>
-
-        <Section n={10} heading="Changes to Terms">
-          <p>
-            We may update these terms from time to time. Continued use of the site after changes
-            constitutes acceptance of the new terms.
-          </p>
-        </Section>
-
-        <Section n={11} heading="Governing Law">
-          <p>
-            These terms are governed by the laws of the State of Texas, United States.
-          </p>
-        </Section>
-
-        <Section n={12} heading="Contact Us">
-          <p>
-            For any questions about these terms contact us at{" "}
-            <a href="mailto:admin@spookyordookie.com" className="text-green-spooky hover:underline">
-              admin@spookyordookie.com
-            </a>
+            For any questions use our{" "}
+            <Link href="/contact" className="text-green-spooky hover:underline">
+              contact form
+            </Link>
+            {" "}at SpookyorDookie.com/contact
           </p>
         </Section>
       </div>

@@ -1,25 +1,16 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — Spooky or Dookie",
 };
 
-function Section({ n, heading, children }: { n: number; heading: string; children: React.ReactNode }) {
+function Section({ heading, children }: { heading: string; children: React.ReactNode }) {
   return (
     <section className="space-y-3">
-      <h2 className="text-lg font-bold text-green-spooky">
-        {n}. {heading}
-      </h2>
+      <h2 className="text-lg font-bold text-green-spooky">{heading}</h2>
       <div className="text-ghost/90 leading-relaxed space-y-2">{children}</div>
     </section>
-  );
-}
-
-function Bullets({ items }: { items: string[] }) {
-  return (
-    <ul className="list-disc list-inside space-y-1 text-ghost/80 pl-1">
-      {items.map((item) => <li key={item}>{item}</li>)}
-    </ul>
   );
 }
 
@@ -32,105 +23,60 @@ export default function PrivacyPage() {
       </div>
 
       <div className="space-y-10">
-        <Section n={1} heading="Who We Are">
+        <Section heading="What We Collect">
           <p>
-            SpookyorDookie is a horror movie and TV show review and rating community at SpookyorDookie.com.
+            When you create an account we collect your name and email address from your Google or
+            Discord account, your chosen username and avatar, and the content you create on the site
+            including ratings, reviews, and comments.
           </p>
         </Section>
 
-        <Section n={2} heading="What Information We Collect">
-          <p>When you create an account we collect:</p>
-          <Bullets items={[
-            "Your name and email address from your Google or Discord account via OAuth authentication",
-            "Your chosen username and avatar preferences",
-            "Your ratings, reviews, comments, and debate replies",
-            "Your watchlist and viewing history",
-            "Your activity on the site including pages visited and features used",
-          ]} />
-          <p>We do not collect payment information, physical addresses, or phone numbers.</p>
-        </Section>
-
-        <Section n={3} heading="How We Use Your Information">
-          <p>We use your information to:</p>
-          <Bullets items={[
-            "Create and manage your account",
-            "Display your ratings, reviews, and community activity",
-            "Send you notifications about replies and upvotes on your content",
-            "Improve the site and user experience",
-            "Ensure the security and integrity of the platform",
-          ]} />
-        </Section>
-
-        <Section n={4} heading="What We Share">
-          <p>We do not sell your personal information to anyone ever.</p>
+        <Section heading="How We Use It">
           <p>
-            Your public profile, ratings, reviews, and comments are visible to other users and visitors
-            of the site by default. Your watchlist is private and only visible to you.
-          </p>
-          <p>We use the following third party services which may process your data:</p>
-          <Bullets items={[
-            "Supabase — database and authentication hosting",
-            "Vercel — website hosting",
-            "TMDB — movie and TV show data and images",
-            "Google and Discord — OAuth authentication",
-          ]} />
-        </Section>
-
-        <Section n={5} heading="Data Retention">
-          <p>
-            We keep your data for as long as your account is active. If you delete your account all
-            your personal data including ratings, comments, and profile information will be permanently
-            deleted within 30 days.
+            We use your information to run your account, display your activity on the site, and send
+            you notifications about your content. We do not sell your information to anyone.
           </p>
         </Section>
 
-        <Section n={6} heading="Your Rights">
-          <p>You have the right to:</p>
-          <Bullets items={[
-            "Access the personal data we hold about you",
-            "Request correction of inaccurate data",
-            "Request deletion of your account and associated data",
-            "Export your data",
-          ]} />
+        <Section heading="What Others Can See">
           <p>
-            To exercise any of these rights contact us at{" "}
-            <a href="mailto:admin@spookyordookie.com" className="text-green-spooky hover:underline">
-              admin@spookyordookie.com
-            </a>
+            Your profile, ratings, reviews, and comments are visible to other users by default. Your
+            watchlist is private.
           </p>
         </Section>
 
-        <Section n={7} heading="Cookies">
+        <Section heading="Third Party Services">
           <p>
-            We use cookies and similar technologies to keep you logged in and remember your preferences.
-            We do not use advertising cookies or tracking cookies.
+            We use Supabase for database hosting, Vercel for website hosting, TMDB for movie and TV
+            data, and Google and Discord for login. Each has their own privacy policy.
           </p>
         </Section>
 
-        <Section n={8} heading="Children's Privacy">
+        <Section heading="Your Data">
           <p>
-            SpookyorDookie is not intended for children under 13. We do not knowingly collect personal
-            information from children under 13. If you believe a child has provided us with personal
-            information please contact us at{" "}
-            <a href="mailto:admin@spookyordookie.com" className="text-green-spooky hover:underline">
-              admin@spookyordookie.com
-            </a>
+            You can request access to, correction of, or deletion of your data at any time by
+            contacting us. If you delete your account your data will be removed.
           </p>
         </Section>
 
-        <Section n={9} heading="Changes to This Policy">
+        <Section heading="Cookies">
           <p>
-            We may update this policy from time to time. We will notify users of significant changes
-            by posting a notice on the site.
+            We use cookies to keep you logged in and remember your preferences. We do not use
+            advertising or tracking cookies.
           </p>
         </Section>
 
-        <Section n={10} heading="Contact Us">
+        <Section heading="Children">
+          <p>This site is not intended for anyone under 13.</p>
+        </Section>
+
+        <Section heading="Contact">
           <p>
-            For any privacy related questions contact us at{" "}
-            <a href="mailto:admin@spookyordookie.com" className="text-green-spooky hover:underline">
-              admin@spookyordookie.com
-            </a>
+            For any privacy questions use our{" "}
+            <Link href="/contact" className="text-green-spooky hover:underline">
+              contact form
+            </Link>
+            {" "}at SpookyorDookie.com/contact
           </p>
         </Section>
       </div>
