@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 type Provider = "google" | "facebook" | "discord";
@@ -97,7 +98,10 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-xs text-muted mt-6 leading-relaxed">
-          By signing in you agree to our terms of service.<br />
+          By signing in you agree to our{" "}
+          <Link href="/terms" className="text-muted/80 underline hover:text-specter transition-colors">Terms of Service</Link>
+          {" "}and{" "}
+          <Link href="/privacy" className="text-muted/80 underline hover:text-specter transition-colors">Privacy Policy</Link>.<br />
           Your account will be created automatically on first sign in.
         </p>
       </div>

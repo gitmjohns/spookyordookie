@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Creepster, Inter } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 
@@ -40,6 +41,11 @@ export default function RootLayout({
           <p>
             &copy; {new Date().getFullYear()} Spooky or Dookie &mdash; The best slasher, supernatural, and creature horror from 1968 to present.
           </p>
+          <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted/70">
+            <Link href="/privacy" className="hover:text-muted transition-colors">Privacy Policy</Link>
+            <span className="text-muted/30">&bull;</span>
+            <Link href="/terms" className="hover:text-muted transition-colors">Terms of Service</Link>
+          </div>
           <div className="mt-4 flex flex-col items-center gap-2">
             <a
               href="https://www.themoviedb.org"
