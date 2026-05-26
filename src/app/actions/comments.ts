@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { applyWordFilter } from "@/lib/wordFilter";
 import { sanitizeText } from "@/lib/sanitize";
+import { postLimiter } from "@/lib/rate-limit";
 
 export async function downvoteComment(commentId: string) {
   const supabase = await createClient();
@@ -42,6 +43,9 @@ export async function addComment(
   const { data: profile } = await supabase.from("profiles").select("banned").eq("id", user.id).single();
   if (profile?.banned) return { error: "Your account has been suspended." };
 
+  try { await postLimiter.consume(user.id); }
+  catch { return { error: "Slow down — you're posting too fast" }; }
+
   const { error } = await supabase.from("comments").insert({
     user_id: user.id,
     title_id: titleId,
@@ -71,6 +75,8 @@ export async function editComment(commentId: string, content: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
+  try { await postLimiter.consume(user.id); }
+  catch { return { error: "Slow down — you're posting too fast" }; }
   const trimmed = applyWordFilter(sanitizeText(content.trim()));
   if (!trimmed) return { error: "Comment cannot be empty" };
   const { error } = await supabase.from("comments")

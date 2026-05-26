@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServerClient } from "@supabase/ssr";
 import { applyWordFilter } from "@/lib/wordFilter";
 import { sanitizeText } from "@/lib/sanitize";
+import { postLimiter } from "@/lib/rate-limit";
 
 function serviceClient() {
   return createServerClient(
@@ -45,6 +46,8 @@ export async function editDebateReply(replyId: string, content: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
+  try { await postLimiter.consume(user.id); }
+  catch { return { error: "Slow down — you're posting too fast" }; }
   const trimmed = applyWordFilter(sanitizeText(content.trim()));
   if (!trimmed) return { error: "Reply cannot be empty" };
   const { error } = await supabase.from("debate_replies")
@@ -61,6 +64,9 @@ export async function addDebateReply(threadId: string, content: string) {
 
   const { data: profile } = await supabase.from("profiles").select("banned").eq("id", user.id).single();
   if (profile?.banned) return { error: "Your account has been suspended." };
+
+  try { await postLimiter.consume(user.id); }
+  catch { return { error: "Slow down — you're posting too fast" }; }
 
   const { error } = await supabase.from("debate_replies")
     .insert({ thread_id: threadId, user_id: user.id, content: applyWordFilter(sanitizeText(content.trim())) });
