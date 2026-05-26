@@ -34,7 +34,7 @@
 - 45-59: Meh-diocre
 - 30-44: Slight Dook
 - 15-29: Full Dookie
-- 0-14: Big Steaming Dookie
+- 0-14: Steaming Dookie
 
 ---
 

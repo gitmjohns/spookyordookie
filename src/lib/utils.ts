@@ -12,7 +12,7 @@ export function getRatingLabel(score: number): string {
   if (score >= 45) return "Meh-diocre";
   if (score >= 30) return "Slight Dook";
   if (score >= 15) return "Full Dookie";
-  return "Big Steaming Dookie";
+  return "Steaming Dookie";
 }
 
 export function getRatingColor(score: number): string {
