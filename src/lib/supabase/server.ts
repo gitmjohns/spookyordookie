@@ -1,6 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+function fetchWithTimeout(url: RequestInfo | URL, init?: RequestInit) {
+  return fetch(url, {
+    ...init,
+    signal: init?.signal ?? AbortSignal.timeout(10_000),
+  });
+}
+
 export async function createClient() {
   const cookieStore = await cookies();
 
@@ -20,6 +27,7 @@ export async function createClient() {
           } catch {}
         },
       },
+      global: { fetch: fetchWithTimeout },
     }
   );
 }

@@ -11,39 +11,44 @@ async function db() {
 
 export async function getGoats(limit = 20): Promise<Title[]> {
   if (isMockMode()) return MOCK_TITLES.slice(0, limit);
-  const s = await db();
-  const { data } = await s.from("titles").select("*").eq("media_type", "movie")
-    .gte("critic_score", 85)
-    .order("critic_score", { ascending: false })
-    .limit(50);
-  if (!data?.length) return [];
-  const shuffled = [...data].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, limit) as Title[];
+  try {
+    const s = await db();
+    const { data } = await s.from("titles").select("*").eq("media_type", "movie")
+      .gte("critic_score", 85)
+      .order("critic_score", { ascending: false })
+      .limit(50);
+    if (!data?.length) return [];
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, limit) as Title[];
+  } catch { return []; }
 }
 
 export async function getCultClassics(limit = 12): Promise<Title[]> {
   if (isMockMode()) return MOCK_TITLES.slice(0, limit);
-  const s = await db();
-  // Pull a larger pool tagged as Cult Classic, then randomize so repeat visitors see different titles
-  const { data } = await s.from("titles").select("*").eq("media_type", "movie")
-    .contains("subgenres", ["Cult Classic"])
-    .order("critic_score", { ascending: false })
-    .limit(80);
-  if (!data?.length) return [];
-  const shuffled = [...data].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, limit) as Title[];
+  try {
+    const s = await db();
+    const { data } = await s.from("titles").select("*").eq("media_type", "movie")
+      .contains("subgenres", ["Cult Classic"])
+      .order("critic_score", { ascending: false })
+      .limit(80);
+    if (!data?.length) return [];
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, limit) as Title[];
+  } catch { return []; }
 }
 
 export async function getSpookyComedies(limit = 20): Promise<Title[]> {
   if (isMockMode()) return MOCK_TITLES.slice(0, limit);
-  const s = await db();
-  const { data } = await s.from("titles").select("*").eq("media_type", "movie")
-    .contains("subgenres", ["Comedy Horror"])
-    .order("critic_score", { ascending: false })
-    .limit(60);
-  if (!data?.length) return [];
-  const shuffled = [...data].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, limit) as Title[];
+  try {
+    const s = await db();
+    const { data } = await s.from("titles").select("*").eq("media_type", "movie")
+      .contains("subgenres", ["Comedy Horror"])
+      .order("critic_score", { ascending: false })
+      .limit(60);
+    if (!data?.length) return [];
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, limit) as Title[];
+  } catch { return []; }
 }
 
 export const SUBGENRE_ROTATION = [
@@ -74,34 +79,40 @@ export async function getFeaturedSubgenre(): Promise<{ display: string; db: stri
       const found = SUBGENRE_ROTATION.find(r => r.db === data.value);
       return found ?? { display: data.value, db: data.value };
     }
-  } catch {}
-  return getCurrentSubgenreSpotlight();
+    return getCurrentSubgenreSpotlight();
+  } catch {
+    return getCurrentSubgenreSpotlight();
+  }
 }
 
 export async function getSubgenreSpotlightTitles(dbSubgenre: string, limit = 18): Promise<Title[]> {
   if (isMockMode()) return MOCK_TITLES.slice(0, limit);
-  const s = await db();
-  const { data } = await s.from("titles").select("*").eq("media_type", "movie")
-    .contains("subgenres", [dbSubgenre])
-    .order("critic_score", { ascending: false })
-    .limit(50);
-  if (!data?.length) return [];
-  const shuffled = [...data].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, limit) as Title[];
+  try {
+    const s = await db();
+    const { data } = await s.from("titles").select("*").eq("media_type", "movie")
+      .contains("subgenres", [dbSubgenre])
+      .order("critic_score", { ascending: false })
+      .limit(50);
+    if (!data?.length) return [];
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, limit) as Title[];
+  } catch { return []; }
 }
 
 export async function getLatestSpooks(limit = 20): Promise<Title[]> {
   if (isMockMode()) return MOCK_TITLES.slice(0, limit);
-  const s = await db();
-  const cutoff = new Date().getFullYear() - 3;
-  const { data } = await s.from("titles").select("*").eq("media_type", "movie")
-    .gte("release_year", cutoff)
-    .order("release_year", { ascending: false })
-    .order("critic_score", { ascending: false })
-    .limit(50);
-  if (!data?.length) return [];
-  const shuffled = [...data].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, limit) as Title[];
+  try {
+    const s = await db();
+    const cutoff = new Date().getFullYear() - 3;
+    const { data } = await s.from("titles").select("*").eq("media_type", "movie")
+      .gte("release_year", cutoff)
+      .order("release_year", { ascending: false })
+      .order("critic_score", { ascending: false })
+      .limit(50);
+    if (!data?.length) return [];
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, limit) as Title[];
+  } catch { return []; }
 }
 
 export async function getDecadeSpotlight(decade: number, limit = 20): Promise<Title[]> {
@@ -115,14 +126,16 @@ export async function getDecadeSpotlight(decade: number, limit = 20): Promise<Ti
 
 export async function getTopTV(limit = 20): Promise<Title[]> {
   if (isMockMode()) return MOCK_TITLES.filter((t) => t.media_type === "tv").slice(0, limit);
-  const s = await db();
-  const { data } = await s.from("titles").select("*").eq("media_type", "tv")
-    .order("critic_score", { ascending: false })
-    .order("rating_count", { ascending: false })
-    .limit(60);
-  if (!data?.length) return [];
-  const shuffled = [...data].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, limit) as Title[];
+  try {
+    const s = await db();
+    const { data } = await s.from("titles").select("*").eq("media_type", "tv")
+      .order("critic_score", { ascending: false })
+      .order("rating_count", { ascending: false })
+      .limit(60);
+    if (!data?.length) return [];
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, limit) as Title[];
+  } catch { return []; }
 }
 
 export async function getStaffPick(): Promise<Title | null> {
@@ -353,11 +366,13 @@ export async function getSimilarTitles(
 
 export async function getWatchlistIds(): Promise<Set<string>> {
   if (isMockMode()) return new Set();
-  const s = await db();
-  const { data: { user } } = await s.auth.getUser();
-  if (!user) return new Set();
-  const { data } = await s.from("watchlist").select("title_id").eq("user_id", user.id);
-  return new Set((data ?? []).map((w: { title_id: string }) => w.title_id));
+  try {
+    const s = await db();
+    const { data: { user } } = await s.auth.getUser();
+    if (!user) return new Set();
+    const { data } = await s.from("watchlist").select("title_id").eq("user_id", user.id);
+    return new Set((data ?? []).map((w: { title_id: string }) => w.title_id));
+  } catch { return new Set(); }
 }
 
 export async function getWatchlistTitles(): Promise<Title[]> {
@@ -413,7 +428,9 @@ export async function getDebateFollowStatus(threadId: string): Promise<boolean> 
 
 export async function getCurrentUser() {
   if (isMockMode()) return null;
-  const s = await db();
-  const { data: { user } } = await s.auth.getUser();
-  return user;
+  try {
+    const s = await db();
+    const { data: { user } } = await s.auth.getUser();
+    return user;
+  } catch { return null; }
 }
