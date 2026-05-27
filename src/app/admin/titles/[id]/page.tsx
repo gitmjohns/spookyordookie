@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { notFound } from "next/navigation";
 import { adminDb } from "@/lib/supabase/admin";
 import { TitleEditForm } from "./TitleEditForm";

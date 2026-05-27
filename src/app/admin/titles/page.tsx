@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { adminDb } from "@/lib/supabase/admin";
 import { TitleTable } from "./TitleTable";

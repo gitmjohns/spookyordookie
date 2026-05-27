@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { adminDb } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { UserTable } from "./UserTable";
