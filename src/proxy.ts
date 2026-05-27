@@ -1,6 +1,14 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// Use AbortController + setTimeout for Edge runtime compatibility
+function fetchWithTimeout(url: RequestInfo | URL, init?: RequestInit) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), 8_000);
+  return fetch(url, { ...init, signal: init?.signal ?? controller.signal })
+    .finally(() => clearTimeout(id));
+}
+
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
@@ -22,11 +30,21 @@ export async function proxy(request: NextRequest) {
           );
         },
       },
+      global: { fetch: fetchWithTimeout },
     }
   );
 
-  // Refresh session — must come before any logic that reads the user
-  const { data: { user } } = await supabase.auth.getUser();
+  // Refresh session — must come before any logic that reads the user.
+  // Wrapped in try/catch so a Supabase outage or misconfigured env var
+  // does not block every page load.
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    // Supabase unreachable — pass request through without auth context
+    return supabaseResponse;
+  }
 
   const { pathname } = request.nextUrl;
 
@@ -41,16 +59,21 @@ export async function proxy(request: NextRequest) {
       return supabaseResponse;
     }
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("username_confirmed")
-      .eq("id", user.id)
-      .single();
+    try {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("username_confirmed")
+        .eq("id", user.id)
+        .single();
 
-    if (!profile || !profile.username_confirmed) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/auth/username";
-      return NextResponse.redirect(url);
+      if (!profile || !profile.username_confirmed) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/auth/username";
+        return NextResponse.redirect(url);
+      }
+    } catch {
+      // Profile check failed — let the request through rather than blocking it
+      return supabaseResponse;
     }
 
     // Cache confirmation so future requests skip the DB query
