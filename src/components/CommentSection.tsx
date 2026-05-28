@@ -61,6 +61,7 @@ export function CommentSection({
       await fetch("/api/comment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ titleId, content, parentId: null }),
       });
       // Refresh server data to replace optimistic entry with real one

@@ -38,6 +38,7 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
     const res = await fetch("/api/settings/username", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ username }),
     });
     const data = await res.json();
@@ -54,6 +55,7 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
     const res = await fetch("/api/settings/avatar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ emoji: selectedEmoji, bg: selectedBg }),
     });
     const data = await res.json();
@@ -75,6 +77,7 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
     const res = await fetch("/api/settings/delete-account", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({}),
     });
     const data = await res.json();

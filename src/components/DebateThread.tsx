@@ -53,6 +53,7 @@ export function DebateThread({
     const res = await fetch("/api/debate/follow", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ threadId }),
     });
     if (res.ok) {
@@ -83,6 +84,7 @@ export function DebateThread({
       await fetch("/api/debate/reply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ threadId, content }),
       });
       router.refresh();
@@ -106,6 +108,7 @@ export function DebateThread({
       const res = await fetch("/api/debate/reply", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ replyId, content: saved }),
       });
       if (res.ok) {

@@ -44,6 +44,7 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
       await fetch("/api/watchlist/watched", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ titleId: entry.title_id, watched: newWatched }),
       });
       router.refresh();
@@ -56,6 +57,7 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
       await fetch("/api/watchlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ titleId: entry.title_id, currentlyInList: true }),
       });
       router.refresh();

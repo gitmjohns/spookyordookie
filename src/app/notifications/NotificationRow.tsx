@@ -28,6 +28,7 @@ export function NotificationRow({ id, read, href, text, time, actorEmoji, actorB
         await fetch("/api/notifications/read", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({ id }),
         });
       });

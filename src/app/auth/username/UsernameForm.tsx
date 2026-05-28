@@ -41,7 +41,8 @@ export function UsernameForm({ suggestedUsername }: Props) {
     debounceRef.current = setTimeout(async () => {
       try {
         const res = await fetch(
-          `/api/username/check?username=${encodeURIComponent(trimmed)}`
+          `/api/username/check?username=${encodeURIComponent(trimmed)}`,
+          { credentials: "include" }
         );
         const json = await res.json();
         setStatus(json.available ? "available" : "taken");
@@ -63,6 +64,7 @@ export function UsernameForm({ suggestedUsername }: Props) {
     const res = await fetch("/api/settings/confirm-username", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ username: username.trim().toLowerCase() }),
     });
     const data = await res.json();

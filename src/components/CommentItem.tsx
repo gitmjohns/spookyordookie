@@ -49,6 +49,7 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
       await fetch("/api/comment/upvote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ commentId: comment.id }),
       });
       setUpvoted((v) => !v);
@@ -63,6 +64,7 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
       await fetch("/api/comment/downvote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ commentId: comment.id }),
       });
       setDownvoted((v) => !v);
@@ -78,6 +80,7 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
       await fetch("/api/comment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ titleId, content: replyText.trim(), parentId: comment.id }),
       });
       setReplyText("");
@@ -92,6 +95,7 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
       const res = await fetch("/api/comment", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ commentId: comment.id, content: editText.trim() }),
       });
       if (res.ok) {
@@ -107,6 +111,7 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
       const res = await fetch("/api/comment", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ commentId: comment.id }),
       });
       if (res.ok) {

@@ -35,6 +35,7 @@ export function WatchlistButton({
       await fetch("/api/watchlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ titleId, currentlyInList: inList }),
       });
     });

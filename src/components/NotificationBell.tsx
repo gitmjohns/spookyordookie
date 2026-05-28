@@ -47,7 +47,7 @@ export function NotificationBell() {
   const fetchNotifications = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/notifications", { cache: "no-store" });
+      const res = await fetch("/api/notifications", { cache: "no-store", credentials: "include" });
       if (res.ok) {
         const data = await res.json();
         setUnreadCount(data.unread_count ?? 0);
@@ -88,6 +88,7 @@ export function NotificationBell() {
       await fetch("/api/notifications/read", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ id: n.id }),
       });
       setRecent((prev) =>

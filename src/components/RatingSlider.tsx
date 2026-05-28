@@ -43,6 +43,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
       const res = await fetch("/api/rate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ titleId, score }),
       });
       if (!res.ok) return;

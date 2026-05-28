@@ -28,7 +28,7 @@ export function Navigation() {
     const supabase = createClient();
 
     async function loadProfile() {
-      const res = await fetch("/api/profile/me", { cache: "no-store" });
+      const res = await fetch("/api/profile/me", { cache: "no-store", credentials: "include" });
       if (!res.ok) return;
       const data = await res.json();
       if (data.avatar_emoji) setAvatarEmoji(data.avatar_emoji);
