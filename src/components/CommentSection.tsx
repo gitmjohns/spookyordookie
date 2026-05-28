@@ -35,7 +35,6 @@ export function CommentSection({
   }, [initialComments]);
 
   async function handleSubmit(e: React.FormEvent) {
-    console.log("COMMENT SUBMIT FIRED", { text, titleId, isLoggedIn });
     e.preventDefault();
     if (!text.trim()) return;
     const content = text.trim();
