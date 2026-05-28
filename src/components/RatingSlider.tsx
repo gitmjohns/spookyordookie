@@ -94,7 +94,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
           className="relative rounded-2xl border-2 p-6 text-center overflow-hidden"
           style={{ borderColor: previewColor, background: `${previewColor}10` }}
         >
-          <div className="font-verdict text-4xl sm:text-5xl leading-tight" style={{ color: previewColor }}>
+          <div className="font-display text-4xl sm:text-5xl leading-tight" style={{ color: previewColor }}>
             {previewLabel}
           </div>
         </div>
@@ -161,7 +161,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
 
           <div className="relative z-10">
             <div
-              className="font-verdict text-5xl sm:text-6xl leading-tight"
+              className="font-display text-5xl sm:text-6xl leading-tight"
               style={{ color: revealColor }}
             >
               {revealLabel}
@@ -214,7 +214,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
         className="relative rounded-2xl border-2 p-6 text-center overflow-hidden transition-colors duration-200"
         style={{ borderColor: color, background: `${color}10` }}
       >
-        <div className="font-verdict text-4xl sm:text-5xl leading-tight" style={{ color }}>
+        <div className="font-display text-4xl sm:text-5xl leading-tight" style={{ color }}>
           {label}
         </div>
       </div>

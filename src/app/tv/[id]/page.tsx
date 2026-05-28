@@ -174,7 +174,7 @@ export default async function TVDetailPage({ params }: PageProps) {
         </div>
 
         <div className="rounded-2xl border border-purple-deep bg-shadow p-6 sm:p-8 mb-8">
-          <p className="font-display text-4xl text-green-spooky text-center mb-4">Is it Terrible or Terrifying?</p>
+          <p className="font-label text-4xl text-green-spooky text-center mb-4">Is it Terrible or Terrifying?</p>
           {user ? (
             <RatingSlider titleId={id} initialScore={userRating} />
           ) : (
