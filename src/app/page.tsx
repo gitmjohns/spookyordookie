@@ -181,7 +181,7 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <div className="relative w-full h-[19vw] min-h-[120px] max-h-[305px] overflow-hidden">
+      <div className="relative w-full h-[15vw] min-h-[96px] max-h-[244px] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/terrormeterhero.png"
@@ -193,10 +193,10 @@ export default async function HomePage() {
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
           style={{ background: "radial-gradient(ellipse at 100% 100%, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 35%, rgba(10,10,10,0.3) 60%, transparent 80%)" }}
         />
-        {/* Subtle bottom vignette only — keep top of image at full brightness */}
-        <div className="absolute inset-0 bg-gradient-to-t from-void/80 via-void/15 to-transparent pointer-events-none" />
-        {/* Subtitle — lower third */}
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-6 sm:pb-9 pointer-events-none">
+        {/* Strong black vignette from bottom — blends banner into page */}
+        <div className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none" style={{ background: "linear-gradient(to top, #000000 0%, #000000 15%, rgba(0,0,0,0.6) 45%, transparent 100%)" }} />
+        {/* Subtitle — moved up from bottom */}
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-9 sm:pb-14 pointer-events-none">
           <p style={{
             fontFamily: "var(--font-bebas-neue)",
             color: "#ffffff",
