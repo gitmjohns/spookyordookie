@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { id } = await params;
   const title = await getTitleById(id, "tv");
   if (!title) return { title: "Not Found" };
-  return { title: `${title.title} — Spooky or Dookie`, description: title.overview ?? undefined };
+  return { title: `${title.title} — TerrorMeter`, description: title.overview ?? undefined };
 }
 
 export default async function TVDetailPage({ params }: PageProps) {
@@ -174,7 +174,7 @@ export default async function TVDetailPage({ params }: PageProps) {
         </div>
 
         <div className="rounded-2xl border border-purple-deep bg-shadow p-6 sm:p-8 mb-8">
-          <p className="font-display text-4xl text-green-spooky text-center mb-4">Is it Spooky or Dookie?</p>
+          <p className="font-display text-4xl text-green-spooky text-center mb-4">Is it Terrible or Terrifying?</p>
           {user ? (
             <RatingSlider titleId={id} initialScore={userRating} />
           ) : (

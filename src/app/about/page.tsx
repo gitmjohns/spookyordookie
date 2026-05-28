@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "About — Spooky or Dookie" };
+export const metadata: Metadata = { title: "About — TerrorMeter" };
 
 export default function AboutPage() {
   return (
@@ -9,8 +9,8 @@ export default function AboutPage() {
 
       <div className="space-y-6 text-specter leading-relaxed">
         <p>
-          Spooky or Dookie is a horror film and TV rating site built for people who take their scares seriously.
-          Rate everything from certified classics to straight-to-VOD nonsense, and find out what the community thinks is Spooky — and what&apos;s just Dookie.
+          TerrorMeter is a horror film and TV rating site built for people who take their scares seriously.
+          Rate everything from certified classics to straight-to-VOD nonsense, and find out what the community thinks is Terrifying — and what&apos;s just Terrible.
         </p>
         <p>
           Browse over a thousand horror titles spanning the 1970s to the present, filter by subgenre, decade, and critic score, and keep a watchlist of everything you want to see next.

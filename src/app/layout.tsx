@@ -22,12 +22,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Spooky or Dookie — Horror Reviews",
+  title: "TerrorMeter — Horror Reviews",
   description:
-    "Rate horror movies and TV shows. Is it Spooky or Dookie?",
+    "Rate horror movies and TV shows from Terrible to Terrifying.",
   openGraph: {
-    title: "Spooky or Dookie",
-    description: "Rate horror films and TV shows from Spooky to Dookie.",
+    title: "TerrorMeter",
+    description: "Rate horror films and TV shows from Terrible to Terrifying.",
     type: "website",
   },
 };
@@ -45,7 +45,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <footer className="border-t border-shadow py-8 text-center text-muted text-sm">
           <p>
-            &copy; {new Date().getFullYear()} Spooky or Dookie &mdash; The best slasher, supernatural, and creature horror from 1968 to present.
+            &copy; {new Date().getFullYear()} TerrorMeter &mdash; The best slasher, supernatural, and creature horror from 1968 to present.
           </p>
           <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted/70">
             <Link href="/privacy" className="hover:text-muted transition-colors">Privacy Policy</Link>

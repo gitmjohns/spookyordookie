@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { WatchlistCard } from "@/components/WatchlistCard";
 import { tieredCombinedScore } from "@/lib/utils";
 
-export const metadata = { title: "My Watchlist — Spooky or Dookie" };
+export const metadata = { title: "My Watchlist — TerrorMeter" };
 
 interface PageProps {
   searchParams: Promise<Record<string, string>>;

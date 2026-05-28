@@ -13,7 +13,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { username } = await params;
-  return { title: `${username} — Spooky or Dookie` };
+  return { title: `${username} — TerrorMeter` };
 }
 
 function timeAgo(date: string) {
@@ -31,8 +31,8 @@ function formatMonthYear(date: string): string {
 const ALL_BADGES = [
   { id: "first_blood", emoji: "🩸", label: "First Blood", desc: "Left first comment" },
   { id: "slasher_scholar", emoji: "🔪", label: "Slasher Scholar", desc: "Rated 25+ slashers" },
-  { id: "dookie_detector", emoji: "💩", label: "Dookie Detector", desc: "Scored 10+ films under 30" },
-  { id: "certified_spooky", emoji: "✨", label: "Certified Spooky", desc: "Scored 10+ films over 90" },
+  { id: "dookie_detector", emoji: "🗑️", label: "Schlock Detector", desc: "Scored 10+ films under 30" },
+  { id: "certified_spooky", emoji: "✨", label: "Certified Terror", desc: "Scored 10+ films over 90" },
   { id: "crypt_keeper", emoji: "☠️", label: "Crypt Keeper", desc: "Rated 100+ titles" },
   { id: "true_horror_fan", emoji: "🕰️", label: "True Horror Fan", desc: "Rated across 4+ decades" },
   { id: "hidden_gem_hunter", emoji: "💎", label: "Hidden Gem Hunter", desc: "Found 10+ cult classics" },
@@ -176,8 +176,8 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
   else if (totalRatings >= 5) personalityTag = "Aspiring Screamer";
 
   if (avgScore != null) {
-    if (avgScore < 30) personalityTag = "Dookie Connoisseur";
-    else if (avgScore > 85) personalityTag = "Spooky Purist";
+    if (avgScore < 30) personalityTag = "Schlock Connoisseur";
+    else if (avgScore > 85) personalityTag = "Terror Purist";
   }
 
   // Badge calculations

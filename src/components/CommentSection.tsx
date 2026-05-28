@@ -106,7 +106,7 @@ export function CommentSection({
       <div className="space-y-3">
         {comments.length === 0 ? (
           <p className="text-muted text-sm text-center py-8">
-            No comments yet. The silence is almost… spooky.
+            No comments yet. The silence is almost… deadly.
           </p>
         ) : (
           comments.map((comment) => (

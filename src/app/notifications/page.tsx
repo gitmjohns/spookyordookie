@@ -8,7 +8,7 @@ import { Pagination } from "@/components/Pagination";
 import { MarkAllReadButton } from "./MarkAllReadButton";
 import { NotificationRow } from "./NotificationRow";
 
-export const metadata = { title: "Notifications — Spooky or Dookie" };
+export const metadata = { title: "Notifications — TerrorMeter" };
 
 const PAGE_SIZE = 20;
 

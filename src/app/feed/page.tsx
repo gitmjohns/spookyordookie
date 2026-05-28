@@ -6,7 +6,7 @@ import { Pagination } from "@/components/Pagination";
 import { AvatarCircle } from "@/components/AvatarCircle";
 import { tmdbImageUrl, getRatingColor } from "@/lib/utils";
 
-export const metadata = { title: "Community — Spooky or Dookie" };
+export const metadata = { title: "Community — TerrorMeter" };
 
 const PAGE_SIZE = 20;
 
@@ -172,7 +172,7 @@ export default async function FeedPage({ searchParams }: PageProps) {
     return (
       <>
         {usernameNode}
-        {" joined Spooky or Dookie"}
+        {" joined TerrorMeter"}
       </>
     );
   }

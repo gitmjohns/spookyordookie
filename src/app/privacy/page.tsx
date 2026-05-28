@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Spooky or Dookie",
+  title: "Privacy Policy — TerrorMeter",
 };
 
 function Section({ heading, children }: { heading: string; children: React.ReactNode }) {
@@ -76,7 +76,7 @@ export default function PrivacyPage() {
             <Link href="/contact" className="text-green-spooky hover:underline">
               contact form
             </Link>
-            {" "}at SpookyorDookie.com/contact
+            {" "}at terrormeter.com/contact
           </p>
         </Section>
       </div>

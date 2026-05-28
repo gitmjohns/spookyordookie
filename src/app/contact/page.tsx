@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "./ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact — Spooky or Dookie",
+  title: "Contact — TerrorMeter",
 };
 
 export default function ContactPage() {

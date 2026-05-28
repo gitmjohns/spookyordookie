@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Spooky or Dookie",
+  title: "Terms of Service — TerrorMeter",
 };
 
 function Section({ heading, children }: { heading: string; children: React.ReactNode }) {
@@ -25,7 +25,7 @@ export default function TermsPage() {
       <div className="space-y-10">
         <Section heading="Using the Site">
           <p>
-            By using SpookyorDookie you agree to these terms. You must be at least 13 years old to
+            By using TerrorMeter you agree to these terms. You must be at least 13 years old to
             use the site.
           </p>
         </Section>
@@ -59,7 +59,7 @@ export default function TermsPage() {
 
         <Section heading="Disclaimer">
           <p>
-            SpookyorDookie is provided as is. We do not guarantee the accuracy of movie or TV
+            TerrorMeter is provided as is. We do not guarantee the accuracy of movie or TV
             information on the site and are not liable for damages arising from use of the site.
           </p>
         </Section>
@@ -77,7 +77,7 @@ export default function TermsPage() {
             <Link href="/contact" className="text-green-spooky hover:underline">
               contact form
             </Link>
-            {" "}at SpookyorDookie.com/contact
+            {" "}at TerrorMeter.com/contact
           </p>
         </Section>
       </div>

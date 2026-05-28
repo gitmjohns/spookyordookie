@@ -78,7 +78,7 @@ async function SpookyGoat({ isLoggedIn, watchlistIds }: RowProps) {
   return (
     <section className="pt-6 pb-10">
       <SectionHeader
-        title="Spooky G.O.A.T."
+        title="Terror G.O.A.T."
         sub="The greatest horror films ever made — Critic Score 85+"
         href="/movies?sort=top-rated"
       />
@@ -111,7 +111,7 @@ async function LatestSpooks({ isLoggedIn, watchlistIds }: RowProps) {
   return (
     <section className="py-10 border-t border-shadow">
       <SectionHeader
-        title="Latest Spooks"
+        title="Latest Terror"
         sub="New and recent horror releases"
         href="/movies?sort=newest"
       />
@@ -128,7 +128,7 @@ async function SpookyComedies({ isLoggedIn, watchlistIds }: RowProps) {
   return (
     <section className="py-10 border-t border-shadow">
       <SectionHeader
-        title="Spooky Comedies"
+        title="Horror Comedies"
         sub="Horror that makes you laugh before it makes you scream"
         href="/movies?genre=Comedy+Horror"
       />
@@ -163,7 +163,7 @@ async function TopHorrorTV({ isLoggedIn, watchlistIds }: RowProps) {
   return (
     <section className="py-10 border-t border-shadow">
       <SectionHeader
-        title="Serial Spooks: TV"
+        title="Terror TV"
         sub="Highest rated horror series, anthologies, and limited runs"
         href="/tv"
       />
@@ -181,7 +181,7 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <div className="relative w-full h-[22vw] min-h-[140px] max-h-[360px] overflow-hidden">
+      <div className="relative w-full h-[19vw] min-h-[120px] max-h-[305px] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/terrormeterhero.png"
@@ -196,7 +196,7 @@ export default async function HomePage() {
         {/* Subtle bottom vignette only — keep top of image at full brightness */}
         <div className="absolute inset-0 bg-gradient-to-t from-void/80 via-void/15 to-transparent pointer-events-none" />
         {/* Subtitle — lower third */}
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-3 sm:pb-5 pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-6 sm:pb-9 pointer-events-none">
           <p style={{
             fontFamily: "var(--font-bebas-neue)",
             color: "#ffffff",

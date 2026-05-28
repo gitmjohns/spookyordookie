@@ -118,7 +118,7 @@ export function UsernameForm({ suggestedUsername }: Props) {
         <div className="text-center mb-8">
           <div className="text-6xl mb-4">💀</div>
           <h1 className="font-display text-4xl sm:text-5xl text-green-spooky leading-tight mb-3">
-            Welcome to Spooky or Dookie!
+            Welcome to TerrorMeter!
           </h1>
           <p className="text-specter text-sm leading-relaxed max-w-sm mx-auto">
             We&apos;ve given you a username &mdash; keep it or choose your own horror identity.
