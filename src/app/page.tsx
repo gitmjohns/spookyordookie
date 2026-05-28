@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Suspense } from "react";
 import { TitleCard } from "@/components/TitleCard";
 import type { Title } from "@/lib/types";
@@ -183,12 +182,11 @@ export default async function HomePage() {
     <div>
       {/* Hero */}
       <div className="relative w-full h-[22vw] min-h-[140px] max-h-[360px] overflow-hidden">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/terrormeterhero.png"
           alt="TerrorMeter"
-          fill
-          priority
-          className="object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
           style={{ objectPosition: "top" }}
         />
         <div
@@ -196,31 +194,6 @@ export default async function HomePage() {
           style={{ background: "radial-gradient(ellipse at 100% 100%, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 35%, rgba(10,10,10,0.3) 60%, transparent 80%)" }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/55 to-void/30 pointer-events-none" />
-        {/* Scrim layer — sits above gradient, below text content */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div
-            style={{
-              width: "70%",
-              height: "65%",
-              background: "radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 45%, transparent 72%)",
-            }}
-          />
-        </div>
-        {/* Text content — topmost layer */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
-          <h1
-            className="font-display text-center whitespace-nowrap select-none text-[2.4rem] sm:text-[3.1rem] md:text-[3.7rem] lg:text-[4.9rem] xl:text-[6.5rem]"
-            style={{ color: "#7dff6b", letterSpacing: "-0.03em" }}
-          >
-            Spooky or Dookie
-          </h1>
-          <p
-            className="mt-2 sm:mt-3 text-base sm:text-lg md:text-xl font-semibold tracking-wide text-center select-none"
-            style={{ color: "#c8b8d8", textShadow: "0 0 12px rgba(0,0,0,1), 0 2px 6px rgba(0,0,0,1), 0 1px 2px rgba(0,0,0,1)" }}
-          >
-            Rate every horror title from Spooky to Dookie
-          </p>
-        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
