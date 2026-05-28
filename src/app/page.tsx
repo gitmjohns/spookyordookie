@@ -17,7 +17,7 @@ function SectionHeader({ title, sub, href }: { title: string; sub: string; href?
   return (
     <div className="flex items-end justify-between mb-5">
       <div>
-        <h2 className="font-section text-3xl text-ghost">{title}</h2>
+        <h2 className="font-display text-3xl text-ghost">{title}</h2>
         <p className="text-muted text-sm mt-0.5">{sub}</p>
       </div>
       {href && (
@@ -181,7 +181,7 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <div className="relative w-full h-[15vw] min-h-[96px] max-h-[244px] overflow-hidden">
+      <div className="relative w-full h-[20vw] min-h-[127px] max-h-[328px] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/terrormeterhero.png"
