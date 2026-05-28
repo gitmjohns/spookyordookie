@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import type { ReactNode } from "react";
-import { markOneRead } from "@/app/actions/notifications";
 import { AvatarCircle } from "@/components/AvatarCircle";
 
 interface NotificationRowProps {
@@ -24,7 +23,15 @@ export function NotificationRow({ id, read, href, text, time, actorEmoji, actorB
 
   function handleClick(e: React.MouseEvent) {
     if ((e.target as HTMLElement).closest("a")) return;
-    if (!read) startTransition(async () => { await markOneRead(id); });
+    if (!read) {
+      startTransition(async () => {
+        await fetch("/api/notifications/read", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id }),
+        });
+      });
+    }
     router.push(href);
   }
 

@@ -3,7 +3,6 @@
 import { useState, useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { addDebateReply, editDebateReply, toggleDebateFollow } from "@/app/actions/watchlist";
 import { AvatarCircle } from "@/components/AvatarCircle";
 import type { DebateReply } from "@/lib/types";
 
@@ -51,9 +50,14 @@ export function DebateThread({
       return;
     }
     setFollowPending(true);
-    const result = await toggleDebateFollow(threadId);
-    if (!("error" in result)) {
-      setIsFollowing(result.following);
+    const res = await fetch("/api/debate/follow", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ threadId }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setIsFollowing(data.following);
     }
     setFollowPending(false);
   }
@@ -76,7 +80,11 @@ export function DebateThread({
     // Auto-follow optimistically when posting
     setIsFollowing(true);
     startTransition(async () => {
-      await addDebateReply(threadId, content);
+      await fetch("/api/debate/reply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ threadId, content }),
+      });
       router.refresh();
     });
   }
@@ -95,8 +103,12 @@ export function DebateThread({
     if (!editText.trim()) return;
     const saved = editText.trim();
     startTransition(async () => {
-      const result = await editDebateReply(replyId, saved);
-      if (!result.error) {
+      const res = await fetch("/api/debate/reply", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ replyId, content: saved }),
+      });
+      if (res.ok) {
         setEditedContents((prev) => ({ ...prev, [replyId]: saved }));
         setEditingId(null);
         setEditText("");

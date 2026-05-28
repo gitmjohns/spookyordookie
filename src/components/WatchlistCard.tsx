@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { markWatched, toggleWatchlist } from "@/app/actions/watchlist";
 import { tmdbImageUrl, getRatingColor, tieredCombinedScore } from "@/lib/utils";
 
 interface WatchlistCardProps {
@@ -42,7 +41,11 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
     const newWatched = !watched;
     setWatched(newWatched);
     startWatchTransition(async () => {
-      await markWatched(entry.title_id, newWatched);
+      await fetch("/api/watchlist/watched", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titleId: entry.title_id, watched: newWatched }),
+      });
       router.refresh();
     });
   }
@@ -50,7 +53,11 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
   function handleRemove() {
     setRemoved(true);
     startRemoveTransition(async () => {
-      await toggleWatchlist(entry.title_id, true);
+      await fetch("/api/watchlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titleId: entry.title_id, currentlyInList: true }),
+      });
       router.refresh();
     });
   }

@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { upvoteComment, downvoteComment, addComment, deleteComment, editComment } from "@/app/actions/comments";
 import { cn } from "@/lib/utils";
 import { AvatarCircle } from "@/components/AvatarCircle";
 import type { Comment } from "@/lib/types";
@@ -47,7 +46,11 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
   function handleUpvote() {
     if (!isLoggedIn) return;
     startTransition(async () => {
-      await upvoteComment(comment.id);
+      await fetch("/api/comment/upvote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ commentId: comment.id }),
+      });
       setUpvoted((v) => !v);
       setUpvoteCount((c) => (upvoted ? c - 1 : c + 1));
       if (downvoted) { setDownvoted(false); setDownvoteCount((c) => c - 1); }
@@ -57,7 +60,11 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
   function handleDownvote() {
     if (!isLoggedIn) return;
     startTransition(async () => {
-      await downvoteComment(comment.id);
+      await fetch("/api/comment/downvote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ commentId: comment.id }),
+      });
       setDownvoted((v) => !v);
       setDownvoteCount((c) => (downvoted ? c - 1 : c + 1));
       if (upvoted) { setUpvoted(false); setUpvoteCount((c) => c - 1); }
@@ -68,7 +75,11 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
     e.preventDefault();
     if (!replyText.trim()) return;
     startTransition(async () => {
-      await addComment(titleId, replyText.trim(), comment.id);
+      await fetch("/api/comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titleId, content: replyText.trim(), parentId: comment.id }),
+      });
       setReplyText("");
       setShowReply(false);
       router.refresh();
@@ -78,8 +89,12 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
   async function handleEditSave() {
     if (!editText.trim()) return;
     startTransition(async () => {
-      const result = await editComment(comment.id, editText.trim());
-      if (!result.error) {
+      const res = await fetch("/api/comment", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ commentId: comment.id, content: editText.trim() }),
+      });
+      if (res.ok) {
         setDisplayContent(editText.trim());
         setIsEditing(false);
         router.refresh();
@@ -89,8 +104,12 @@ export function CommentItem({ comment, titleId, isLoggedIn, currentUserId, depth
 
   async function handleDelete() {
     startTransition(async () => {
-      const result = await deleteComment(comment.id);
-      if (!result.error) {
+      const res = await fetch("/api/comment", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ commentId: comment.id }),
+      });
+      if (res.ok) {
         setDeleted(true);
         router.refresh();
       }

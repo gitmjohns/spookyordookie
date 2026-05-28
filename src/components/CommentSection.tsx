@@ -2,7 +2,6 @@
 
 import { useState, useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { addComment } from "@/app/actions/comments";
 import { CommentItem } from "./CommentItem";
 import type { Comment } from "@/lib/types";
 
@@ -59,7 +58,11 @@ export function CommentSection({
     setComments((prev) => [optimistic, ...prev]);
 
     startTransition(async () => {
-      await addComment(titleId, content, null);
+      await fetch("/api/comment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titleId, content, parentId: null }),
+      });
       // Refresh server data to replace optimistic entry with real one
       router.refresh();
     });

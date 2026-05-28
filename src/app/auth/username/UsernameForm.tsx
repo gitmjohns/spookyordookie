@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { confirmUsername } from "@/app/actions/settings";
 
 interface Props {
   suggestedUsername: string;
@@ -61,9 +60,14 @@ export function UsernameForm({ suggestedUsername }: Props) {
     if (status !== "available" || pending) return;
     setPending(true);
     setServerError(null);
-    const result = await confirmUsername(username.trim().toLowerCase());
-    if (result.error) {
-      setServerError(result.error);
+    const res = await fetch("/api/settings/confirm-username", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username.trim().toLowerCase() }),
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      setServerError(data.error ?? "Something went wrong");
       setStatus("taken");
       setPending(false);
     } else {

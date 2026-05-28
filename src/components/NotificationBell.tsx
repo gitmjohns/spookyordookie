@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { markOneRead } from "@/app/actions/notifications";
 
 interface NotifData {
   id: string;
@@ -86,7 +85,11 @@ export function NotificationBell() {
   async function handleNotifClick(n: NotifData) {
     setIsOpen(false);
     if (!n.read) {
-      await markOneRead(n.id);
+      await fetch("/api/notifications/read", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: n.id }),
+      });
       setRecent((prev) =>
         prev.map((item) => (item.id === n.id ? { ...item, read: true } : item))
       );

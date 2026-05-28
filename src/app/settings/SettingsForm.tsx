@@ -2,11 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  updateUsername,
-  updateAvatarAppearance,
-  deleteAccount,
-} from "@/app/actions/settings";
 import { HORROR_EMOJIS, DEFAULT_EMOJI, AVATAR_COLORS, DEFAULT_BG } from "@/lib/constants";
 
 interface SettingsFormProps {
@@ -40,9 +35,14 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
     e.preventDefault();
     setUsernamePending(true);
     setUsernameMsg(null);
-    const result = await updateUsername(username);
-    setUsernameMsg(result.error
-      ? { type: "error", text: result.error }
+    const res = await fetch("/api/settings/username", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    });
+    const data = await res.json();
+    setUsernameMsg(data.error
+      ? { type: "error", text: data.error }
       : { type: "success", text: "Username updated!" }
     );
     setUsernamePending(false);
@@ -51,9 +51,15 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
   async function handleEmojiSave() {
     setEmojiPending(true);
     setEmojiMsg(null);
-    const result = await updateAvatarAppearance(selectedEmoji, selectedBg);
-    if (result.error) setEmojiMsg({ type: "error", text: result.error });
-    else {
+    const res = await fetch("/api/settings/avatar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ emoji: selectedEmoji, bg: selectedBg }),
+    });
+    const data = await res.json();
+    if (data.error) {
+      setEmojiMsg({ type: "error", text: data.error });
+    } else {
       setEmojiMsg({ type: "success", text: "Avatar updated!" });
       setSavedEmoji(selectedEmoji);
       setSavedBg(selectedBg);
@@ -66,8 +72,13 @@ export function SettingsForm({ initialUsername, initialEmoji, initialBg, isPrime
     if (deleteConfirm !== "DELETE") return;
     setDeletePending(true);
     setDeleteMsg(null);
-    const result = await deleteAccount();
-    if (result.error) { setDeleteMsg(result.error); setDeletePending(false); }
+    const res = await fetch("/api/settings/delete-account", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+    });
+    const data = await res.json();
+    if (data.error) { setDeleteMsg(data.error); setDeletePending(false); }
     else router.push("/");
   }
 
