@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Rubik_Burned, Rubik_Dirt, Oswald, Inter } from "next/font/google";
+import { Rubik_Burned, Bebas_Neue, Stint_Ultra_Condensed, Oswald, Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
@@ -10,10 +10,16 @@ const rubikBurned = Rubik_Burned({
   variable: "--font-rubik-burned",
 });
 
-const rubikDirt = Rubik_Dirt({
+const bebasNeue = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-rubik-dirt",
+  variable: "--font-bebas-neue",
+});
+
+const stintUltraCondensed = Stint_Ultra_Condensed({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-stint",
 });
 
 const oswald = Oswald({
@@ -44,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${rubikBurned.variable} ${rubikDirt.variable} ${oswald.variable} ${inter.variable} h-full`}
+      className={`${rubikBurned.variable} ${bebasNeue.variable} ${stintUltraCondensed.variable} ${oswald.variable} ${inter.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-void text-ghost antialiased">
         <Navigation />

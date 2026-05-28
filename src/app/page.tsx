@@ -17,7 +17,7 @@ function SectionHeader({ title, sub, href }: { title: string; sub: string; href?
   return (
     <div className="flex items-end justify-between mb-5">
       <div>
-        <h2 className="font-display text-3xl text-ghost">{title}</h2>
+        <h2 className="font-section text-3xl text-ghost">{title}</h2>
         <p className="text-muted text-sm mt-0.5">{sub}</p>
       </div>
       {href && (
@@ -198,7 +198,7 @@ export default async function HomePage() {
         {/* Subtitle — lower third */}
         <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-6 sm:pb-9 pointer-events-none">
           <p style={{
-            fontFamily: "var(--font-rubik-burned)",
+            fontFamily: "var(--font-bebas-neue)",
             color: "#ffffff",
             textShadow: "3px 3px 0px #000000",
             fontSize: "clamp(0.9rem, 2vw, 1.5rem)",

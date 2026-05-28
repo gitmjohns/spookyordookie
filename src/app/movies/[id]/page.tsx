@@ -118,15 +118,15 @@ export default async function MovieDetailPage({ params }: PageProps) {
                 <div className="bg-tomb border border-shadow rounded-2xl p-4 space-y-3">
                   <div className="text-center pb-3 border-b border-shadow">
                     <div className="text-xs text-muted uppercase tracking-wider mb-1">Overall Score</div>
-                    <div className="font-verdict text-2xl leading-tight" style={{ color: overallColor }}>{overallLabel}</div>
-                    <div className="font-verdict text-5xl font-black leading-none mt-1" style={{ color: overallColor }}>
+                    <div className="font-display text-2xl leading-tight" style={{ color: overallColor }}>{overallLabel}</div>
+                    <div className="text-5xl font-black leading-none mt-1" style={{ color: overallColor }}>
                       {overallScore}
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="text-center">
                       <div className="text-xs text-muted uppercase tracking-wider mb-0.5">Critic</div>
-                      <div className="font-verdict text-xl font-bold" style={{ color: criticColor }}>
+                      <div className="text-xl font-bold" style={{ color: criticColor }}>
                         {title.critic_score}<span className="text-xs text-muted font-normal">/100</span>
                       </div>
                     </div>
@@ -134,7 +134,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
                       <div className="text-xs text-muted uppercase tracking-wider mb-0.5">
                         Fan{hasRatings ? ` (${title.rating_count})` : ""}
                       </div>
-                      <div className="font-verdict text-xl font-bold" style={{ color: fanColor }}>
+                      <div className="text-xl font-bold" style={{ color: fanColor }}>
                         {hasRatings ? Math.round(title.rating_avg) : "—"}<span className="text-xs text-muted font-normal">/100</span>
                       </div>
                     </div>

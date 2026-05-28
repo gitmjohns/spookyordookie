@@ -16,11 +16,11 @@ export function SpookyMeter({ criticScore, avg, count }: SpookyMeterProps) {
     <div className="space-y-4">
       {/* Overall verdict — label + score, no bar */}
       <div className="text-center">
-        <div className="font-verdict text-4xl sm:text-5xl leading-tight" style={{ color }}>
+        <div className="font-display text-4xl sm:text-5xl leading-tight" style={{ color }}>
           {label}
         </div>
         <div
-          className="font-verdict text-6xl sm:text-7xl font-black mt-1 leading-none"
+          className="text-6xl sm:text-7xl font-black mt-1 leading-none"
           style={{ color }}
         >
           {displayScore.toFixed(1)}
@@ -33,7 +33,7 @@ export function SpookyMeter({ criticScore, avg, count }: SpookyMeterProps) {
         <div className="bg-shadow rounded-xl px-3 py-3 text-center">
           <div className="text-xs text-muted uppercase tracking-wider mb-1">Critic Score</div>
           <div
-            className="font-verdict font-bold text-2xl leading-none"
+            className="font-bold text-2xl leading-none"
             style={{ color: getRatingColor(criticScore / 10) }}
           >
             {criticScore}
@@ -45,7 +45,7 @@ export function SpookyMeter({ criticScore, avg, count }: SpookyMeterProps) {
             Fan Score{count > 0 ? ` (${count})` : ""}
           </div>
           <div
-            className="font-verdict font-bold text-2xl leading-none"
+            className="font-bold text-2xl leading-none"
             style={{ color: count > 0 ? getRatingColor(avg) : "#888888" }}
           >
             {count > 0 ? avg.toFixed(1) : "—"}

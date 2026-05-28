@@ -16,8 +16,8 @@
   --color-specter: #cccccc;
   --color-muted: #888888;
 
-  --font-display: var(--font-rubik-burned);
-  --font-verdict: var(--font-rubik-dirt);
+  --font-display: var(--font-bebas-neue);
+  --font-section: var(--font-stint);
   --font-label: var(--font-oswald);
   --font-sans: var(--font-inter);
 }
