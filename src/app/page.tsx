@@ -184,12 +184,12 @@ export default async function HomePage() {
       {/* Hero */}
       <div className="relative w-full h-[22vw] min-h-[140px] max-h-[360px] overflow-hidden">
         <Image
-          src="/newbannerimageskeleton.PNG"
-          alt="Spooky or Dookie"
+          src="/terrormeterhero.png"
+          alt="TerrorMeter"
           fill
           priority
           className="object-cover"
-          style={{ objectPosition: "center 65%" }}
+          style={{ objectPosition: "top" }}
         />
         <div
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
