@@ -187,7 +187,7 @@ export default async function HomePage() {
           src="/terrormeterhero4.png"
           alt="TerrorMeter"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: "center" }}
+          style={{ objectPosition: "bottom", filter: "contrast(1.1) saturate(1.2)" }}
         />
         <div
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
