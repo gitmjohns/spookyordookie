@@ -2,27 +2,28 @@
 
 @theme {
   --color-void: #0a0a0a;
-  --color-crypt: #0f0618;
-  --color-tomb: #120a1e;
-  --color-shadow: #1a0a2e;
-  --color-purple-deep: #2d1b69;
-  --color-purple-mid: #4a1d96;
-  --color-purple-light: #7c3aed;
-  --color-green-spooky: #00e676;
-  --color-green-dark: #00b248;
-  --color-dookie: #8b4513;
-  --color-dookie-light: #d97706;
-  --color-ghost: #f0e8ff;
-  --color-specter: #c4b5fd;
-  --color-muted: #7c6a9e;
+  --color-crypt: #0d0d0d;
+  --color-tomb: #141414;
+  --color-shadow: #2a2a2a;
+  --color-purple-deep: #1a1a1a;
+  --color-purple-mid: #cc0000;
+  --color-purple-light: #d4a017;
+  --color-green-spooky: #cc0000;
+  --color-green-dark: #d4a017;
+  --color-dookie: #cc0000;
+  --color-dookie-light: #d4a017;
+  --color-ghost: #ffffff;
+  --color-specter: #cccccc;
+  --color-muted: #888888;
 
-  --font-display: var(--font-creepster);
+  --font-display: var(--font-bebas-neue);
+  --font-label: var(--font-oswald);
   --font-sans: var(--font-inter);
 }
 
 :root {
   --background: #0a0a0a;
-  --foreground: #f0e8ff;
+  --foreground: #ffffff;
 }
 
 body {
@@ -31,24 +32,36 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
 }
 
+/* Film grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f0618;
+  background: #0d0d0d;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2d1b69;
+  background: #cc0000;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #4a1d96;
+  background: #d4a017;
 }
 
 /* Rating slider custom styles */
 .rating-track {
-  background: linear-gradient(to right, #8b4513, #d97706, #7ec850, #00e676);
+  background: linear-gradient(to right, #cc0000, #d4a017, #ffffff);
 }
 
 @keyframes ratingEnter {

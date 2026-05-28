@@ -55,7 +55,7 @@ export default async function TVDetailPage({ params }: PageProps) {
   const overallColor = getRatingColor(overallScore);
   const overallLabel = getRatingLabel(overallScore);
   const criticColor = getRatingColor(title.critic_score);
-  const fanColor = hasRatings ? getRatingColor(title.rating_avg) : "#7c6a9e";
+  const fanColor = hasRatings ? getRatingColor(title.rating_avg) : "#888888";
 
   return (
     <div>

@@ -100,7 +100,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
         </div>
 
         <div className="flex items-center gap-1 sm:gap-3 sm:px-1">
-          <span className="text-2xl sm:text-4xl">💩</span>
+          <span className="text-2xl sm:text-4xl">☠</span>
           <div className="flex-1">
             <Slider.Root
               min={1}
@@ -118,7 +118,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
                 style={{ backgroundColor: previewColor }}
                 aria-label="Rating"
               >
-                💀
+                ✖
               </Slider.Thumb>
             </Slider.Root>
             <div className="flex justify-between px-3 mt-1">
@@ -126,17 +126,17 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
                 <div
                   key={n}
                   className="w-0.5 h-2 rounded-full"
-                  style={{ backgroundColor: n <= previewScore ? previewColor : "#2d1b69" }}
+                  style={{ backgroundColor: n <= previewScore ? previewColor : "#333333" }}
                 />
               ))}
             </div>
           </div>
-          <span className="text-2xl sm:text-4xl">💀</span>
+          <span className="text-2xl sm:text-4xl">🩶</span>
         </div>
 
         <div className="flex justify-between px-7 sm:px-12 text-sm font-bold">
-          <span style={{ color: "#c87030" }}>Dookie</span>
-          <span style={{ color: "#7dff6b" }}>Spooky</span>
+          <span style={{ color: "#cc0000" }}>Terrible</span>
+          <span style={{ color: "#ffffff" }}>Terrifying</span>
         </div>
       </div>
     );
@@ -220,7 +220,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
       </div>
 
       <div className="flex items-center gap-1 sm:gap-3 sm:px-1">
-        <span className="text-2xl sm:text-4xl select-none" title="Dookie">💩</span>
+        <span className="text-2xl sm:text-4xl select-none" title="Terrible">☠</span>
 
         <div className="flex-1">
           <Slider.Root
@@ -243,7 +243,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
                 if (!e.relatedTarget) e.currentTarget.blur();
               }}
             >
-              💀
+              ✖
             </Slider.Thumb>
           </Slider.Root>
 
@@ -252,18 +252,18 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
               <div
                 key={n}
                 className="w-0.5 h-2 rounded-full transition-colors duration-200"
-                style={{ backgroundColor: n <= score ? color : "#2d1b69" }}
+                style={{ backgroundColor: n <= score ? color : "#333333" }}
               />
             ))}
           </div>
         </div>
 
-        <span className="text-2xl sm:text-4xl select-none" title="Spooky">💀</span>
+        <span className="text-2xl sm:text-4xl select-none" title="Terrifying">🩶</span>
       </div>
 
       <div className="flex justify-between px-7 sm:px-12 text-sm font-bold">
-        <span style={{ color: "#c87030" }}>Dookie</span>
-        <span style={{ color: "#7dff6b" }}>Spooky</span>
+        <span style={{ color: "#cc0000" }}>Terrible</span>
+        <span style={{ color: "#ffffff" }}>Terrifying</span>
       </div>
 
       <div className="flex justify-center pt-2">
@@ -272,9 +272,9 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
           disabled={isPending || isDragging}
           className="px-10 py-3 rounded-xl font-bold text-sm transition-all duration-200 disabled:opacity-50 active:scale-95 shadow-lg"
           style={{
-            backgroundColor: color,
-            color: "#0a0a0a",
-            boxShadow: `0 4px 20px ${color}40`,
+            backgroundColor: "#cc0000",
+            color: "#ffffff",
+            boxShadow: "0 4px 20px rgba(204,0,0,0.4)",
             minWidth: "160px",
           }}
         >

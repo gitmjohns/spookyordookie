@@ -46,7 +46,7 @@ export function SpookyMeter({ criticScore, avg, count }: SpookyMeterProps) {
           </div>
           <div
             className="font-bold text-2xl leading-none"
-            style={{ color: count > 0 ? getRatingColor(avg) : "#7c6a9e" }}
+            style={{ color: count > 0 ? getRatingColor(avg) : "#888888" }}
           >
             {count > 0 ? avg.toFixed(1) : "—"}
             <span className="text-muted text-xs font-normal">/10</span>

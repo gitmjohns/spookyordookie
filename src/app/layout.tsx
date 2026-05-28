@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
-import { Creepster, Inter } from "next/font/google";
+import { Bebas_Neue, Oswald, Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 
-const creepster = Creepster({
+const bebasNeue = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-creepster",
+  variable: "--font-bebas-neue",
+});
+
+const oswald = Oswald({
+  subsets: ["latin"],
+  variable: "--font-oswald",
+  weight: ["400", "500", "600", "700"],
 });
 
 const inter = Inter({
@@ -32,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${creepster.variable} ${inter.variable} h-full`}
+      className={`${bebasNeue.variable} ${oswald.variable} ${inter.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-void text-ghost antialiased">
         <Navigation />

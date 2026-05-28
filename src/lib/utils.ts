@@ -16,13 +16,9 @@ export function getRatingLabel(score: number): string {
 }
 
 export function getRatingColor(score: number): string {
-  if (score >= 90) return "#00e676";
-  if (score >= 75) return "#7dff6b";
-  if (score >= 60) return "#c8e060";
-  if (score >= 45) return "#f5c842";
-  if (score >= 30) return "#d97706";
-  if (score >= 15) return "#c87030";
-  return "#8b4513";
+  if (score >= 60) return "#ffffff";
+  if (score >= 45) return "#d4a017";
+  return "#cc0000";
 }
 
 // Tiered weighting: fan ratings gain influence as community engagement grows.

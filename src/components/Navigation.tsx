@@ -96,10 +96,9 @@ export function Navigation() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-display text-2xl text-green-spooky hover:text-green-dark transition-colors flex-shrink-0"
-            style={{ letterSpacing: "-0.03em" }}
+            className="font-display text-2xl text-ghost transition-colors flex-shrink-0"
           >
-            Spooky or Dookie
+            TerrorMeter
           </Link>
 
           {/* Desktop nav links */}
@@ -109,7 +108,7 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 className="text-sm font-medium transition-colors hover:text-white"
-                style={{ color: pathname === link.href ? "#7dff6b" : "#9a8aaa" }}
+                style={{ color: pathname === link.href ? "#cc0000" : "#888888" }}
               >
                 {link.label}
               </Link>
@@ -237,7 +236,7 @@ export function Navigation() {
               href={link.href}
               onClick={() => setMobileNavOpen(false)}
               className="flex items-center px-6 py-3.5 text-base font-medium transition-colors border-b border-shadow/40 last:border-0"
-              style={{ color: pathname === link.href ? "#7dff6b" : "#9a8aaa" }}
+              style={{ color: pathname === link.href ? "#cc0000" : "#888888" }}
             >
               {link.label}
             </Link>
