@@ -184,10 +184,10 @@ export default async function HomePage() {
       <div className="relative w-full h-[27vw] min-h-[109px] max-h-[509px] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/terrormeterhero4.png"
+          src="/Grindhousebackdrop.png"
           alt="TerrorMeter"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: "bottom", filter: "contrast(1.1) saturate(1.2)" }}
+          style={{ objectPosition: "center" }}
         />
         <div
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
@@ -195,6 +195,22 @@ export default async function HomePage() {
         />
         {/* Strong black vignette from bottom — blends banner into page */}
         <div className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none" style={{ background: "linear-gradient(to top, #000000 0%, #000000 15%, rgba(0,0,0,0.6) 45%, transparent 100%)" }} />
+        {/* TERRORMETER title overlay — misaligned print-registration effect */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <p style={{
+            fontFamily: "var(--font-creepster)",
+            color: "#ffffff",
+            textShadow: "4px 4px 0px #000000",
+            fontSize: "clamp(2.5rem, 9vw, 8rem)",
+            lineHeight: 1,
+            letterSpacing: "0.02em",
+            display: "flex",
+            alignItems: "flex-end",
+          }}>
+            <span style={{ position: "relative", top: "-9px" }}>TERROR</span>
+            <span>METER</span>
+          </p>
+        </div>
         {/* Subtitle — moved up from bottom */}
         <div className="absolute bottom-0 left-0 right-0 flex justify-center pl-[8%] pb-9 sm:pb-14 pointer-events-none">
           <p style={{
