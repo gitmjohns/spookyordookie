@@ -55,7 +55,7 @@ function Btn({ active, onClick, children }: { active: boolean; onClick: () => vo
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors ${
+      className={`font-display w-full text-left px-3 py-1.5 rounded-lg text-sm transition-colors ${
         active ? "bg-purple-mid text-ghost font-medium" : "text-specter hover:bg-shadow hover:text-ghost"
       }`}
     >

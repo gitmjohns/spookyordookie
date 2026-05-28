@@ -193,6 +193,8 @@ export default async function HomePage() {
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
           style={{ background: "radial-gradient(ellipse at 100% 100%, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 35%, rgba(10,10,10,0.3) 60%, transparent 80%)" }}
         />
+        {/* Red grindhouse overlay */}
+        <div className="absolute inset-0 pointer-events-none" style={{ backgroundColor: "rgba(204,0,0,0.70)" }} />
         {/* Strong black vignette from bottom — blends banner into page */}
         <div className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none" style={{ background: "linear-gradient(to top, #000000 0%, #000000 15%, rgba(0,0,0,0.6) 45%, transparent 100%)" }} />
         {/* Title + subtitle — vertically and horizontally centered as a group */}
@@ -211,7 +213,7 @@ export default async function HomePage() {
             <span>METER</span>
           </p>
           <p style={{
-            fontFamily: "var(--font-creepster)",
+            fontFamily: "var(--font-alfa-slab-one)",
             color: "#ffffff",
             textShadow: "3px 3px 0px #000000",
             fontSize: "clamp(0.9rem, 2vw, 1.5rem)",

@@ -275,7 +275,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
           <Link
             key={tab}
             href={`/profile/${username}?tab=${tab}`}
-            className={`px-4 py-2 text-sm capitalize border-b-2 -mb-px transition-colors ${
+            className={`font-display px-4 py-2 text-sm capitalize border-b-2 -mb-px transition-colors ${
               currentTab === tab
                 ? "border-green-spooky text-green-spooky"
                 : "border-transparent text-muted hover:text-ghost"
@@ -295,7 +295,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
                 <Link
                   key={s.value}
                   href={`/profile/${username}?tab=ratings&sort=${s.value}`}
-                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                  className={`font-display px-3 py-1.5 rounded text-sm font-medium transition-colors ${
                     sortParam === s.value
                       ? "bg-green-spooky text-void"
                       : "bg-tomb text-specter border border-shadow hover:border-purple-mid hover:text-ghost"

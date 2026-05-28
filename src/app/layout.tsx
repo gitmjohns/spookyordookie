@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Creepster, Oswald, Inter } from "next/font/google";
+import { Creepster, Alfa_Slab_One, Oswald, Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
@@ -8,6 +8,12 @@ const creepster = Creepster({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-creepster",
+});
+
+const alfaSlabOne = Alfa_Slab_One({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-alfa-slab-one",
 });
 
 const oswald = Oswald({
@@ -38,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${creepster.variable} ${oswald.variable} ${inter.variable} h-full`}
+      className={`${creepster.variable} ${alfaSlabOne.variable} ${oswald.variable} ${inter.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-void text-ghost antialiased">
         <Navigation />

@@ -32,7 +32,7 @@ export function TitleCard({ title, inWatchlist, isLoggedIn }: TitleCardProps) {
           )}
 
           <div
-            className="absolute top-2 right-2 px-2 py-0.5 rounded-md text-xs font-bold text-void"
+            className="font-display absolute top-2 right-2 px-2 py-0.5 rounded-md text-xs font-bold text-void"
             style={{ backgroundColor: scoreColor }}
           >
             {displayScore}

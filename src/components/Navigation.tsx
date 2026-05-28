@@ -108,7 +108,7 @@ export function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium transition-colors hover:text-white"
+                className="font-display text-sm font-medium transition-colors hover:text-white"
                 style={{ color: pathname === link.href ? "#cc0000" : "#888888" }}
               >
                 {link.label}
@@ -196,7 +196,7 @@ export function Navigation() {
                 )}
               </div>
             ) : (
-              <Link href="/auth/login" className="text-sm font-bold text-specter hover:text-ghost transition-colors px-2">
+              <Link href="/auth/login" className="font-display text-sm font-bold text-specter hover:text-ghost transition-colors px-2">
                 Sign In
               </Link>
             )}
@@ -236,7 +236,7 @@ export function Navigation() {
               key={link.href}
               href={link.href}
               onClick={() => setMobileNavOpen(false)}
-              className="flex items-center px-6 py-3.5 text-base font-medium transition-colors border-b border-shadow/40 last:border-0"
+              className="font-display flex items-center px-6 py-3.5 text-base font-medium transition-colors border-b border-shadow/40 last:border-0"
               style={{ color: pathname === link.href ? "#cc0000" : "#888888" }}
             >
               {link.label}
