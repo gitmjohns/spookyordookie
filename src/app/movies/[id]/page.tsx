@@ -100,7 +100,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
                     <span key={g} className="px-2 py-0.5 bg-shadow text-muted text-xs rounded">{g}</span>
                   ))}
                 </div>
-                <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-ghost leading-tight">{title.title}</h1>
+                <h1 className="font-verdict text-4xl sm:text-5xl md:text-6xl text-ghost leading-tight">{title.title}</h1>
                 {title.release_year && <p className="text-muted mt-1 text-sm">{title.release_year}</p>}
                 {title.overview && <p className="text-specter text-sm mt-3 leading-relaxed line-clamp-4">{title.overview}</p>}
                 <div className="mt-3">
