@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { submitContactForm } from "@/app/actions/contact";
 
 export function ContactForm() {
   const [isPending, startTransition] = useTransition();
@@ -10,9 +9,17 @@ export function ContactForm() {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const name = (formData.get("name") as string) ?? "";
+    const email = (formData.get("email") as string) ?? "";
+    const message = (formData.get("message") as string) ?? "";
     startTransition(async () => {
-      const res = await submitContactForm(formData);
-      setResult(res);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      const data = await res.json();
+      setResult(data);
     });
   }
 
