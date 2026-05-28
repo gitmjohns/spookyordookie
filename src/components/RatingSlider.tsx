@@ -135,8 +135,8 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
         </div>
 
         <div className="flex justify-between px-7 sm:px-12 text-sm font-bold">
-          <span style={{ color: "#cc0000", fontFamily: "var(--font-creepster)" }}>Terrible</span>
-          <span style={{ color: "#ffffff", fontFamily: "var(--font-creepster)" }}>Terrifying</span>
+          <span style={{ color: "#cc0000", fontFamily: "var(--font-inter)" }}>Terrible</span>
+          <span style={{ color: "#ffffff", fontFamily: "var(--font-inter)" }}>Terrifying</span>
         </div>
       </div>
     );
@@ -262,8 +262,8 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
       </div>
 
       <div className="flex justify-between px-7 sm:px-12 text-sm font-bold">
-        <span style={{ color: "#cc0000", fontFamily: "var(--font-creepster)" }}>Terrible</span>
-        <span style={{ color: "#ffffff", fontFamily: "var(--font-creepster)" }}>Terrifying</span>
+        <span style={{ color: "#cc0000", fontFamily: "var(--font-inter)" }}>Terrible</span>
+        <span style={{ color: "#ffffff", fontFamily: "var(--font-inter)" }}>Terrifying</span>
       </div>
 
       <div className="flex justify-center pt-2">
