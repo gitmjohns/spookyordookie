@@ -193,7 +193,20 @@ export default async function HomePage() {
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
           style={{ background: "radial-gradient(ellipse at 100% 100%, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 35%, rgba(10,10,10,0.3) 60%, transparent 80%)" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/55 to-void/30 pointer-events-none" />
+        {/* Subtle bottom vignette only — keep top of image at full brightness */}
+        <div className="absolute inset-0 bg-gradient-to-t from-void/80 via-void/15 to-transparent pointer-events-none" />
+        {/* Subtitle — lower third */}
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-3 sm:pb-5 pointer-events-none">
+          <p style={{
+            fontFamily: "var(--font-bebas-neue)",
+            color: "#ffffff",
+            textShadow: "3px 3px 0px #000000",
+            fontSize: "clamp(0.9rem, 2vw, 1.5rem)",
+            letterSpacing: "0.08em",
+          }}>
+            Rate every horror title from Terrible to Terrifying
+          </p>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
