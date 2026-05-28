@@ -58,7 +58,7 @@ export function FilterPills({ mediaType }: FilterPillsProps) {
 
   const sortOptions = SORT_OPTIONS;
 
-  const pillBase = "font-display flex-shrink-0 px-3 py-2 rounded-full text-sm font-medium transition-colors";
+  const pillBase = "font-label flex-shrink-0 px-3 py-2 rounded-full text-sm font-medium transition-colors";
   const pillActive = "bg-purple-mid text-ghost";
   const pillInactive = "bg-shadow text-specter hover:text-ghost hover:bg-purple-deep";
 
@@ -71,7 +71,7 @@ export function FilterPills({ mediaType }: FilterPillsProps) {
           <button
             key={s.key}
             onClick={() => update({ sort: s.key })}
-            className={`font-display flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+            className={`font-label flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
               current.sort === s.key ? pillActive : pillInactive
             }`}
           >
