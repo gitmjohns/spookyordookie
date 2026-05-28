@@ -2,7 +2,6 @@
 
 import { useState, useTransition, useCallback, useEffect, useRef } from "react";
 import * as Slider from "@radix-ui/react-slider";
-import { submitRating } from "@/app/actions/ratings";
 import { getRatingLabel, getRatingColor } from "@/lib/utils";
 
 interface RatingSliderProps {
@@ -41,7 +40,12 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
 
   function handleSubmit() {
     startTransition(async () => {
-      await submitRating(titleId, score);
+      const res = await fetch("/api/rate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titleId, score }),
+      });
+      if (!res.ok) return;
       submittedScoreRef.current = score;
       setSaved(true);
       setUnlocked(false);

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { toggleWatchlist } from "@/app/actions/watchlist";
 import { cn } from "@/lib/utils";
 
 interface WatchlistButtonProps {
@@ -33,7 +32,11 @@ export function WatchlistButton({
 
     startTransition(async () => {
       setInList((v) => !v);
-      await toggleWatchlist(titleId, inList);
+      await fetch("/api/watchlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titleId, currentlyInList: inList }),
+      });
     });
   }
 

@@ -10,7 +10,6 @@ function fetchWithTimeout(url: RequestInfo | URL, init?: RequestInit) {
 }
 
 export async function proxy(request: NextRequest) {
-  console.log("[proxy] origin:", request.headers.get("origin"), "| x-forwarded-host:", request.headers.get("x-forwarded-host"), "| host:", request.headers.get("host"));
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
