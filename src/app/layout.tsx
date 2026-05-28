@@ -19,7 +19,7 @@ const alfaSlabOne = Alfa_Slab_One({
 const oswald = Oswald({
   subsets: ["latin"],
   variable: "--font-oswald",
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const inter = Inter({

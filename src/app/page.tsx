@@ -213,10 +213,11 @@ export default async function HomePage() {
             <span>METER</span>
           </p>
           <p style={{
-            fontFamily: "var(--font-alfa-slab-one)",
+            fontFamily: "var(--font-oswald)",
+            fontWeight: 300,
             color: "#ffffff",
             textShadow: "3px 3px 0px #000000",
-            fontSize: "clamp(0.9rem, 2vw, 1.5rem)",
+            fontSize: "clamp(0.72rem, 1.6vw, 1.2rem)",
             letterSpacing: "0.08em",
             marginLeft: "8%",
           }}>
