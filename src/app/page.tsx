@@ -198,7 +198,7 @@ export default async function HomePage() {
         {/* Subtitle — moved up from bottom */}
         <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-9 sm:pb-14 pointer-events-none">
           <p style={{
-            fontFamily: "var(--font-alfa-slab-one)",
+            fontFamily: "var(--font-creepster)",
             color: "#ffffff",
             textShadow: "3px 3px 0px #000000",
             fontSize: "clamp(0.9rem, 2vw, 1.5rem)",
