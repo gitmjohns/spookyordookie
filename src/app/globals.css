@@ -18,6 +18,7 @@
 
   --font-display: var(--font-alfa-slab-one);
   --font-verdict: var(--font-creepster);
+  --font-score: var(--font-oswald);
   --font-label: var(--font-oswald);
   --font-sans: var(--font-inter);
 }

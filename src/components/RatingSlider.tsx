@@ -169,7 +169,7 @@ export function RatingSlider({ titleId, initialScore, disabled = false }: Rating
 
             {(animating || revealed) && (
               <div
-                className="font-display text-3xl sm:text-4xl font-bold leading-none mt-3 tabular-nums"
+                className="font-score text-3xl sm:text-4xl font-bold leading-none mt-3 tabular-nums"
                 style={{
                   color: revealColor,
                   opacity: animating ? 0.85 : 1,
