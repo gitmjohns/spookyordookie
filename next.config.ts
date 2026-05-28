@@ -2,6 +2,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["terrormeter.com", "www.terrormeter.com", "*.vercel.app"],
+    },
+  },
   images: {
     remotePatterns: [
       {
