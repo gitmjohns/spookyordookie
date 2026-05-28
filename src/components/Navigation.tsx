@@ -97,7 +97,7 @@ export function Navigation() {
           <Link
             href="/"
             className="text-2xl text-ghost transition-colors flex-shrink-0"
-            style={{ fontFamily: "var(--font-alfa-slab-one)", letterSpacing: "0.05em" }}
+            style={{ fontFamily: "var(--font-rubik-burned)", letterSpacing: "0.05em" }}
           >
             TerrorMeter
           </Link>
