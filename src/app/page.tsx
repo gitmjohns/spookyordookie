@@ -195,8 +195,10 @@ export default async function HomePage() {
         />
         {/* Red grindhouse overlay */}
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundColor: "rgba(204,0,0,0.70)" }} />
-        {/* Strong black vignette from bottom — blends banner into page */}
-        <div className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none" style={{ background: "linear-gradient(to top, #000000 0%, #000000 15%, rgba(0,0,0,0.6) 45%, transparent 100%)" }} />
+        {/* Top vignette — fades from page bg to transparent */}
+        <div className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: "linear-gradient(to bottom, #0a0a0a 0%, #0a0a0a 5%, rgba(10,10,10,0.6) 35%, transparent 100%)" }} />
+        {/* Bottom vignette — fades from page bg to transparent */}
+        <div className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none" style={{ background: "linear-gradient(to top, #0a0a0a 0%, #0a0a0a 5%, rgba(10,10,10,0.6) 35%, transparent 100%)" }} />
         {/* Title + subtitle — vertically and horizontally centered as a group */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none">
           <p style={{
