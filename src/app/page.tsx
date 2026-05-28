@@ -181,10 +181,10 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <div className="relative w-full h-[20vw] min-h-[127px] max-h-[328px] overflow-hidden">
+      <div className="relative w-full h-[29.9vw] min-h-[120px] max-h-[560px] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/terrormeterhero.png"
+          src="/terrormeterhero3.png"
           alt="TerrorMeter"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ objectPosition: "top" }}
