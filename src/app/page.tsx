@@ -181,13 +181,13 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <div className="relative w-full h-[29.9vw] min-h-[120px] max-h-[560px] overflow-hidden">
+      <div className="relative w-full h-[27vw] min-h-[109px] max-h-[509px] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/terrormeterhero4.png"
           alt="TerrorMeter"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: "top" }}
+          style={{ objectPosition: "center" }}
         />
         <div
           className="absolute bottom-0 right-0 w-80 h-48 pointer-events-none"
@@ -196,7 +196,7 @@ export default async function HomePage() {
         {/* Strong black vignette from bottom — blends banner into page */}
         <div className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none" style={{ background: "linear-gradient(to top, #000000 0%, #000000 15%, rgba(0,0,0,0.6) 45%, transparent 100%)" }} />
         {/* Subtitle — moved up from bottom */}
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center pb-9 sm:pb-14 pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center pl-[8%] pb-9 sm:pb-14 pointer-events-none">
           <p style={{
             fontFamily: "var(--font-creepster)",
             color: "#ffffff",
