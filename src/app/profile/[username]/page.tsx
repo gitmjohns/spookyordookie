@@ -452,7 +452,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
               }`}
             >
               <div className="text-2xl mb-1">{badge.emoji}</div>
-              <div className="text-xs font-medium text-ghost">{badge.label}</div>
+              <div className="font-verdict text-xs font-medium text-ghost">{badge.label}</div>
               <div className="text-xs text-muted mt-0.5">{badge.desc}</div>
             </div>
           ))}
