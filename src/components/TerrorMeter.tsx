@@ -185,7 +185,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
           {/* Center overlay: lights+verdict OR score */}
           <div style={{
             position: "absolute",
-            bottom: "5%",
+            bottom: "10%",
             left: "50%",
             transform: "translateX(-50%)",
             width: "55%",
