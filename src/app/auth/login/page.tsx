@@ -59,7 +59,7 @@ export default function LoginPage() {
         {/* Branding */}
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">💀</div>
-          <h1 className="font-display text-4xl text-green-spooky leading-tight">
+          <h1 className="font-verdict text-4xl leading-tight" style={{ color: "#ffffff" }}>
             TerrorMeter
           </h1>
           <p className="text-specter mt-3 text-sm leading-relaxed">

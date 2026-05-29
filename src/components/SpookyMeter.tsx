@@ -16,7 +16,7 @@ export function SpookyMeter({ criticScore, avg, count }: SpookyMeterProps) {
     <div className="space-y-4">
       {/* Overall verdict — label + score, no bar */}
       <div className="text-center">
-        <div className="font-verdict text-4xl sm:text-5xl leading-tight" style={{ color }}>
+        <div className="font-label text-4xl sm:text-5xl leading-tight" style={{ color }}>
           {label}
         </div>
         <div
