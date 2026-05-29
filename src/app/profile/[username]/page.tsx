@@ -334,7 +334,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
                       )}
                       <div
                         className="font-score absolute top-1 right-1 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow"
-                        style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColor }}
+                        style={{ backgroundColor: badgeColor, color: "#ffffff" }}
                       >
                         {r.score}
                       </div>

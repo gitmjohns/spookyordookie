@@ -99,7 +99,7 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
           )}
           <span
             className="font-score text-xs font-bold px-1.5 py-0.5 rounded"
-            style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColor }}
+            style={{ backgroundColor: badgeColor, color: "#ffffff" }}
           >
             {Math.round(combinedScore)}
           </span>

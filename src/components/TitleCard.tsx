@@ -33,7 +33,7 @@ export function TitleCard({ title, inWatchlist, isLoggedIn }: TitleCardProps) {
 
           <div
             className="font-score absolute top-2 right-2 px-2 py-0.5 rounded-md text-xs font-bold"
-            style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColor }}
+            style={{ backgroundColor: badgeColor, color: "#ffffff" }}
           >
             {displayScore}
           </div>

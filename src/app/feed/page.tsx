@@ -120,7 +120,7 @@ export default async function FeedPage({ searchParams }: PageProps) {
               {" · "}
               <span
                 className="font-score inline-block px-1.5 py-0.5 rounded text-xs font-bold"
-                style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColor }}
+                style={{ backgroundColor: badgeColor, color: "#ffffff" }}
               >
                 {score}
               </span>
