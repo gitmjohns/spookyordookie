@@ -67,6 +67,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
   const [submitted, setSubmitted] = useState(initialScore !== null);
   const [displayCount, setDisplayCount] = useState(initialScore ?? 0);
   const [submissionCount, setSubmissionCount] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
@@ -220,7 +221,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
                 </div>
                 <div style={{
                   fontFamily: "var(--font-slab, 'Roboto Slab', serif)",
-                  fontSize: "clamp(11px, 3vw, 15px)",
+                  fontSize: hasInteracted ? "clamp(11px, 3vw, 15px)" : "clamp(9px, 2.4vw, 12px)",
                   fontWeight: 400,
                   letterSpacing: 1,
                   textTransform: "uppercase",
@@ -265,7 +266,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
               step={1}
               value={score}
               disabled={submitted || disabled}
-              onChange={(e) => setScore(Number(e.target.value))}
+              onChange={(e) => { setScore(Number(e.target.value)); if (!hasInteracted) setHasInteracted(true); }}
               style={{ width: "100%", accentColor: zoneColor }}
             />
           </div>
