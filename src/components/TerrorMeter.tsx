@@ -195,7 +195,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
           }}>
             {!submitted ? (
               <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 6, marginTop: -6 }}>
+                <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 6, marginTop: -20 }}>
                   <div style={{
                     width: 11, height: 11, borderRadius: "50%",
                     border: `1.5px solid ${redOn ? "#ff6666" : "#222"}`,
