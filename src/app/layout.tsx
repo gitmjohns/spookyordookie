@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Creepster, Alfa_Slab_One, Oswald, Inter } from "next/font/google";
+import { Creepster, Alfa_Slab_One, Oswald, Inter, Roboto_Slab } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { Navigation } from "@/components/Navigation";
@@ -27,6 +27,12 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const robotoSlab = Roboto_Slab({
+  subsets: ["latin"],
+  variable: "--font-roboto-slab",
+  weight: ["300", "400"],
+});
+
 export const metadata: Metadata = {
   title: "TerrorMeter — Horror Reviews",
   description:
@@ -44,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${creepster.variable} ${alfaSlabOne.variable} ${oswald.variable} ${inter.variable} h-full`}
+      className={`${creepster.variable} ${alfaSlabOne.variable} ${oswald.variable} ${inter.variable} ${robotoSlab.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-void text-ghost antialiased">
         <Navigation />

@@ -126,9 +126,9 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
     }}>
 
       <div style={{
-        fontFamily: "var(--font-label, 'Oswald', sans-serif)",
+        fontFamily: "var(--font-slab, 'Roboto Slab', serif)",
         fontSize: 11,
-        fontWeight: 400,
+        fontWeight: 300,
         letterSpacing: 4,
         textTransform: "uppercase",
         color: "#888",
@@ -219,9 +219,9 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
                   }} />
                 </div>
                 <div style={{
-                  fontFamily: "var(--font-label, 'Oswald', sans-serif)",
+                  fontFamily: "var(--font-slab, 'Roboto Slab', serif)",
                   fontSize: "clamp(11px, 3vw, 15px)",
-                  fontWeight: 700,
+                  fontWeight: 400,
                   letterSpacing: 1,
                   textTransform: "uppercase",
                   textAlign: "center",
