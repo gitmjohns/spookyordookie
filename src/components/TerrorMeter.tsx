@@ -126,9 +126,9 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
     }}>
 
       <div style={{
-        fontFamily: "var(--font-slab, 'Roboto Slab', serif)",
+        fontFamily: "var(--font-sans, system-ui, sans-serif)",
         fontSize: 11,
-        fontWeight: 300,
+        fontWeight: 400,
         letterSpacing: 4,
         textTransform: "uppercase",
         color: "#888",
@@ -147,7 +147,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
         lineHeight: 1,
         width: "100%",
       }}>
-        TERRORMETER
+        THE TERRORMETER
       </div>
 
       {/* Metal panel */}
