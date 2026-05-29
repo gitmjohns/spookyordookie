@@ -28,9 +28,9 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data: exchangeData, error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      const { data: { user } } = await supabase.auth.getUser();
+      const user = exchangeData.user;
       if (user) {
         const svc = adminDb();
         const { data: profile } = await svc
