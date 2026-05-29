@@ -133,6 +133,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
         textTransform: "uppercase",
         color: "#888",
         textAlign: "center",
+        width: "100%",
       }}>
         Rate this title
       </div>
@@ -144,6 +145,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
         letterSpacing: 3,
         textAlign: "center",
         lineHeight: 1,
+        width: "100%",
       }}>
         TERRORMETER
       </div>
@@ -192,7 +194,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
             gap: 6,
           }}>
             {!submitted ? (
-              <div>
+              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 6 }}>
                   <div style={{
                     width: 11, height: 11, borderRadius: "50%",
