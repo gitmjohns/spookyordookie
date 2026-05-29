@@ -216,12 +216,11 @@ export default async function HomePage() {
             fontFamily: "var(--font-oswald)",
             fontWeight: 300,
             color: "#ffffff",
-            textShadow: "3px 3px 0px #000000",
             fontSize: "clamp(0.72rem, 1.6vw, 1.2rem)",
             letterSpacing: "0.08em",
             marginLeft: "8%",
           }}>
-            Rate every horror title from Terrible to Terrifying
+            Discover horror. Rate from Terrible to Terrifying.
           </p>
         </div>
       </div>
