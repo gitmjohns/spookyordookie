@@ -12,16 +12,16 @@ interface TerrorMeterProps {
 const VERDICTS = [
   { min: 0,  max: 14,  label: "Truly Terrible",   color: "#cc0000" },
   { min: 15, max: 29,  label: "Pretty Awful",      color: "#cc0000" },
-  { min: 30, max: 44,  label: "Kinda Bad",         color: "#d4a017" },
+  { min: 30, max: 44,  label: "Kinda Bad",         color: "#cc0000" },
   { min: 45, max: 59,  label: "Meh-diocre",        color: "#d4a017" },
-  { min: 60, max: 74,  label: "Kinda Creepy",      color: "#22c55e" },
+  { min: 60, max: 74,  label: "Kinda Creepy",      color: "#d4a017" },
   { min: 75, max: 89,  label: "Pretty Scary",      color: "#22c55e" },
   { min: 90, max: 100, label: "Truly Terrifying",  color: "#22c55e" },
 ];
 
 function getZoneColor(val: number): string {
-  if (val <= 44) return "#cc0000";
-  if (val <= 74) return "#d4a017";
+  if (val <= 39) return "#cc0000";
+  if (val <= 69) return "#d4a017";
   return "#22c55e";
 }
 
@@ -76,9 +76,9 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
 
   const verdict = getVerdict(score);
   const zoneColor = getZoneColor(score);
-  const redOn = score <= 44;
-  const orangeOn = score >= 30 && score <= 74;
-  const greenOn = score >= 60;
+  const redOn = score <= 39;
+  const orangeOn = score >= 40 && score <= 69;
+  const greenOn = score >= 70;
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -228,7 +228,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
                   textAlign: "center",
                   minHeight: 18,
                   whiteSpace: "nowrap",
-                  color: verdict.color,
+                  color: getZoneColor(score),
                   transition: "color 0.2s",
                 }}>
                   {verdict.label}

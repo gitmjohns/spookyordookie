@@ -22,8 +22,8 @@ export function getRatingColor(score: number): string {
 }
 
 export function getBadgeColor(score: number): string {
-  if (score >= 60) return "#22c55e";
-  if (score >= 30) return "#d4a017";
+  if (score >= 70) return "#22c55e";
+  if (score >= 40) return "#d4a017";
   return "#cc0000";
 }
 
