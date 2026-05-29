@@ -18,7 +18,7 @@ function SectionHeader({ title, sub, href }: { title: string; sub: string; href?
     <div className="flex items-end justify-between mb-5">
       <div>
         <h2 className="font-display text-3xl text-ghost">{title}</h2>
-        <p className="font-label font-light text-muted text-sm mt-0.5">{sub}</p>
+        <p className="font-label font-light text-muted text-base mt-0.5">{sub}</p>
       </div>
       {href && (
         <Link href={href} className="text-sm font-bold text-green-spooky hover:underline shrink-0">
@@ -78,7 +78,7 @@ async function SpookyGoat({ isLoggedIn, watchlistIds }: RowProps) {
   return (
     <section className="pt-6 pb-10">
       <SectionHeader
-        title="Terror G.O.A.T."
+        title="G.O.A.T. Terrors"
         sub="The greatest horror films ever made — Critic Score 85+"
         href="/movies?sort=top-rated"
       />
@@ -111,7 +111,7 @@ async function LatestSpooks({ isLoggedIn, watchlistIds }: RowProps) {
   return (
     <section className="py-10 border-t border-shadow">
       <SectionHeader
-        title="Latest Terror"
+        title="Latest Terrors"
         sub="New and recent horror releases"
         href="/movies?sort=newest"
       />
@@ -128,7 +128,7 @@ async function SpookyComedies({ isLoggedIn, watchlistIds }: RowProps) {
   return (
     <section className="py-10 border-t border-shadow">
       <SectionHeader
-        title="Horror Comedies"
+        title="Terrific Comedies"
         sub="Horror that makes you laugh before it makes you scream"
         href="/movies?genre=Comedy+Horror"
       />
@@ -163,7 +163,7 @@ async function TopHorrorTV({ isLoggedIn, watchlistIds }: RowProps) {
   return (
     <section className="py-10 border-t border-shadow">
       <SectionHeader
-        title="Terror TV"
+        title="Televised Terror"
         sub="Highest rated horror series, anthologies, and limited runs"
         href="/tv"
       />
