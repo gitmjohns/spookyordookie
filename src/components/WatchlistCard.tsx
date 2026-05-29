@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { tmdbImageUrl, getRatingColor, tieredCombinedScore } from "@/lib/utils";
+import { tmdbImageUrl, getBadgeColor, tieredCombinedScore } from "@/lib/utils";
 
 interface WatchlistCardProps {
   entry: {
@@ -35,7 +35,7 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
   const posterUrl = tmdbImageUrl(title.poster_path, "w185");
   const titleHref = `/${title.media_type === "movie" ? "movies" : "tv"}/${title.id}`;
   const combinedScore = Math.round(tieredCombinedScore(title.critic_score, title.rating_avg ?? 0, title.rating_count ?? 0));
-  const scoreColor = getRatingColor(combinedScore);
+  const badgeColor = getBadgeColor(combinedScore);
 
   function handleWatchToggle() {
     const newWatched = !watched;
@@ -98,8 +98,8 @@ export function WatchlistCard({ entry, title }: WatchlistCardProps) {
             <span className="text-xs text-muted">{title.release_year}</span>
           )}
           <span
-            className="text-xs font-bold px-1.5 py-0.5 rounded text-void"
-            style={{ backgroundColor: scoreColor }}
+            className="font-score text-xs font-bold px-1.5 py-0.5 rounded"
+            style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColor }}
           >
             {Math.round(combinedScore)}
           </span>

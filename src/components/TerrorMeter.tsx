@@ -126,7 +126,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
     }}>
 
       <div style={{
-        fontFamily: "sans-serif",
+        fontFamily: "var(--font-sans, 'Inter', sans-serif)",
         fontSize: 11,
         fontWeight: 300,
         letterSpacing: 4,
@@ -217,7 +217,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
                   }} />
                 </div>
                 <div style={{
-                  fontFamily: "var(--font-oswald, 'Oswald', sans-serif)",
+                  fontFamily: "var(--font-score, 'VHS Gothic', monospace)",
                   fontSize: "clamp(11px, 3vw, 15px)",
                   fontWeight: 700,
                   letterSpacing: 1,
@@ -233,7 +233,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
               </div>
             ) : (
               <div style={{
-                fontFamily: "var(--font-oswald, 'Oswald', sans-serif)",
+                fontFamily: "var(--font-score, 'VHS Gothic', monospace)",
                 fontSize: "clamp(24px, 8vw, 40px)",
                 fontWeight: 700,
                 textAlign: "center",

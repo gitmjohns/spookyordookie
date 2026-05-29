@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
-import { tmdbImageUrl, getRatingColor, tieredCombinedScore } from "@/lib/utils";
+import { tmdbImageUrl, getBadgeColor, tieredCombinedScore } from "@/lib/utils";
 
 interface PageProps {
   params: Promise<{ username: string }>;
@@ -275,7 +275,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
           <Link
             key={tab}
             href={`/profile/${username}?tab=${tab}`}
-            className={`font-label px-4 py-2 text-sm capitalize border-b-2 -mb-px transition-colors ${
+            className={`font-score px-4 py-2 text-sm capitalize border-b-2 -mb-px transition-colors ${
               currentTab === tab
                 ? "border-green-spooky text-green-spooky"
                 : "border-transparent text-muted hover:text-ghost"
@@ -316,7 +316,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
               {sortedRatings.map((r) => {
                 if (!r.titles) return null;
                 const posterUrl = tmdbImageUrl(r.titles.poster_path, "w185");
-                const scoreColor = getRatingColor(r.score / 10);
+                const badgeColor = getBadgeColor(r.score);
                 return (
                   <Link
                     key={r.id}
@@ -333,8 +333,8 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
                         <div className="w-full h-full flex items-center justify-center text-2xl">💀</div>
                       )}
                       <div
-                        className="absolute top-1 right-1 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-void shadow"
-                        style={{ backgroundColor: scoreColor }}
+                        className="font-score absolute top-1 right-1 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow"
+                        style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColor }}
                       >
                         {r.score}
                       </div>
@@ -400,7 +400,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
                 if (!w.title) return null;
                 const posterUrl = tmdbImageUrl(w.title.poster_path, "w185");
                 const combinedScore = Math.round(tieredCombinedScore(w.title.critic_score, w.title.rating_avg, w.title.rating_count));
-                const scoreColor = getRatingColor(combinedScore);
+                const badgeColorW = getBadgeColor(combinedScore);
                 const titleHref = `/${w.title.media_type === "movie" ? "movies" : "tv"}/${w.title.id}`;
                 return (
                   <div
@@ -422,7 +422,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
                       </Link>
                       <div className="flex items-center gap-2 mt-0.5">
                         {w.title.release_year && <span className="text-xs text-muted">{w.title.release_year}</span>}
-                        <span className="text-xs font-bold px-1.5 py-0.5 rounded text-void" style={{ backgroundColor: scoreColor }}>
+                        <span className="font-score text-xs font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColorW }}>
                           {Math.round(combinedScore)}
                         </span>
                         {w.watched && (

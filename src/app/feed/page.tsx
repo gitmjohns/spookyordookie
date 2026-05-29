@@ -4,7 +4,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Pagination } from "@/components/Pagination";
 import { AvatarCircle } from "@/components/AvatarCircle";
-import { tmdbImageUrl, getRatingColor } from "@/lib/utils";
+import { tmdbImageUrl, getBadgeColor } from "@/lib/utils";
 
 export const metadata = { title: "Community — TerrorMeter" };
 
@@ -103,7 +103,7 @@ export default async function FeedPage({ searchParams }: PageProps) {
 
     if (a.type === "rating") {
       const score = a.metadata?.score;
-      const scoreColor = score != null ? getRatingColor(score / 10) : undefined;
+      const badgeColor = score != null ? getBadgeColor(score) : undefined;
       return (
         <>
           {usernameNode}
@@ -119,8 +119,8 @@ export default async function FeedPage({ searchParams }: PageProps) {
             <>
               {" · "}
               <span
-                className="inline-block px-1.5 py-0.5 rounded text-xs font-bold text-void"
-                style={{ backgroundColor: scoreColor }}
+                className="font-score inline-block px-1.5 py-0.5 rounded text-xs font-bold"
+                style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColor }}
               >
                 {score}
               </span>
