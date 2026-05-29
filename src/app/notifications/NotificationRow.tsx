@@ -31,6 +31,7 @@ export function NotificationRow({ id, read, href, text, time, actorEmoji, actorB
           credentials: "include",
           body: JSON.stringify({ id }),
         });
+        router.refresh();
       });
     }
     router.push(href);

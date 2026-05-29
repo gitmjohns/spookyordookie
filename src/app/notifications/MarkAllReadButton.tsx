@@ -17,6 +17,7 @@ export function MarkAllReadButton() {
             credentials: "include",
             body: JSON.stringify({}),
           });
+          window.dispatchEvent(new CustomEvent("notifications-read-all"));
           router.refresh();
         })
       }

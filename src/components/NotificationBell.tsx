@@ -65,6 +65,16 @@ export function NotificationBell() {
     return () => clearInterval(interval);
   }, [fetchNotifications]);
 
+  // Sync bell state when notifications page marks all as read
+  useEffect(() => {
+    function handleReadAll() {
+      setUnreadCount(0);
+      setRecent((prev) => prev.map((n) => ({ ...n, read: true })));
+    }
+    window.addEventListener("notifications-read-all", handleReadAll);
+    return () => window.removeEventListener("notifications-read-all", handleReadAll);
+  }, []);
+
   // Close dropdown on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
