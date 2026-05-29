@@ -67,7 +67,6 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
   const [submitted, setSubmitted] = useState(initialScore !== null);
   const [displayCount, setDisplayCount] = useState(initialScore ?? 0);
   const [submissionCount, setSubmissionCount] = useState(0);
-  const [hasInteracted, setHasInteracted] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
@@ -196,7 +195,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
           }}>
             {!submitted ? (
               <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 6 }}>
+                <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 6, marginTop: -6 }}>
                   <div style={{
                     width: 11, height: 11, borderRadius: "50%",
                     border: `1.5px solid ${redOn ? "#ff6666" : "#222"}`,
@@ -221,7 +220,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
                 </div>
                 <div style={{
                   fontFamily: "var(--font-label, 'Oswald', sans-serif)",
-                  fontSize: hasInteracted ? "clamp(11px, 3vw, 15px)" : "clamp(9px, 2.4vw, 12px)",
+                  fontSize: "clamp(11px, 3vw, 15px)",
                   fontWeight: 400,
                   letterSpacing: 1,
                   textTransform: "uppercase",
@@ -266,7 +265,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
               step={1}
               value={score}
               disabled={submitted || disabled}
-              onChange={(e) => { setScore(Number(e.target.value)); if (!hasInteracted) setHasInteracted(true); }}
+              onChange={(e) => setScore(Number(e.target.value))}
               style={{ width: "100%", accentColor: zoneColor }}
             />
           </div>
