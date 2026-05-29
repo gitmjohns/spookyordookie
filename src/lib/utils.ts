@@ -6,13 +6,13 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getRatingLabel(score: number): string {
-  if (score >= 90) return "Certified Terror";
-  if (score >= 75) return "Properly Scary";
-  if (score >= 60) return "Gets Creepy";
+  if (score >= 90) return "Truly Terrifying";
+  if (score >= 75) return "Pretty Scary";
+  if (score >= 60) return "Kinda Creepy";
   if (score >= 45) return "Meh-diocre";
-  if (score >= 30) return "Kinda Bland";
-  if (score >= 15) return "Pretty Terrible";
-  return "Total Garbage";
+  if (score >= 30) return "Kinda Bad";
+  if (score >= 15) return "Pretty Awful";
+  return "Truly Terrible";
 }
 
 export function getRatingColor(score: number): string {
