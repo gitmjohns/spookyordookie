@@ -174,9 +174,8 @@ export default async function MovieDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* ── RATING SLIDER ── */}
-        <div className="rounded-2xl border border-purple-deep bg-shadow p-6 sm:p-8 mb-8">
-          <p className="font-label text-4xl text-green-spooky text-center mb-4">Is it Terrible or Terrifying?</p>
+        {/* ── TERRORMETER ── */}
+        <div className="mb-8">
           {user ? (
             <TerrorMeter titleId={id} initialScore={userRating} />
           ) : (
