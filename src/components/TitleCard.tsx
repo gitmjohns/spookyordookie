@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { tmdbImageUrl, getRatingColor, tieredCombinedScore } from "@/lib/utils";
+import { tmdbImageUrl, getBadgeColor, tieredCombinedScore } from "@/lib/utils";
 import { WatchlistButton } from "@/components/WatchlistButton";
 import type { Title } from "@/lib/types";
 
@@ -13,7 +13,7 @@ export function TitleCard({ title, inWatchlist, isLoggedIn }: TitleCardProps) {
   const href = title.media_type === "movie" ? `/movies/${title.id}` : `/tv/${title.id}`;
   const posterUrl = tmdbImageUrl(title.poster_path, "w342");
   const displayScore = Math.round(tieredCombinedScore(title.critic_score, title.rating_avg, title.rating_count));
-  const scoreColor = getRatingColor(displayScore);
+  const badgeColor = getBadgeColor(displayScore);
 
   return (
     <Link href={href} className="group block h-full">
@@ -32,8 +32,8 @@ export function TitleCard({ title, inWatchlist, isLoggedIn }: TitleCardProps) {
           )}
 
           <div
-            className="font-score absolute top-2 right-2 px-2 py-0.5 rounded-md text-xs font-bold text-void"
-            style={{ backgroundColor: scoreColor }}
+            className="font-score absolute top-2 right-2 px-2 py-0.5 rounded-md text-xs font-bold"
+            style={{ backgroundColor: "rgba(10,10,10,0.85)", color: badgeColor }}
           >
             {displayScore}
           </div>

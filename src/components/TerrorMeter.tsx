@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 interface TerrorMeterProps {
   titleId: string;
@@ -68,6 +69,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
   const [submissionCount, setSubmissionCount] = useState(0);
   const [isPending, startTransition] = useTransition();
 
+  const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const submittedScoreRef = useRef(initialScore ?? 0);
 
@@ -108,6 +110,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
       submittedScoreRef.current = score;
       setSubmitted(true);
       setSubmissionCount((c) => c + 1);
+      router.refresh();
     });
   }
 

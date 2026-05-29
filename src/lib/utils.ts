@@ -21,6 +21,12 @@ export function getRatingColor(score: number): string {
   return "#cc0000";
 }
 
+export function getBadgeColor(score: number): string {
+  if (score >= 60) return "#22c55e";
+  if (score >= 30) return "#d4a017";
+  return "#cc0000";
+}
+
 // Tiered weighting: fan ratings gain influence as community engagement grows.
 // ratingAvg is on 0-10 scale; criticScore and return value are on 0-100 scale.
 export function tieredCombinedScore(criticScore: number, ratingAvg: number, ratingCount: number): number {
