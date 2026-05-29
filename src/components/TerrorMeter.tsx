@@ -233,7 +233,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
               </div>
             ) : (
               <div style={{
-                fontFamily: "var(--font-score, 'VHS Gothic', monospace)",
+                fontFamily: "var(--font-score, 'Oswald', sans-serif)",
                 fontSize: "clamp(24px, 8vw, 40px)",
                 fontWeight: 700,
                 textAlign: "center",

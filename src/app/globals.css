@@ -1,13 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'VHS Gothic';
-  src: url('/fonts/vhs-gothic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme {
   --color-void: #0a0a0a;
   --color-crypt: #0d0d0d;
@@ -26,7 +18,7 @@
 
   --font-display: var(--font-alfa-slab-one);
   --font-verdict: var(--font-creepster);
-  --font-score: 'VHS Gothic', monospace;
+  --font-score: var(--font-oswald);
   --font-label: var(--font-oswald);
   --font-sans: var(--font-inter);
 }

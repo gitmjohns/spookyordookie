@@ -176,7 +176,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
         </div>
 
         {/* ── TERRORMETER ── */}
-        <div className="mb-8 rounded-xl py-8 px-6" style={{ background: "#111111", borderTop: "3px solid #cc0000" }}>
+        <div className="mb-8 rounded-xl py-8 px-6" style={{ background: "#111111", border: "2px solid #cc0000" }}>
           {user ? (
             <TerrorMeter titleId={id} initialScore={userRating} />
           ) : (
@@ -195,17 +195,19 @@ export default async function MovieDetailPage({ params }: PageProps) {
 
         {/* ── DEBATE THREAD ── */}
         {debateThread && (
-          <DebateThread
-            threadId={debateThread.id}
-            prompt={debateThread.prompt}
-            initialReplies={debateReplies as never[]}
-            isLoggedIn={!!user}
-            initialIsFollowing={debateFollowing}
-            currentUsername={profile?.username}
-            currentEmoji={profile?.avatar_emoji}
-            currentAvatarBg={(profile as any)?.avatar_bg}
-            currentUserId={user?.id}
-          />
+          <div className="mb-8 rounded-xl py-8 px-6" style={{ background: "#111111", border: "2px solid #333333" }}>
+            <DebateThread
+              threadId={debateThread.id}
+              prompt={debateThread.prompt}
+              initialReplies={debateReplies as never[]}
+              isLoggedIn={!!user}
+              initialIsFollowing={debateFollowing}
+              currentUsername={profile?.username}
+              currentEmoji={profile?.avatar_emoji}
+              currentAvatarBg={(profile as any)?.avatar_bg}
+              currentUserId={user?.id}
+            />
+          </div>
         )}
 
         {/* ── COMMENTS ── */}
