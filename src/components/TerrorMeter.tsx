@@ -126,9 +126,9 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
     }}>
 
       <div style={{
-        fontFamily: "var(--font-sans, 'Inter', sans-serif)",
+        fontFamily: "var(--font-label, 'Oswald', sans-serif)",
         fontSize: 11,
-        fontWeight: 300,
+        fontWeight: 400,
         letterSpacing: 4,
         textTransform: "uppercase",
         color: "#888",

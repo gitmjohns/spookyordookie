@@ -9,7 +9,7 @@ import { WatchlistButton } from "@/components/WatchlistButton";
 import { TitleCard } from "@/components/TitleCard";
 import { DebateThread } from "@/components/DebateThread";
 import { SignInButton } from "@/components/SignInButton";
-import { tmdbImageUrl, getRatingColor, getRatingLabel, tieredCombinedScore } from "@/lib/utils";
+import { tmdbImageUrl, getRatingColor, getRatingLabel, getBadgeColor, tieredCombinedScore } from "@/lib/utils";
 import {
   getTitleById, getComments, getUserRating, getCurrentUser,
   getSimilarTitles, getWatchlistIds, getDebateThread, getDebateReplies,
@@ -53,6 +53,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
   const hasRatings = title.rating_count > 0;
   const overallScore = Math.round(tieredCombinedScore(title.critic_score, title.rating_avg, title.rating_count));
   const overallColor = getRatingColor(overallScore);
+  const overallBadgeColor = getBadgeColor(overallScore);
   const overallLabel = getRatingLabel(overallScore);
   const criticColor = getRatingColor(title.critic_score);
   const fanColor = hasRatings ? getRatingColor(title.rating_avg) : "#888888";
@@ -118,7 +119,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
                 <div className="bg-tomb border border-shadow rounded-2xl p-4 space-y-3">
                   <div className="text-center pb-3 border-b border-shadow">
                     <div className="text-xs text-muted uppercase tracking-wider mb-1">Overall Score</div>
-                    <div className="font-label text-2xl leading-tight" style={{ color: overallColor }}>{overallLabel}</div>
+                    <div className="font-label font-bold text-xl leading-tight" style={{ color: overallBadgeColor }}>{overallLabel}</div>
                     <div className="font-score text-5xl font-black leading-none mt-1" style={{ color: overallColor }}>
                       {overallScore}
                     </div>
@@ -150,7 +151,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
           <div className="bg-tomb border border-shadow rounded-2xl p-4 space-y-3">
             <div className="text-center pb-3 border-b border-shadow">
               <div className="text-xs text-muted uppercase tracking-wider mb-1">Overall Score</div>
-              <div className="font-label text-2xl leading-tight" style={{ color: overallColor }}>{overallLabel}</div>
+              <div className="font-label font-bold text-xl leading-tight" style={{ color: overallBadgeColor }}>{overallLabel}</div>
               <div className="font-score text-5xl font-black leading-none mt-1" style={{ color: overallColor }}>
                 {overallScore}
               </div>
@@ -175,7 +176,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
         </div>
 
         {/* ── TERRORMETER ── */}
-        <div className="mb-8">
+        <div className="mb-8 rounded-xl py-8 px-6" style={{ background: "#111111", borderTop: "3px solid #cc0000" }}>
           {user ? (
             <TerrorMeter titleId={id} initialScore={userRating} />
           ) : (
