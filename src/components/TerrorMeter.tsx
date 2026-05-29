@@ -295,29 +295,30 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
         </div>
       </div>
 
-      {/* Change verdict link */}
-      {submitted && (
-        <button
-          onClick={() => setSubmitted(false)}
-          style={{
-            fontFamily: "var(--font-oswald, 'Oswald', sans-serif)",
-            fontSize: 11,
-            fontWeight: 400,
-            letterSpacing: 1,
-            textTransform: "uppercase",
-            color: "#888",
-            textDecoration: "underline",
-            opacity: 0.6,
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.6")}
-        >
-          Changed your mind? Update your verdict
-        </button>
-      )}
+      {/* Change verdict link — always rendered to prevent container resize; fades in on submit */}
+      <button
+        onClick={() => setSubmitted(false)}
+        disabled={!submitted}
+        style={{
+          fontFamily: "var(--font-oswald, 'Oswald', sans-serif)",
+          fontSize: 11,
+          fontWeight: 400,
+          letterSpacing: 1,
+          textTransform: "uppercase",
+          color: "#cccccc",
+          textDecoration: "underline",
+          opacity: submitted ? 0.8 : 0,
+          pointerEvents: submitted ? "auto" : "none",
+          background: "none",
+          border: "none",
+          cursor: submitted ? "pointer" : "default",
+          transition: "opacity 0.4s ease",
+        }}
+        onMouseEnter={(e) => { if (submitted) e.currentTarget.style.opacity = "1"; }}
+        onMouseLeave={(e) => { if (submitted) e.currentTarget.style.opacity = "0.8"; }}
+      >
+        Changed your mind? Update your verdict
+      </button>
     </div>
   );
 }
