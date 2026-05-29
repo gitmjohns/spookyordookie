@@ -127,7 +127,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
     }}>
 
       <div style={{
-        fontFamily: "var(--font-sans, system-ui, sans-serif)",
+        fontFamily: "var(--font-label, 'Oswald', sans-serif)",
         fontSize: 11,
         fontWeight: 400,
         letterSpacing: 4,
@@ -220,7 +220,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
                   }} />
                 </div>
                 <div style={{
-                  fontFamily: "var(--font-slab, 'Roboto Slab', serif)",
+                  fontFamily: "var(--font-label, 'Oswald', sans-serif)",
                   fontSize: hasInteracted ? "clamp(11px, 3vw, 15px)" : "clamp(9px, 2.4vw, 12px)",
                   fontWeight: 400,
                   letterSpacing: 1,

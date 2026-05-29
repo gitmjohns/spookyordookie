@@ -18,7 +18,7 @@ function SectionHeader({ title, sub, href }: { title: string; sub: string; href?
     <div className="flex items-end justify-between mb-5">
       <div>
         <h2 className="font-display text-3xl text-ghost">{title}</h2>
-        <p className="font-slab font-light text-muted text-sm mt-0.5">{sub}</p>
+        <p className="font-label font-light text-muted text-sm mt-0.5">{sub}</p>
       </div>
       {href && (
         <Link href={href} className="text-sm font-bold text-green-spooky hover:underline shrink-0">

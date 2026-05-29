@@ -20,8 +20,7 @@
   --font-verdict: var(--font-creepster);
   --font-score: var(--font-oswald);
   --font-label: var(--font-oswald);
-  --font-slab: var(--font-roboto-slab);
-  --font-sans: var(--font-inter);
+--font-sans: var(--font-inter);
 }
 
 :root {
