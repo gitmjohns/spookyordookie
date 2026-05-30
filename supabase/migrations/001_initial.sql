@@ -166,8 +166,8 @@ begin
     final_username := base_username || counter::text;
   end loop;
 
-  insert into profiles (id, username)
-  values (new.id, final_username);
+  insert into profiles (id, username, username_confirmed)
+  values (new.id, final_username, false);
   return new;
 end;
 $$ language plpgsql security definer;
