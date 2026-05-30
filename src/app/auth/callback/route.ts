@@ -64,6 +64,11 @@ export async function GET(request: NextRequest) {
               id: user.id,
               username,
               username_confirmed: false,
+              avatar_emoji: "💀",
+              avatar_bg: "#0a0a0f",
+              role: "user",
+              banned: false,
+              is_prime_admin: false,
             });
             console.log("[cb] fallback insert", { username, err: insertError?.message ?? null });
             redirectTo = `${origin}/auth/username`;

@@ -3,7 +3,13 @@ create table profiles (
   id uuid references auth.users on delete cascade primary key,
   username text unique not null,
   avatar_url text,
-  created_at timestamptz default now()
+  created_at timestamptz default now(),
+  avatar_emoji text not null default '💀',
+  avatar_bg text not null default '#0a0a0f',
+  role text not null default 'user',
+  banned boolean not null default false,
+  username_confirmed boolean not null default false,
+  is_prime_admin boolean not null default false
 );
 
 alter table profiles enable row level security;
