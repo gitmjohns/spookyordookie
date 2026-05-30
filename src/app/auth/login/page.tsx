@@ -42,11 +42,10 @@ export default function LoginPage() {
     setLoading(provider);
     setError(null);
     const supabase = createClient();
-    const canonicalOrigin = window.location.origin.replace(/^(https?:\/\/)www\./, "$1");
-    const redirectTo = `${canonicalOrigin}/auth/callback`;
+    const origin = window.location.origin.replace(/^(https?:\/\/)www\./, "$1");
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo },
+      options: { redirectTo: `${origin}/auth/callback` },
     });
     if (error) {
       setError(error.message);
