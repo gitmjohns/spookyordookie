@@ -9,81 +9,66 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
-
-  console.log("[auth/callback] route hit", { origin, hasCode: !!code, codePrefix: code?.slice(0, 8) ?? null });
 
   if (code) {
-    try {
-      const cookieStore = await cookies();
-      const allCookies = cookieStore.getAll();
-      console.log("[auth/callback] cookies present", allCookies.map((c) => c.name));
+    const cookieStore = await cookies();
 
-      const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-          cookies: {
-            getAll: () => cookieStore.getAll(),
-            setAll: (cookiesToSet) => {
-              cookiesToSet.forEach(({ name, value, options }) =>
-                cookieStore.set(name, value, options)
-              );
-            },
-          },
-        }
-      );
+    // Capture cookies set during the exchange so we can apply them
+    // directly to the redirect response — Next.js does not reliably
+    // forward cookies() mutations onto a manually-returned NextResponse.
+    const pendingCookies: { name: string; value: string; options: Record<string, unknown> }[] = [];
 
-      console.log("[auth/callback] calling exchangeCodeForSession");
-      const { data: exchangeData, error } = await supabase.auth.exchangeCodeForSession(code);
-      console.log("[auth/callback] exchange result", { error: error ? { message: error.message, status: error.status } : null, hasUser: !!exchangeData?.user });
-
-      if (!error) {
-        const user = exchangeData.user;
-        if (user) {
-          console.log("[auth/callback] user found", { userId: user.id, email: user.email });
-          const svc = adminDb();
-          const { data: profile, error: profileError } = await svc
-            .from("profiles")
-            .select("id, username_confirmed")
-            .eq("id", user.id)
-            .maybeSingle();
-
-          console.log("[auth/callback] profile lookup", { found: !!profile, username_confirmed: profile?.username_confirmed ?? null, profileError: profileError?.message ?? null });
-
-          if (!profile) {
-            // Trigger didn't fire — create profile manually as fallback
-            const username = await makeUniqueUsername(svc, user);
-            const { error: insertError } = await svc.from("profiles").insert({
-              id: user.id,
-              username,
-              username_confirmed: false,
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll: () => cookieStore.getAll(),
+          setAll: (cookiesToSet) => {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              pendingCookies.push({ name, value, options: options as Record<string, unknown> });
+              cookieStore.set(name, value, options);
             });
-            console.log("[auth/callback] fallback profile insert", { username, insertError: insertError?.message ?? null });
-            return NextResponse.redirect(`${origin}/auth/username`);
-          }
+          },
+        },
+      }
+    );
 
-          // New user who hasn't confirmed their username yet
-          if (!profile.username_confirmed) {
-            console.log("[auth/callback] redirecting to /auth/username");
-            return NextResponse.redirect(`${origin}/auth/username`);
-          }
+    const { data: exchangeData, error } = await supabase.auth.exchangeCodeForSession(code);
 
-          console.log("[auth/callback] existing confirmed user, redirecting to returnTo/home");
-        } else {
-          console.log("[auth/callback] exchange succeeded but user is null");
+    if (!error) {
+      const user = exchangeData.user;
+      let redirectTo = `${origin}/`;
+
+      if (user) {
+        const svc = adminDb();
+        const { data: profile } = await svc
+          .from("profiles")
+          .select("id, username_confirmed")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (!profile) {
+          // Trigger didn't fire — create profile manually as fallback
+          const username = await makeUniqueUsername(svc, user);
+          await svc.from("profiles").insert({
+            id: user.id,
+            username,
+            username_confirmed: false,
+          });
+          redirectTo = `${origin}/auth/username`;
+        } else if (!profile.username_confirmed) {
+          redirectTo = `${origin}/auth/username`;
         }
-        const html = `<!DOCTYPE html><html><head></head><body><script>
-(function(){var r=localStorage.getItem('returnTo');localStorage.removeItem('returnTo');window.location.replace(r&&r.startsWith('/')&&!r.startsWith('//')?r:'/');})()</script></body></html>`;
-        return new NextResponse(html, { status: 200, headers: { "Content-Type": "text/html" } });
       }
 
-      console.log("[auth/callback] exchange failed, redirecting to login");
-    } catch (err) {
-      console.error("[auth/callback] unexpected exception", err);
+      const response = NextResponse.redirect(redirectTo);
+      pendingCookies.forEach(({ name, value, options }) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        response.cookies.set(name, value, options as any);
+      });
+      return response;
     }
-  } else {
-    console.log("[auth/callback] no code param, redirecting to login");
   }
 
   return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
