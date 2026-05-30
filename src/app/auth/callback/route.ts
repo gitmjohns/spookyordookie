@@ -70,7 +70,15 @@ export async function GET(request: NextRequest) {
               banned: false,
               is_prime_admin: false,
             });
-            console.log("[cb] fallback insert", { username, err: insertError?.message ?? null });
+            console.log("[cb] fallback insert", {
+              username,
+              err: insertError ? {
+                message: insertError.message,
+                code: (insertError as unknown as { code?: string }).code,
+                details: (insertError as unknown as { details?: string }).details,
+                hint: (insertError as unknown as { hint?: string }).hint,
+              } : null,
+            });
             redirectTo = `${origin}/auth/username`;
           } else if (!profile.username_confirmed) {
             redirectTo = `${origin}/auth/username`;
