@@ -7,52 +7,82 @@ import { createClient } from "@/lib/supabase/client";
 export default function AuthCallbackPage() {
   const router = useRouter();
   const [message, setMessage] = useState("Signing you in…");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const handled = useRef(false);
 
   useEffect(() => {
-    const supabase = createClient();
+    const params = new URLSearchParams(window.location.search);
+    const errorParam = params.get("error");
+    const errorDesc = params.get("error_description");
 
-    // Fallback: if no auth event fires within 15s, something went wrong
+    if (errorParam) {
+      const friendlyMsg = errorDesc ?? "Sign in failed. Please try again.";
+      setMessage("Sign in failed");
+      setErrorMsg(friendlyMsg);
+      const t = setTimeout(() => router.replace("/auth/login?error=auth_failed"), 4000);
+      return () => clearTimeout(t);
+    }
+
+    const code = params.get("code");
+    const supabase = createClient();
+    let unsubscribe: (() => void) | undefined;
+
     const timeout = setTimeout(() => {
-      if (!handled.current) {
-        router.replace("/auth/login?error=auth_failed");
-      }
+      if (!handled.current) router.replace("/auth/login?error=auth_failed");
     }, 15000);
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (handled.current) return;
-        if (event !== "SIGNED_IN" && event !== "INITIAL_SESSION") return;
-        if (!session?.user) return;
+    async function finishSignIn() {
+      if (handled.current) return;
+      handled.current = true;
+      clearTimeout(timeout);
+      setMessage("Setting up your account…");
 
-        handled.current = true;
-        clearTimeout(timeout);
-        setMessage("Setting up your account…");
+      try {
+        const res = await fetch("/api/profile", {
+          method: "POST",
+          credentials: "include",
+        });
 
-        try {
-          const res = await fetch("/api/profile", {
-            method: "POST",
-            credentials: "include",
-          });
-
-          if (!res.ok) {
-            const body = await res.json().catch(() => ({}));
-            throw new Error(body.error ?? `Profile API returned ${res.status}`);
-          }
-
-          const { username_confirmed } = await res.json();
-          router.replace(username_confirmed ? "/" : "/auth/username");
-        } catch (err) {
-          console.error("[auth/callback] profile setup failed", err);
-          setMessage("Something went wrong. Redirecting…");
-          setTimeout(() => router.replace("/auth/login?error=auth_failed"), 2000);
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error ?? `Profile API returned ${res.status}`);
         }
+
+        const { username_confirmed } = await res.json();
+        router.replace(username_confirmed ? "/" : "/auth/username");
+      } catch (err) {
+        console.error("[auth/callback] profile setup failed", err);
+        setMessage("Something went wrong. Redirecting…");
+        setTimeout(() => router.replace("/auth/login?error=auth_failed"), 2000);
       }
-    );
+    }
+
+    if (code) {
+      supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
+        if (error) {
+          clearTimeout(timeout);
+          setMessage("Sign in failed");
+          setErrorMsg("Sign in failed. Please try again.");
+          setTimeout(() => router.replace("/auth/login?error=auth_failed"), 4000);
+          return;
+        }
+        finishSignIn();
+      });
+    } else {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          if (handled.current) return;
+          if (event !== "SIGNED_IN" && event !== "INITIAL_SESSION") return;
+          if (!session?.user) return;
+          finishSignIn();
+        }
+      );
+      unsubscribe = () => subscription.unsubscribe();
+    }
 
     return () => {
       clearTimeout(timeout);
-      subscription.unsubscribe();
+      unsubscribe?.();
     };
   }, [router]);
 
@@ -61,6 +91,9 @@ export default function AuthCallbackPage() {
       <div className="text-center">
         <div className="text-4xl mb-4">💀</div>
         <p className="text-specter text-sm">{message}</p>
+        {errorMsg && (
+          <p className="text-dookie text-xs mt-3 max-w-xs mx-auto">{errorMsg}</p>
+        )}
       </div>
     </div>
   );
