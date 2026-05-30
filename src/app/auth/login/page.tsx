@@ -42,8 +42,8 @@ export default function LoginPage() {
     setLoading(provider);
     setError(null);
     const supabase = createClient();
-    const redirectTo = `${window.location.origin}/auth/callback`;
-    console.log("[login] signInWithOAuth redirectTo:", redirectTo);
+    const canonicalOrigin = window.location.origin.replace(/^(https?:\/\/)www\./, "$1");
+    const redirectTo = `${canonicalOrigin}/auth/callback`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo },
