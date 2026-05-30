@@ -159,8 +159,10 @@ declare
   final_username text;
   counter integer := 0;
 begin
-  base_username := split_part(new.email, '@', 1);
+  base_username := split_part(coalesce(new.email, ''), '@', 1);
   base_username := regexp_replace(base_username, '[^a-zA-Z0-9_]', '', 'g');
+  base_username := left(base_username, 16);
+
   if length(base_username) < 3 then
     base_username := 'ghost' || floor(random() * 9999)::text;
   end if;
@@ -169,11 +171,16 @@ begin
   loop
     exit when not exists (select 1 from profiles where username = final_username);
     counter := counter + 1;
-    final_username := base_username || counter::text;
+    final_username := left(base_username, 16) || counter::text;
   end loop;
 
-  insert into profiles (id, username, username_confirmed)
-  values (new.id, final_username, false);
+  begin
+    insert into profiles (id, username, username_confirmed, avatar_emoji, avatar_bg, role, banned, is_prime_admin)
+    values (new.id, final_username, false, '💀', '#0a0a0f', 'user', false, false);
+  exception when others then
+    raise warning 'handle_new_user: profile insert failed for user %: % %', new.id, sqlerrm, sqlstate;
+  end;
+
   return new;
 end;
 $$ language plpgsql security definer;
