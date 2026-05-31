@@ -30,7 +30,7 @@ export function AdminLayoutClient({ children }: { children: React.ReactNode }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <span className="font-display text-green-spooky text-lg">Admin Crypt</span>
+          <span className="font-display text-green-spooky text-lg">TerrorMeter Admin</span>
         </div>
 
         <main className="p-4 md:p-6 lg:p-8">{children}</main>
