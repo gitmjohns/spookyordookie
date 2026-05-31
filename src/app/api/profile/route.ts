@@ -25,7 +25,9 @@ export async function POST() {
 
   const svc = adminDb();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "(not set)";
+  const svcKeyLen = process.env.SUPABASE_SERVICE_ROLE_KEY?.length ?? 0;
   console.log("[api/profile] supabase url prefix:", supabaseUrl.slice(0, 40));
+  console.log("[api/profile] service role key set:", svcKeyLen > 0, "length:", svcKeyLen);
 
   const { data: profile, error: profileError } = await svc
     .from("profiles")
@@ -55,7 +57,7 @@ export async function POST() {
   const username = await makeUniqueUsername(svc, user);
   console.log("[api/profile] generated username:", username);
 
-  const { error: insertError } = await svc.from("profiles").insert({
+  const insertPayload = {
     id: user.id,
     username,
     username_confirmed: false,
@@ -64,7 +66,10 @@ export async function POST() {
     role: "user",
     banned: false,
     is_prime_admin: false,
-  });
+  };
+  console.log("[api/profile] insert payload:", JSON.stringify(insertPayload));
+
+  const { error: insertError } = await svc.from("profiles").insert(insertPayload);
 
   if (insertError) {
     console.error("[api/profile] insert error:", {
