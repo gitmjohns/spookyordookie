@@ -13,12 +13,8 @@ export async function submitRating(titleId: string, score: number) {
   try { await ratingLimiter.consume(user.id); }
   catch { return { error: "Slow down — you're rating too fast" }; }
 
-  // DB constraint is CHECK (score >= 1 AND score <= 10).
-  // Frontend sends 0-100; convert to 1-10 before storing.
-  const dbScore = Math.max(1, Math.min(10, Math.round(score / 10)));
-
   const { error } = await adminDb().from("ratings").upsert(
-    { user_id: user.id, title_id: titleId, score: dbScore },
+    { user_id: user.id, title_id: titleId, score },
     { onConflict: "user_id,title_id" }
   );
 
@@ -34,7 +30,6 @@ export async function getUserRating(titleId: string): Promise<number | null> {
   if (!user) return null;
 
   // Use service role so RLS cannot block the read.
-  // DB stores 1-10; multiply by 10 to restore the 0-100 frontend scale.
   const { data } = await adminDb()
     .from("ratings")
     .select("score")
@@ -42,5 +37,5 @@ export async function getUserRating(titleId: string): Promise<number | null> {
     .eq("title_id", titleId)
     .maybeSingle();
 
-  return data != null ? data.score * 10 : null;
+  return data?.score ?? null;
 }

@@ -126,11 +126,7 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
       .eq("user_id", profile.id),
   ]);
 
-  // DB stores scores as 1-10; convert back to 0-100 for all display/badge logic.
-  const ratings = (ratingsRes.data ?? []).map((r) => ({
-    ...r,
-    score: (r as { score: number }).score * 10,
-  })) as unknown as RatingRow[];
+  const ratings = (ratingsRes.data ?? []) as unknown as RatingRow[];
   const comments = (commentsRes.data ?? []) as unknown as CommentRow[];
   const debateCount = debateRes.count ?? 0;
 

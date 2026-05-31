@@ -22,12 +22,8 @@ export async function POST(request: NextRequest) {
   try { await ratingLimiter.consume(user.id); }
   catch { return NextResponse.json({ error: "Slow down — you're rating too fast" }, { status: 429 }); }
 
-  // DB constraint is CHECK (score >= 1 AND score <= 10).
-  // Frontend sends 0-100; convert to 1-10 scale before storing.
-  const dbScore = Math.max(1, Math.min(10, Math.round(score / 10)));
-
   const { error } = await adminDb().from("ratings").upsert(
-    { user_id: user.id, title_id: titleId, score: dbScore },
+    { user_id: user.id, title_id: titleId, score },
     { onConflict: "user_id,title_id" }
   );
 
