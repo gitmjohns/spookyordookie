@@ -1,6 +1,7 @@
 import type { Title, Comment } from "./types";
 import { MOCK_TITLES, MOCK_COMMENTS, isMockMode } from "./mock-data";
 import { tieredCombinedScore } from "./utils";
+import { adminDb } from "./supabase/admin";
 
 async function db() {
   const { createClient } = await import("./supabase/server");
@@ -285,7 +286,8 @@ export async function getUserRating(titleId: string): Promise<number | null> {
   const s = await db();
   const { data: { user } } = await s.auth.getUser();
   if (!user) return null;
-  const { data } = await s.from("ratings").select("score").eq("user_id", user.id).eq("title_id", titleId).single();
+  // Use service role so RLS cannot block reading the user's own rating.
+  const { data } = await adminDb().from("ratings").select("score").eq("user_id", user.id).eq("title_id", titleId).maybeSingle();
   return data?.score ?? null;
 }
 

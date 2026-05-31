@@ -67,6 +67,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
   const [submitted, setSubmitted] = useState(initialScore !== null);
   const [displayCount, setDisplayCount] = useState(initialScore ?? 0);
   const [submissionCount, setSubmissionCount] = useState(0);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
@@ -99,6 +100,7 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
   }, [submissionCount]);
 
   function handleSubmit() {
+    setSubmitError(null);
     startTransition(async () => {
       const res = await fetch("/api/rate", {
         method: "POST",
@@ -106,7 +108,11 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
         credentials: "include",
         body: JSON.stringify({ titleId, score }),
       });
-      if (!res.ok) return;
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        setSubmitError(body.error ?? "Failed to save — please try again.");
+        return;
+      }
       submittedScoreRef.current = score;
       setSubmitted(true);
       setSubmissionCount((c) => c + 1);
@@ -269,6 +275,11 @@ export function TerrorMeter({ titleId, initialScore, disabled = false }: TerrorM
               style={{ width: "100%", accentColor: zoneColor }}
             />
           </div>
+          {submitError && (
+            <p style={{ fontSize: 11, color: "#cc0000", textAlign: "center", margin: "2px 0" }}>
+              {submitError}
+            </p>
+          )}
           {!disabled && (
             <button
               onClick={handleSubmit}
