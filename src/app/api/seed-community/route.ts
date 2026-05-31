@@ -5,11 +5,11 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 const SEED_USERS = [
-  { email: "ClassicHorrorFan@seed.spookyordookie.local", bias: "classic" },
-  { email: "ElevatedHorrorHead@seed.spookyordookie.local", bias: "elevated" },
-  { email: "SlasherStan@seed.spookyordookie.local", bias: "slasher" },
-  { email: "ScreenQueenReviews@seed.spookyordookie.local", bias: "critical" },
-  { email: "HorrorVaultPod@seed.spookyordookie.local", bias: "balanced" },
+  { email: "ClassicHorrorFan@seed.terrormeter.local", bias: "classic" },
+  { email: "ElevatedHorrorHead@seed.terrormeter.local", bias: "elevated" },
+  { email: "SlasherStan@seed.terrormeter.local", bias: "slasher" },
+  { email: "ScreenQueenReviews@seed.terrormeter.local", bias: "critical" },
+  { email: "HorrorVaultPod@seed.terrormeter.local", bias: "balanced" },
 ];
 
 // ─── Comment pools ────────────────────────────────────────────────────────────

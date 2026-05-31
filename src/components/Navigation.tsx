@@ -189,14 +189,14 @@ export function Navigation() {
                     </Link>
                     <hr className="border-shadow my-1" />
                     <button onClick={handleSignOut}
-                      className="w-full text-left px-4 py-2 text-sm font-bold text-specter hover:text-ghost hover:bg-shadow transition-colors">
+                      className="w-full text-left px-4 py-2 text-sm text-specter hover:text-ghost hover:bg-shadow transition-colors">
                       Sign Out
                     </button>
                   </div>
                 )}
               </div>
             ) : (
-              <Link href="/auth/login" className="font-label text-sm font-bold text-specter hover:text-ghost transition-colors px-2">
+              <Link href="/auth/login" className="font-label text-sm text-specter hover:text-ghost transition-colors px-2">
                 Sign In
               </Link>
             )}

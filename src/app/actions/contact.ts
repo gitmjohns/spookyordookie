@@ -40,8 +40,8 @@ export async function submitContactForm(formData: FormData) {
   const resend = new Resend(apiKey);
 
   const { error } = await resend.emails.send({
-    from: "SpookyorDookie Contact <noreply@spookyordookie.com>",
-    to: "admin@spookyordookie.com",
+    from: "TerrorMeter Contact <noreply@terrormeter.com>",
+    to: "admin@terrormeter.com",
     replyTo: email,
     subject: `Contact form: ${name}`,
     text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
