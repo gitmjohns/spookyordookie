@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { adminDb } from "@/lib/supabase/admin";
 import { ratingLimiter } from "@/lib/rate-limit";
 
 export async function submitRating(titleId: string, score: number) {
@@ -12,8 +13,12 @@ export async function submitRating(titleId: string, score: number) {
   try { await ratingLimiter.consume(user.id); }
   catch { return { error: "Slow down — you're rating too fast" }; }
 
-  const { error } = await supabase.from("ratings").upsert(
-    { user_id: user.id, title_id: titleId, score },
+  // DB constraint is CHECK (score >= 1 AND score <= 10).
+  // Frontend sends 0-100; convert to 1-10 before storing.
+  const dbScore = Math.max(1, Math.min(10, Math.round(score / 10)));
+
+  const { error } = await adminDb().from("ratings").upsert(
+    { user_id: user.id, title_id: titleId, score: dbScore },
     { onConflict: "user_id,title_id" }
   );
 
@@ -28,12 +33,14 @@ export async function getUserRating(titleId: string): Promise<number | null> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data } = await supabase
+  // Use service role so RLS cannot block the read.
+  // DB stores 1-10; multiply by 10 to restore the 0-100 frontend scale.
+  const { data } = await adminDb()
     .from("ratings")
     .select("score")
     .eq("user_id", user.id)
     .eq("title_id", titleId)
-    .single();
+    .maybeSingle();
 
-  return data?.score ?? null;
+  return data != null ? data.score * 10 : null;
 }

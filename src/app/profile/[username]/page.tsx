@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
+import { adminDb } from "@/lib/supabase/admin";
 import { tmdbImageUrl, getBadgeColor, tieredCombinedScore } from "@/lib/utils";
 
 interface PageProps {
@@ -106,8 +107,9 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
   const sortParam = sp.sort ?? "date";
 
   // Parallel data fetches
+  // Ratings use adminDb so RLS cannot block public profile reads.
   const [ratingsRes, commentsRes, debateRes] = await Promise.all([
-    supabase
+    adminDb()
       .from("ratings")
       .select("id,score,created_at,titles!inner(id,title,poster_path,release_year,critic_score,media_type,subgenres)")
       .eq("user_id", profile.id)
@@ -124,7 +126,11 @@ export default async function ProfilePage({ params, searchParams }: PageProps) {
       .eq("user_id", profile.id),
   ]);
 
-  const ratings = (ratingsRes.data ?? []) as unknown as RatingRow[];
+  // DB stores scores as 1-10; convert back to 0-100 for all display/badge logic.
+  const ratings = (ratingsRes.data ?? []).map((r) => ({
+    ...r,
+    score: (r as { score: number }).score * 10,
+  })) as unknown as RatingRow[];
   const comments = (commentsRes.data ?? []) as unknown as CommentRow[];
   const debateCount = debateRes.count ?? 0;
 

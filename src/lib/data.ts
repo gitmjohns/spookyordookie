@@ -287,8 +287,9 @@ export async function getUserRating(titleId: string): Promise<number | null> {
   const { data: { user } } = await s.auth.getUser();
   if (!user) return null;
   // Use service role so RLS cannot block reading the user's own rating.
+  // DB stores 1-10; multiply by 10 to restore the 0-100 frontend scale.
   const { data } = await adminDb().from("ratings").select("score").eq("user_id", user.id).eq("title_id", titleId).maybeSingle();
-  return data?.score ?? null;
+  return data != null ? data.score * 10 : null;
 }
 
 export async function getSimilarTitles(
