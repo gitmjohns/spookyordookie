@@ -6,14 +6,26 @@ import { usernameHasBannedWord } from "@/lib/wordFilter";
 export const dynamic = "force-dynamic";
 
 export async function POST() {
+  console.log("[api/profile] POST called");
+
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+  if (authError) {
+    console.error("[api/profile] auth.getUser error:", authError.message);
+    return NextResponse.json({ error: "Auth error: " + authError.message }, { status: 401 });
+  }
 
   if (!user) {
+    console.error("[api/profile] no user returned from auth.getUser");
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
+  console.log("[api/profile] user id:", user.id, "email:", user.email);
+
   const svc = adminDb();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "(not set)";
+  console.log("[api/profile] supabase url prefix:", supabaseUrl.slice(0, 40));
 
   const { data: profile, error: profileError } = await svc
     .from("profiles")
@@ -22,16 +34,27 @@ export async function POST() {
     .maybeSingle();
 
   if (profileError) {
-    console.error("[api/profile] lookup error", profileError);
+    console.error("[api/profile] profile lookup error:", {
+      message: profileError.message,
+      code: (profileError as unknown as { code?: string }).code,
+      details: (profileError as unknown as { details?: string }).details,
+      hint: (profileError as unknown as { hint?: string }).hint,
+    });
     return NextResponse.json({ error: profileError.message }, { status: 500 });
   }
 
+  console.log("[api/profile] profile lookup result:", profile ?? "NO PROFILE FOUND");
+
   if (profile) {
+    console.log("[api/profile] existing profile found, username_confirmed:", profile.username_confirmed);
     return NextResponse.json({ username_confirmed: profile.username_confirmed });
   }
 
-  // No profile — trigger didn't fire or failed; create it here
+  // No profile — trigger didn't fire; create it here
+  console.log("[api/profile] no profile found — attempting fallback insert");
   const username = await makeUniqueUsername(svc, user);
+  console.log("[api/profile] generated username:", username);
+
   const { error: insertError } = await svc.from("profiles").insert({
     id: user.id,
     username,
@@ -44,7 +67,7 @@ export async function POST() {
   });
 
   if (insertError) {
-    console.error("[api/profile] insert error", {
+    console.error("[api/profile] insert error:", {
       message: insertError.message,
       code: (insertError as unknown as { code?: string }).code,
       details: (insertError as unknown as { details?: string }).details,
@@ -53,6 +76,7 @@ export async function POST() {
     return NextResponse.json({ error: insertError.message }, { status: 500 });
   }
 
+  console.log("[api/profile] fallback insert succeeded for user:", user.id);
   return NextResponse.json({ username_confirmed: false });
 }
 
