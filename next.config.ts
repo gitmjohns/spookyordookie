@@ -4,7 +4,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
-      allowedOrigins: ["terrormeter.com", "www.terrormeter.com", "*.vercel.app"],
+      allowedOrigins: ["terrormeter.com", "www.terrormeter.com", "*.vercel.app", "terrormeter-n5hzimq12-matthew-johnson-s-projects.vercel.app"],
     },
   },
   images: {

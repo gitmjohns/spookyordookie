@@ -24,17 +24,22 @@ export default function AuthCallbackPage() {
     }
 
     const code = params.get("code");
+    console.log("[auth/callback] code param present:", !!code, "hash present:", !!window.location.hash);
     const supabase = createClient();
     let unsubscribe: (() => void) | undefined;
 
     const timeout = setTimeout(() => {
-      if (!handled.current) router.replace("/auth/login?error=auth_failed");
+      if (!handled.current) {
+        console.warn("[auth/callback] timed out — finishSignIn never called");
+        router.replace("/auth/login?error=auth_failed");
+      }
     }, 15000);
 
     async function finishSignIn() {
       if (handled.current) return;
       handled.current = true;
       clearTimeout(timeout);
+      console.log("[auth/callback] finishSignIn called — posting to /api/profile");
       setMessage("Setting up your account…");
 
       try {
@@ -42,6 +47,7 @@ export default function AuthCallbackPage() {
           method: "POST",
           credentials: "include",
         });
+        console.log("[auth/callback] POST /api/profile status:", res.status);
 
         if (!res.ok) {
           const body = await res.json().catch(() => ({}));
@@ -58,19 +64,24 @@ export default function AuthCallbackPage() {
     }
 
     if (code) {
+      console.log("[auth/callback] exchanging code for session");
       supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
         if (error) {
+          console.error("[auth/callback] exchangeCodeForSession error:", error.message);
           clearTimeout(timeout);
           setMessage("Sign in failed");
           setErrorMsg("Sign in failed. Please try again.");
           setTimeout(() => router.replace("/auth/login?error=auth_failed"), 4000);
           return;
         }
+        console.log("[auth/callback] exchangeCodeForSession succeeded");
         finishSignIn();
       });
     } else {
+      console.log("[auth/callback] no code — waiting for onAuthStateChange");
       const { data: { subscription } } = supabase.auth.onAuthStateChange(
         async (event, session) => {
+          console.log("[auth/callback] onAuthStateChange event:", event, "has session:", !!session?.user);
           if (handled.current) return;
           if (event !== "SIGNED_IN" && event !== "INITIAL_SESSION") return;
           if (!session?.user) return;
